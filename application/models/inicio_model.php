@@ -8,17 +8,15 @@
 
 class inicio_model extends CI_Model
 {
-    function obtener()
+    public function obtener()
     {
-        $this->db->select("productos.NOMBRE_FANTASIA PRODUCTO, stock.SALDO CANTIDAD")
-            ->from('stock')
-            ->join("productos", 'productos.ID=stock.ID_PRODUCTO', 'INNER')
-            ->order_by("stock.SALDO");
+        $this->db->select("*")
+            ->from('tb_usuario');
         $query = $this->db->get();
         return $query->result();
     }
 
-    function ingresar($usuario)
+    public function ingresar($usuario)
     {
         $this->db->set('USUARIO', $usuario);
         $this->db->set('ACTIVO', 'S');
@@ -26,14 +24,14 @@ class inicio_model extends CI_Model
         return $this->db->insert_id();
     }
 
-    function actualizar($id, $perfil)
+    public function actualizar($id, $perfil)
     {
         $this->db->set('ID_PERFIL', $perfil);
         $this->db->where('ID', $id);
         return $this->db->update('usuarios');
     }
 
-    function transaccion()
+    public function transaccion()
     {
         $this->db->trans_begin();
         if ($this->db->trans_status() === false) {

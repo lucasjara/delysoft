@@ -27,10 +27,10 @@
 <!-- comienzo banner -->
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div name="banner" style="color: white; height: 75px;background: linear-gradient(to right,#1F4661 , #04BBBF); ">
+        <div name="banner" style="color: white; height: 40px;background: linear-gradient(to right,#1F4661 , #04BBBF); ">
             <div class="row">
                 <div class="col-md-10 col-lg-10 col-xs-12 col-sm-12" style="margin-left: 1%;">
-                    <h1>Sistema Base Creacion Otros Sistemas</h1>
+                    <h4>Delysoft Entertaiment.</h4>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h3 id="titulo_modal_generico"></h3>
             </div>
             <div class="modal-body">

@@ -16,9 +16,12 @@ class Inicio extends CI_Controller
         $this->load->library('form_validation');
     }
 
-    function index()
+    public function index()
     {
+        $this->load->model("/inicio_model");
+        $usuarios = $this->inicio_model->obtener();
         $this->layout->setLayout("plantilla");
         $this->layout->view('vista');
+        $this->output->enable_profiler();
     }
 }
