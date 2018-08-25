@@ -33,5 +33,30 @@ class usuarios_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
-
+    public function ingresar_usuario($usuario,$password,$nombre,$correo,$perfil)
+    {
+        $this->db->set('USUARIO', $usuario);
+        $this->db->set('PASSWORD', 'pendiente encriptar');
+        $this->db->set('NOMBRE', $nombre);
+        $this->db->set('CORREO', $correo);
+        $this->db->set('ACTIVO', 'S');
+        $this->db->set('TB_PERFIL_ID', $perfil);
+        $this->db->insert("tb_usuario");
+        return $this->db->insert_id();
+    }
+    public function cambia_estado_usuario($id,$estado)
+    {
+        $this->db->set('ACTIVO', $estado);
+        $this->db->where('ID', $id);
+        return $this->db->update('tb_usuario');
+    }
+    public function editar_usuario($id, $usuario,$nombre,$correo,$perfil)
+    {
+        $this->db->set('USUARIO', $usuario);
+        $this->db->set('NOMBRE', $nombre);
+        $this->db->set('CORREO', $correo);
+        $this->db->set('TB_PERFIL_ID', $perfil);
+        $this->db->where('ID', $id);
+        return $this->db->update('tb_usuario');
+    }
 }

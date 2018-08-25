@@ -37,7 +37,7 @@ class Usuarios extends CI_Controller
             $mensaje->data = $datos;
             $mensaje->respuesta = 'S';
         } else {
-            redirect('/delysoft/inicio', 'refresh');
+            $mensaje->respuesta = 'No hay mano';
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
@@ -49,12 +49,13 @@ class Usuarios extends CI_Controller
         if (validarUsuario(true)) {
             $validator = form_usuario('agregar');
             if ($validator->respuesta == 'S') {
-                $this->load->model('mantenedores/usuarios_model', 'usuarios_model');
+                $this->load->model('/administracion/usuarios_model', 'usuarios_model');
                 $usuario = $this->input->post('usuario');
                 $password = $this->input->post('password');
-                $nombres = $this->input->post('nombres');
+                $nombres = $this->input->post('nombre');
                 $perfil = $this->input->post('perfil');
-                $this->usuarios_model->ingresar_usuario($usuario, $password, $nombres, $perfil);
+                $correo = $this->input->post('correo');
+                $this->usuarios_model->ingresar_usuario($usuario, $password, $nombres, $correo, $perfil);
                 $mensaje->respuesta = "S";
                 $mensaje->data = "Usuario Modificado Correctamente";
             } else {
@@ -65,7 +66,65 @@ class Usuarios extends CI_Controller
             $mensaje->respuesta = "N";
             $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
         }
+        $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
+    }
+
+    public function editar_usuario()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_usuario('editar');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/usuarios_model');
+                $id = $this->input->post('id');
+                $usuario = $this->input->post('usuario');
+                $nombres = $this->input->post('nombre');
+                $perfil = $this->input->post('perfil');
+                $correo = $this->input->post('correo');
+                $this->usuarios_model->editar_usuario($id, $usuario, $nombres, $correo,$perfil);
+                $mensaje->respuesta = "S";
+                $mensaje->data = "Usuario Modificado Correctamente";
+            } else {
+                $mensaje->respuesta = "N";
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = "N";
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+
+    public function cambiar_estado_usuario()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_usuario('estado');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/usuarios_model');
+                $id = $this->input->post('id');
+                $perfil = $this->input->post('estado');
+                if ($perfil == 'S') {
+                    $this->usuarios_model->cambia_estado_usuario($id, 'N');
+                    $mensaje->respuesta = "S";
+                } elseif ($perfil == 'N') {
+                    $this->usuarios_model->cambia_estado_usuario($id, 'S');
+                    $mensaje->respuesta = "S";
+                } else {
+                    $mensaje->respuesta = "N";
+                    $mensaje->data = "Error formato estado";
+                }
+            } else {
+                $mensaje->respuesta = "N";
+                $mensaje->data = $validator->mensaje;
+            }
+        } else {
+            $mensaje->respuesta = "N";
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
 
     private function formato_activo($respuesta)
@@ -73,7 +132,7 @@ class Usuarios extends CI_Controller
         if ($respuesta === "S") {
             $respuesta = "<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>";
         } else {
-            $respuesta = "<button class='btn btn-danger btn-xs' type='button'>ACTIVO</button>";
+            $respuesta = "<button class='btn btn-danger btn-xs' type='button'>INACTIVO</button>";
         }
         return $respuesta;
     }
@@ -82,11 +141,12 @@ class Usuarios extends CI_Controller
     {
         $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
             " data-nombre=" . $data['NOMBRE'] . " data-usuario=" . $data['USUARIO'] . " data-password=" . $data['PASSWORD'] . " " .
-            " data-correo=" . $data['ID'] . "><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+            " data-correo=" . $data['CORREO'] . " data-perfil=" . $data['ID_PERFIL'] . " " .
+            " data-activo=" . $data['ACTIVO'] . " ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data["ACTIVO"] == "S") {
             $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
         } else {
-            $respuesta .= " <button class='btn btn-dangers btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>";
+            $respuesta .= " <button class='btn btn-danger btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>";
         }
         return $respuesta;
     }

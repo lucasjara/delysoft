@@ -12,6 +12,7 @@ if (!function_exists('validarUsuario')) {
     function validarUsuario($post = true) {
         $CI =& get_instance();
         $validaPost = ($post) ? $CI->input->post() : true;
+        //var_dump($validaPost);
         return ($validaPost);
     }
 }
