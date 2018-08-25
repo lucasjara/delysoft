@@ -6,36 +6,34 @@
  * Time: 0:25
  */
 ?>
-<link rel="stylesheet" href="<?php echo base_url('/public/css/Morris/morris.css') ?>">
 <div class="row">
     <div class="panel panel-primary">
-        <div class="panel-heading"
-        ">
-        <div class="panel-title pull-left">ADMINISTRACION USUARIOS</div>
-        <div class="pull-right">
-            <button type="submit" class="btn btn-success btn-xs" title="Agregar" id="btn_agregar_usuarios"><span
-                        class="glyphicon glyphicon-plus"></span><b> AGREGAR USUARIO</b></button>
+        <div class="panel-heading">
+            <div class="panel-title pull-left">ADMINISTRACION USUARIOS</div>
+            <div class="pull-right">
+                <button type="submit" class="btn btn-success btn-xs" title="Agregar" id="btn_agregar_usuarios"><span
+                            class="glyphicon glyphicon-plus"></span><b> AGREGAR USUARIO</b></button>
+            </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="clearfix"></div>
+        <div class="panel-body">
+            <table id="tabla_usuarios" class="table table-responsive">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>USUARIO</th>
+                    <th>CORREO</th>
+                    <th>ESTADO</th>
+                    <th>PERFIL</th>
+                    <th>ACCIONES</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="panel-body">
-        <table id="tabla_usuarios" class="table table-responsive">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>NOMBRE</th>
-                <th>USUARIO</th>
-                <th>CORREO</th>
-                <th>ESTADO</th>
-                <th>PERFIL</th>
-                <th>ACCIONES</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-</div>
 </div>
 <!-- Modal Agregar / Editar Usuario -->
 <div class="modal fade" id="modal_agregar_editar_usuario" role="dialog">
