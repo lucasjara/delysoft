@@ -216,6 +216,7 @@ class Generico extends CI_Controller
             public function ingresar_$titulo($carac+descripcion)
             {
                 $carac+this->db->set('DESCRIPCION', $carac+descripcion);
+                $carac+this->db->set('ACTIVO', 'S');
                 $carac+this->db->insert('$tabla');
                 return $carac+this->db->insert_id();
             }
