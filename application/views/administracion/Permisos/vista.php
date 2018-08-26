@@ -21,7 +21,9 @@
                 <thead>
                 <tr>
                     <th>ID</th>
+                    <th>NOMBRE</th>
                     <th>DESCRIPCION</th>
+                    <th>URL</th>
                     <th>ESTADO</th>
                     <th>ACCIONES</th>
                 </tr>
@@ -43,10 +45,24 @@
             <div class='modal-body'>
                 <div id='modal_alerta_agregar_editar'></div>
                 <div class='form-group'>
+                    <label class='control-label col-sm-2 col-sm-offset-2' for='nombre'>Nombre:</label>
+                    <div class='col-sm-6'>
+                        <input type='text' class='form-control' id='nombre' name='nombre' value=''>
+                    </div>
+                    <div class='clearfix'></div>
+                </div>
+                <div class='form-group'>
                     <label class='control-label col-sm-2 col-sm-offset-2' for='descripcion'>Descripcion:</label>
                     <div class='col-sm-6'>
                         <input type='text' class='form-control' id='descripcion' name='Descripcion' value=''>
                     </div>
+                    <div class='clearfix'></div>
+                </div>
+                <div class='form-group'>
+                    <label class='control-label col-sm-2 col-sm-offset-2' for='url'>URL:</label>
+                        <div class='col-sm-6'>
+                            <input type='text' class='form-control' id='url' name='url' value=''>
+                        </div>
                     <div class='clearfix'></div>
                 </div>
                 <input type='hidden' name='id_edit' id='id_modificar'>

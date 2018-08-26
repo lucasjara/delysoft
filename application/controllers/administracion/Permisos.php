@@ -49,7 +49,9 @@ class Permisos extends CI_Controller
             if ($validator->respuesta == 'S') {
                 $this->load->model('/administracion/permisos_model', 'permisos_model');
                 $descripcion = $this->input->post('descripcion');
-                $this->permisos_model->ingresar_permisos($descripcion);
+                $nombre = $this->input->post('nombre');
+                $url = $this->input->post('url');
+                $this->permisos_model->ingresar_permisos($descripcion,$nombre,$url);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'permisos Modificado Correctamente';
             } else {
@@ -73,7 +75,9 @@ class Permisos extends CI_Controller
                 $this->load->model('/administracion/permisos_model');
                 $id = $this->input->post('id');
                 $descripcion = $this->input->post('descripcion');
-                $this->permisos_model->editar_permisos($id, $descripcion);
+                $nombre = $this->input->post('nombre');
+                $url = $this->input->post('url');
+                $this->permisos_model->editar_permisos($id, $descripcion,$nombre,$url);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'permisos Modificado Correctamente';
             } else {
@@ -130,7 +134,7 @@ class Permisos extends CI_Controller
     private function formato_acciones($data)
     {
         $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
-            " data-descripcion='" . $data['DESCRIPCION'] . "' data-activo='". $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-url='" . $data['URL'] . "' data-activo='". $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data['ACTIVO'] == 'S') {
             $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
         } else {

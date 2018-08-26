@@ -58,6 +58,8 @@ if (!function_exists('form_permisos')) {
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
             $CI->form_validation->set_rules("descripcion", "Descripcion", "required|min_length[5]|max_length[255]");
+            $CI->form_validation->set_rules("nombre", "Nombre", "required|min_length[5]|max_length[255]");
+            $CI->form_validation->set_rules("url", "Url", "required|min_length[5]|max_length[255]");
         }
         if ($CI->form_validation->run() != false) {
             $respuesta->respuesta = 'S';

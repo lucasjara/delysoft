@@ -8,6 +8,8 @@ $(document).ready(function () {
     var mdl_btn_agregar = $('#btn_agregar_modal')
     var mdl_btn_editar = $('#btn_editar_modal')
     var mdl_descripcion = $('#descripcion')
+    var mdl_nombre = $("#nombre")
+    var mdl_url = $("#url")
     var mdl_id_edit = $('#id_modificar')
     // Fin Variables Globales
     // Carga Inicial Web
@@ -23,7 +25,9 @@ $(document).ready(function () {
         },
         'columns': [
             {'data': 'ID'},
+            {'data': 'NOMBRE'},
             {'data': 'DESCRIPCION'},
+            {'data': 'URL'},
             {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
@@ -43,12 +47,16 @@ $(document).ready(function () {
         // Carga de datos modal Editar
         mdl_id_edit.val($(this).attr('data-id'))
         mdl_descripcion.val($(this).attr('data-descripcion'))
+        mdl_nombre.val($(this).attr('data-nombre'))
+        mdl_url.val($(this).attr('data-url'))
         mdl_agregar_editar.modal('show')
     })
     // Agregar permisos
     mdl_btn_agregar.on('click', function () {
         var array = {
-            'descripcion': mdl_descripcion.val()
+            'descripcion': mdl_descripcion.val(),
+            'nombre': mdl_nombre.val(),
+            'url': mdl_url.val()
         }
         var request = envia_ajax('/delysoft/administracion/permisos/agregar_permisos', array)
         request.fail(function () {
@@ -71,6 +79,8 @@ $(document).ready(function () {
         var array = {
             'id': mdl_id_edit.val(),
             'descripcion': mdl_descripcion.val(),
+            'nombre': mdl_nombre.val(),
+            'url': mdl_url.val()
         }
         var request = envia_ajax(
             '/delysoft/administracion/permisos/editar_permisos', array)
@@ -126,6 +136,8 @@ $(document).ready(function () {
 
     function limpieza_modal() {
         mdl_descripcion.val('')
+        mdl_nombre.val('')
+        mdl_url.val('')
         modal_alerta_agregar_editar.html('')
         modal_alerta_agregar_editar.removeClass('alert alert-danger')
         mdl_btn_agregar.hide()

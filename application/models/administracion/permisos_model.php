@@ -18,16 +18,21 @@ class permisos_model extends CI_Model
     {
         $this->db->select('
                             permisos.ID,
+                            permisos.NOMBRE,
                             permisos.DESCRIPCION,
+                            permisos.URL,
                             permisos.ACTIVO
                 ')
             ->from('tb_permisos permisos');
         $query = $this->db->get();
         return $query->result_array();
     }
-    public function ingresar_permisos($descripcion)
+    public function ingresar_permisos($descripcion,$nombre,$url)
     {
         $this->db->set('DESCRIPCION', $descripcion);
+        $this->db->set('NOMBRE', $nombre);
+        $this->db->set('URL', $url);
+        $this->db->set('ACTIVO', 'S');
         $this->db->insert('tb_permisos');
         return $this->db->insert_id();
     }
@@ -37,11 +42,12 @@ class permisos_model extends CI_Model
         $this->db->where('ID', $id);
         return $this->db->update('tb_permisos');
     }
-    public function editar_permisos($id, $descripcion)
+    public function editar_permisos($id, $descripcion,$nombre,$url)
     {
         $this->db->set('DESCRIPCION', $descripcion);
+        $this->db->set('NOMBRE', $nombre);
+        $this->db->set('URL', $url);
         $this->db->where('ID', $id);
         return $this->db->update('tb_permisos');
     }
 }
-                        
