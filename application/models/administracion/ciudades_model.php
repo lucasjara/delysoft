@@ -5,7 +5,6 @@
  * Date: 26-08-2018
  * Time: 0:26
  */
-
 class ciudades_model extends CI_Model
 {
     public function obtener()
@@ -15,6 +14,7 @@ class ciudades_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
     public function obtener_listado_ciudades()
     {
         $this->db->select('
@@ -26,6 +26,7 @@ class ciudades_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
     public function ingresar_ciudades($descripcion)
     {
         $this->db->set('DESCRIPCION', $descripcion);
@@ -33,16 +34,31 @@ class ciudades_model extends CI_Model
         $this->db->insert('tb_ciudad');
         return $this->db->insert_id();
     }
-    public function cambia_estado_ciudades($id,$estado)
+
+    public function cambia_estado_ciudades($id, $estado)
     {
         $this->db->set('ACTIVO', $estado);
         $this->db->where('ID', $id);
         return $this->db->update('tb_ciudad');
     }
+
     public function editar_ciudades($id, $descripcion)
     {
         $this->db->set('DESCRIPCION', $descripcion);
         $this->db->where('ID', $id);
         return $this->db->update('tb_ciudad');
+    }
+
+    public function obtener_ciudades()
+    {
+        $this->db->select('
+                            ciudades.ID,
+                            ciudades.DESCRIPCION,
+                            ciudades.ACTIVO
+                ')
+            ->from('tb_ciudad ciudades')
+            ->where('ACTIVO', 'S');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }

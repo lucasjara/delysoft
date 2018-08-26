@@ -203,6 +203,8 @@ if (!function_exists('form_locales')) {
         if ($tipo === 'agregar' || $tipo === 'editar') {
             $CI->form_validation->set_rules("descripcion", "Descripcion", "required|min_length[5]|max_length[255]");
             $CI->form_validation->set_rules("nombre", "Nombre", "required|min_length[5]|max_length[255]");
+            $CI->form_validation->set_rules("region", "Nombre", "required|is_numeric");
+            $CI->form_validation->set_rules("ciudad", "Nombre", "required|is_numeric");
         }
         if ($CI->form_validation->run() != false) {
             $respuesta->respuesta = 'S';

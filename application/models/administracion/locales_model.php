@@ -20,17 +20,23 @@ class locales_model extends CI_Model
                             locales.ID,
                             locales.NOMBRE,
                             locales.DESCRIPCION,
-                            locales.ACTIVO
+                            locales.ACTIVO,
+                            region.DESCRIPCION REGION,
+                            ciudad.DESCRIPCION CIUDAD
                 ')
-            ->from('tb_local locales');
+            ->from('tb_local locales')
+            ->join('tb_region region','region.ID=locales.TB_REGION_ID','INNER')
+            ->join('tb_ciudad ciudad','ciudad.ID=locales.TB_CIUDAD_ID','INNER');;
         $query = $this->db->get();
         return $query->result_array();
     }
-    public function ingresar_locales($descripcion,$nombre)
+    public function ingresar_locales($descripcion,$nombre,$region,$ciudad)
     {
         $this->db->set('DESCRIPCION', $descripcion);
         $this->db->set('NOMBRE', $nombre);
         $this->db->set('ACTIVO', 'S');
+        $this->db->set('TB_REGION_ID', $region);
+        $this->db->set('TB_CIUDAD_ID', $ciudad);
         $this->db->insert('tb_local');
         return $this->db->insert_id();
     }
@@ -40,10 +46,12 @@ class locales_model extends CI_Model
         $this->db->where('ID', $id);
         return $this->db->update('tb_local');
     }
-    public function editar_locales($id, $descripcion,$nombre)
+    public function editar_locales($id, $descripcion,$nombre,$region,$ciudad)
     {
         $this->db->set('DESCRIPCION', $descripcion);
         $this->db->set('NOMBRE', $nombre);
+        $this->db->set('TB_REGION_ID', $region);
+        $this->db->set('TB_CIUDAD_ID', $ciudad);
         $this->db->where('ID', $id);
         return $this->db->update('tb_local');
     }

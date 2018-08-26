@@ -44,4 +44,16 @@ class regiones_model extends CI_Model
         $this->db->where('ID', $id);
         return $this->db->update('tb_region');
     }
+    public function obtener_regiones()
+    {
+        $this->db->select('
+                            regiones.ID,
+                            regiones.DESCRIPCION,
+                            regiones.ACTIVO
+                ')
+            ->from('tb_region regiones')
+            ->where('ACTIVO', 'S');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

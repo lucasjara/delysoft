@@ -10,6 +10,8 @@ $(document).ready(function () {
     var mdl_nombre = $('#descripcion')
     var mdl_descripcion = $('#descripcion')
     var mdl_id_edit = $('#id_modificar')
+    var mdl_region = $("#region").select2()
+    var mdl_ciudad = $("#ciudad").select2()
     // Fin Variables Globales
     // Carga Inicial Web
     var table = tabla.DataTable({
@@ -26,6 +28,8 @@ $(document).ready(function () {
             {'data': 'ID'},
             {'data': 'NOMBRE'},
             {'data': 'DESCRIPCION'},
+            {'data': 'REGION'},
+            {'data': 'CIUDAD'},
             {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
@@ -52,7 +56,9 @@ $(document).ready(function () {
     mdl_btn_agregar.on('click', function () {
         var array = {
             'descripcion': mdl_descripcion.val(),
-            'nombre':mdl_nombre.val()
+            'nombre':mdl_nombre.val(),
+            'region':mdl_region.val(),
+            'ciudad':mdl_ciudad.val()
         }
         var request = envia_ajax('/delysoft/administracion/locales/agregar_locales', array)
         request.fail(function () {
@@ -75,7 +81,9 @@ $(document).ready(function () {
         var array = {
             'id': mdl_id_edit.val(),
             'descripcion': mdl_descripcion.val(),
-            'nombre':mdl_nombre.val()
+            'nombre':mdl_nombre.val(),
+            'region':mdl_region.val(),
+            'ciudad':mdl_ciudad.val()
         }
         var request = envia_ajax(
             '/delysoft/administracion/locales/editar_locales', array)

@@ -5,6 +5,7 @@
  * Date: 26-08-2018
  * Time: 1:04
  */
+
 class Locales extends CI_Controller
 {
     public function __construct()
@@ -17,8 +18,12 @@ class Locales extends CI_Controller
 
     public function index()
     {
+        $this->load->model("/administracion/regiones_model");
+        $this->load->model("/administracion/ciudades_model");
+        $data["regiones"] = $this->regiones_model->obtener_regiones();
+        $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
         $this->layout->setLayout('plantilla');
-        $this->layout->view('vista');
+        $this->layout->view('vista',$data);
     }
 
     public function obtener_listado_locales()
@@ -49,7 +54,9 @@ class Locales extends CI_Controller
                 $this->load->model('/administracion/locales_model', 'locales_model');
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
-                $this->locales_model->ingresar_locales($descripcion,$nombre);
+                $region = $this->input->post('region');
+                $ciudad = $this->input->post('ciudad');
+                $this->locales_model->ingresar_locales($descripcion,$nombre,$region,$ciudad);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Locales Modificado Correctamente';
             } else {
@@ -74,7 +81,9 @@ class Locales extends CI_Controller
                 $id = $this->input->post('id');
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
-                $this->locales_model->editar_locales($id, $descripcion,$nombre);
+                $region = $this->input->post('region');
+                $ciudad = $this->input->post('ciudad');
+                $this->locales_model->editar_locales($id, $descripcion,$nombre,$region,$ciudad);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Locales Modificado Correctamente';
             } else {
