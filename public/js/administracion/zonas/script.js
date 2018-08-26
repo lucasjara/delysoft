@@ -1,17 +1,16 @@
 $(document).ready(function () {
     // Variables Globales
-    var tabla = $('#tabla_locales')
-    var btn_agregar = $('#btn_agregar_locales')
+    var tabla = $('#tabla_zonas')
+    var btn_agregar = $('#btn_agregar_zonas')
     var modal_alerta_agregar_editar = $('#modal_alerta_agregar_editar')
-    var mdl_agregar_editar = $('#modal_agregar_editar_locales')
-    var mdl_titulo_agregar_editar = $('#titulo_agregar_editar_locales')
+    var mdl_agregar_editar = $('#modal_agregar_editar_zonas')
+    var mdl_titulo_agregar_editar = $('#titulo_agregar_editar_zonas')
     var mdl_btn_agregar = $('#btn_agregar_modal')
     var mdl_btn_editar = $('#btn_editar_modal')
     var mdl_nombre = $('#nombre')
     var mdl_descripcion = $('#descripcion')
+    var mdl_local = $('#local').select2()
     var mdl_id_edit = $('#id_modificar')
-    var mdl_region = $("#region").select2()
-    var mdl_ciudad = $("#ciudad").select2()
     // Fin Variables Globales
     // Carga Inicial Web
     var table = tabla.DataTable({
@@ -19,7 +18,7 @@ $(document).ready(function () {
             'url': '/delysoft/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/locales/obtener_listado_locales',
+            'url': '/delysoft/administracion/zonas/obtener_listado_zonas',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -28,8 +27,7 @@ $(document).ready(function () {
             {'data': 'ID'},
             {'data': 'NOMBRE'},
             {'data': 'DESCRIPCION'},
-            {'data': 'REGION'},
-            {'data': 'CIUDAD'},
+            {'data': 'LOCAL'},
             {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
@@ -39,30 +37,28 @@ $(document).ready(function () {
     btn_agregar.on('click', function () {
         limpieza_modal()
         mdl_btn_agregar.show()
-        mdl_titulo_agregar_editar.text('Agregar Locales Sistema')
+        mdl_titulo_agregar_editar.text('Agregar Zonas Sistema')
         mdl_agregar_editar.modal('show')
     })
     tabla.on('click', '.btn_editar', function () {
         limpieza_modal()
         mdl_btn_editar.show()
-        mdl_titulo_agregar_editar.text('Editar Locales Sistema')
+        mdl_titulo_agregar_editar.text('Editar Zonas Sistema')
         // Carga de datos modal Editar
         mdl_id_edit.val($(this).attr('data-id'))
-        mdl_nombre.val($(this).attr('data-nombre'))
         mdl_descripcion.val($(this).attr('data-descripcion'))
-        mdl_region.val($(this).attr('data-region')).trigger('change.select2')
-        mdl_ciudad.val($(this).attr('data-ciudad')).trigger('change.select2')
+        mdl_local.val($(this).attr('data-local')).trigger('change.select2')
+        mdl_nombre.val($(this).attr('data-nombre'))
         mdl_agregar_editar.modal('show')
     })
-    // Agregar Locales
+    // Agregar Zonas
     mdl_btn_agregar.on('click', function () {
         var array = {
             'descripcion': mdl_descripcion.val(),
-            'nombre':mdl_nombre.val(),
-            'region':mdl_region.val(),
-            'ciudad':mdl_ciudad.val()
+            'nombre': mdl_nombre.val(),
+            'local': mdl_local.val()
         }
-        var request = envia_ajax('/delysoft/administracion/locales/agregar_locales', array)
+        var request = envia_ajax('/delysoft/administracion/zonas/agregar_zonas', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -78,17 +74,15 @@ $(document).ready(function () {
             }
         })
     })
-    // Editar Locales
+    // Editar Zonas
     mdl_btn_editar.on('click', function () {
         var array = {
             'id': mdl_id_edit.val(),
             'descripcion': mdl_descripcion.val(),
-            'nombre':mdl_nombre.val(),
-            'region':mdl_region.val(),
-            'ciudad':mdl_ciudad.val()
+            'nombre': mdl_nombre.val(),
+            'local': mdl_local.val()
         }
-        var request = envia_ajax(
-            '/delysoft/administracion/locales/editar_locales', array)
+        var request = envia_ajax('/delysoft/administracion/zonas/editar_zonas', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -104,14 +98,13 @@ $(document).ready(function () {
             }
         })
     })
-    // Cambio Estado Locales
+    // Cambio Estado Zonas
     tabla.on('click', '.btn_estado', function () {
         var array = {
             'id': $.trim($(this).attr('data-id')),
             'estado': $(this).attr('data-activo'),
         }
-        var request = envia_ajax(
-            '/delysoft/administracion/locales/cambiar_estado_locales', array)
+        var request = envia_ajax('/delysoft/administracion/zonas/cambiar_estado_zonas', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

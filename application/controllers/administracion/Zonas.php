@@ -3,10 +3,9 @@
  * Created by PhpStorm.
  * User: Lucas
  * Date: 26-08-2018
- * Time: 1:04
+ * Time: 12:50
  */
-
-class Locales extends CI_Controller
+class Zonas extends CI_Controller
 {
     public function __construct()
     {
@@ -18,20 +17,18 @@ class Locales extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/administracion/regiones_model");
-        $this->load->model("/administracion/ciudades_model");
-        $data["regiones"] = $this->regiones_model->obtener_regiones();
-        $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
+        $this->load->model("/administracion/locales_model");
+        $data["locales"] = $this->locales_model->obtener_locales();
         $this->layout->setLayout('plantilla');
         $this->layout->view('vista',$data);
     }
 
-    public function obtener_listado_locales()
+    public function obtener_listado_zonas()
     {
         $mensaje = new stdClass();
-        $this->load->model('/administracion/locales_model');
+        $this->load->model('/administracion/zonas_model');
         if (validarUsuario(false)) {
-            $datos = $this->locales_model->obtener_listado_locales();
+            $datos = $this->zonas_model->obtener_listado_zonas();
             for ($i = 0; $i < count($datos); $i++) {
                 $datos[$i]['ACCIONES'] = $this->formato_acciones($datos[$i]);
                 $datos[$i]['ACTIVO'] = $this->formato_activo($datos[$i]['ACTIVO']);
@@ -44,21 +41,20 @@ class Locales extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
 
-    public function agregar_locales()
+    public function agregar_zonas()
     {
         $mensaje = new stdClass();
         $this->load->helper('array_utf8');
         if (validarUsuario(true)) {
-            $validator = form_locales('agregar');
+            $validator = form_zonas('agregar');
             if ($validator->respuesta == 'S') {
-                $this->load->model('/administracion/locales_model', 'locales_model');
+                $this->load->model('/administracion/zonas_model', 'zonas_model');
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
-                $region = $this->input->post('region');
-                $ciudad = $this->input->post('ciudad');
-                $this->locales_model->ingresar_locales($descripcion,$nombre,$region,$ciudad);
+                $local = $this->input->post('local');
+                $this->zonas_model->ingresar_zonas($descripcion,$nombre,$local);
                 $mensaje->respuesta = 'S';
-                $mensaje->data = 'Locales Modificado Correctamente';
+                $mensaje->data = 'Zonas Modificado Correctamente';
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = $validator->mensaje;
@@ -70,22 +66,21 @@ class Locales extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
 
-    public function editar_locales()
+    public function editar_zonas()
     {
         $mensaje = new stdClass();
         $this->load->helper('array_utf8');
         if (validarUsuario(true)) {
-            $validator = form_locales('editar');
+            $validator = form_zonas('editar');
             if ($validator->respuesta == 'S') {
-                $this->load->model('/administracion/locales_model');
+                $this->load->model('/administracion/zonas_model');
                 $id = $this->input->post('id');
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
-                $region = $this->input->post('region');
-                $ciudad = $this->input->post('ciudad');
-                $this->locales_model->editar_locales($id, $descripcion,$nombre,$region,$ciudad);
+                $local = $this->input->post('local');
+                $this->zonas_model->editar_zonas($id, $descripcion,$nombre,$local);
                 $mensaje->respuesta = 'S';
-                $mensaje->data = 'Locales Modificado Correctamente';
+                $mensaje->data = 'Zonas Modificado Correctamente';
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = validation_errors();
@@ -97,21 +92,21 @@ class Locales extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }
 
-    public function cambiar_estado_locales()
+    public function cambiar_estado_zonas()
     {
         $mensaje = new stdClass();
         $this->load->helper('array_utf8');
         if (validarUsuario(true)) {
-            $validator = form_locales('estado');
+            $validator = form_zonas('estado');
             if ($validator->respuesta == 'S') {
-                $this->load->model('/administracion/locales_model');
+                $this->load->model('/administracion/zonas_model');
                 $id = $this->input->post('id');
                 $perfil = $this->input->post('estado');
                 if ($perfil == 'S') {
-                    $this->locales_model->cambia_estado_locales($id, 'N');
+                    $this->zonas_model->cambia_estado_zonas($id, 'N');
                     $mensaje->respuesta = 'S';
                 } elseif ($perfil == 'N') {
-                    $this->locales_model->cambia_estado_locales($id, 'S');
+                    $this->zonas_model->cambia_estado_zonas($id, 'S');
                     $mensaje->respuesta = 'S';
                 } else {
                     $mensaje->respuesta = 'N';
@@ -140,7 +135,7 @@ class Locales extends CI_Controller
     private function formato_acciones($data)
     {
         $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
-            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-region='" . $data['ID_REGION'] . "' data-ciudad='" . $data['ID_CIUDAD'] . "' data-activo='". $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-local='" . $data['ID_LOCAL'] . "' data-activo='". $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data['ACTIVO'] == 'S') {
             $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
         } else {
@@ -149,5 +144,3 @@ class Locales extends CI_Controller
         return $respuesta;
     }
 }
-
- 

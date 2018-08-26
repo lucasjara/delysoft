@@ -22,11 +22,13 @@ class locales_model extends CI_Model
                             locales.DESCRIPCION,
                             locales.ACTIVO,
                             region.DESCRIPCION REGION,
-                            ciudad.DESCRIPCION CIUDAD
+                            ciudad.DESCRIPCION CIUDAD,
+                            region.ID ID_REGION,
+                            ciudad.ID ID_CIUDAD
                 ')
             ->from('tb_local locales')
             ->join('tb_region region','region.ID=locales.TB_REGION_ID','INNER')
-            ->join('tb_ciudad ciudad','ciudad.ID=locales.TB_CIUDAD_ID','INNER');;
+            ->join('tb_ciudad ciudad','ciudad.ID=locales.TB_CIUDAD_ID','INNER');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -54,5 +56,18 @@ class locales_model extends CI_Model
         $this->db->set('TB_CIUDAD_ID', $ciudad);
         $this->db->where('ID', $id);
         return $this->db->update('tb_local');
+    }
+    public function obtener_locales()
+    {
+        $this->db->select('
+                            locales.ID,
+                            locales.NOMBRE,
+                            locales.DESCRIPCION,
+                            locales.ACTIVO
+                ')
+            ->from('tb_local locales')
+            ->where('ACTIVO','S');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }

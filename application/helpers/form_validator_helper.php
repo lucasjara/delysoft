@@ -215,3 +215,33 @@ if (!function_exists('form_locales')) {
         return $respuesta;
     }
 }
+if (!function_exists('form_zonas')) {
+    /**
+     * @param $tipo =  campo para saber el tipo de validacion es para agregar o editar o cambiar estado
+     * @return stdClass = campos con resultado de validacion
+     */
+    function form_zonas($tipo)
+    {
+        $CI =& get_instance();
+        $respuesta = new stdClass();
+        if ($tipo === 'editar' || $tipo === 'estado') {
+            $CI->form_validation->set_rules("id", "Id", "required");
+            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+        }
+        if ($tipo === 'estado'){
+            $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
+        }
+        if ($tipo === 'agregar' || $tipo === 'editar') {
+            $CI->form_validation->set_rules("descripcion", "Descripcion", "required|min_length[5]|max_length[255]");
+            $CI->form_validation->set_rules("nombre", "Nombre", "required|min_length[5]|max_length[255]");
+            $CI->form_validation->set_rules("local", "Local", "required|is_numeric");
+        }
+        if ($CI->form_validation->run() != false) {
+            $respuesta->respuesta = 'S';
+        } else {
+            $respuesta->respuesta = 'N';
+            $respuesta->mensaje = validation_errors();;
+        }
+        return $respuesta;
+    }
+}
