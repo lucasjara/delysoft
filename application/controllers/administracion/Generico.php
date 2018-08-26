@@ -40,6 +40,7 @@ class Generico extends CI_Controller
         $alias = $this->input->post('alias');
         $modelo = $this->input->post('modelo');
         $controlador = $this->input->post('controlador');
+        $controlador_m = strtolower($this->input->post('controlador'));
         $helper = $this->input->post('helper');
         $carac ="$";
         $formato = "
@@ -59,12 +60,12 @@ class Generico extends CI_Controller
                 $carac+this->layout->view('vista');
             }
 
-            public function obtener_listado_$titulo()
+            public function obtener_listado_$controlador_m()
             {
                 $carac+mensaje = new stdClass();
                 $carac+this->load->model('/administracion/$modelo');
                 if (validarUsuario(false)) {
-                    $carac+datos = $carac+this->$alias&->obtener_listado_$titulo();
+                    $carac+datos = $carac+this->$alias&->obtener_listado_$controlador_m();
                     for ($carac+i = 0; $carac+i < count($carac+datos); $carac+i++) {
                         $carac+datos[$carac+i]['ACCIONES'] = $carac+this->formato_acciones($carac+datos[$carac+i]);
                         $carac+datos[$carac+i]['ACTIVO'] = $carac+this->formato_activo($carac+datos[$carac+i]['ACTIVO']);
@@ -77,7 +78,7 @@ class Generico extends CI_Controller
                 $carac+this->output->set_content_type('application/json')->set_output(json_encode($carac+mensaje));
             }
 
-            public function agregar_$titulo()
+            public function agregar_$controlador_m()
             {
                 $carac+mensaje = new stdClass();
                 $carac+this->load->helper('array_utf8');
@@ -86,7 +87,7 @@ class Generico extends CI_Controller
                     if ($carac+validator->respuesta == 'S') {
                         $carac+this->load->model('/administracion/$modelo', '$alias');
                         $carac+descripcion = $carac+this->input->post('descripcion');
-                        $carac+this->$alias&->ingresar_$titulo($carac+descripcion);
+                        $carac+this->$alias&->ingresar_$controlador_m($carac+descripcion);
                         $carac+mensaje->respuesta = 'S';
                         $carac+mensaje->data = '$titulo Modificado Correctamente';
                     } else {
@@ -100,7 +101,7 @@ class Generico extends CI_Controller
                 $carac+this->output->set_content_type('application/json')->set_output(json_encode($carac+mensaje));
             }
 
-            public function editar_$titulo()
+            public function editar_$controlador_m()
             {
                 $carac+mensaje = new stdClass();
                 $carac+this->load->helper('array_utf8');
@@ -110,7 +111,7 @@ class Generico extends CI_Controller
                         $carac+this->load->model('/administracion/$modelo');
                         $carac+id = $carac+this->input->post('id');
                         $carac+descripcion = $carac+this->input->post('descripcion');
-                        $carac+this->$alias&->editar_$titulo($carac+id, $carac+descripcion);
+                        $carac+this->$alias&->editar_$controlador_m($carac+id, $carac+descripcion);
                         $carac+mensaje->respuesta = 'S';
                         $carac+mensaje->data = '$titulo Modificado Correctamente';
                     } else {
@@ -124,7 +125,7 @@ class Generico extends CI_Controller
                 $carac+this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($carac+mensaje)));
             }
 
-            public function cambiar_estado_$titulo()
+            public function cambiar_estado_$controlador_m()
             {
                 $carac+mensaje = new stdClass();
                 $carac+this->load->helper('array_utf8');
@@ -135,10 +136,10 @@ class Generico extends CI_Controller
                         $carac+id = $carac+this->input->post('id');
                         $carac+perfil = $carac+this->input->post('estado');
                         if ($carac+perfil == 'S') {
-                            $carac+this->$alias&->cambia_estado_$titulo($carac+id, 'N');
+                            $carac+this->$alias&->cambia_estado_$controlador_m($carac+id, 'N');
                             $carac+mensaje->respuesta = 'S';
                         } elseif ($carac+perfil == 'N') {
-                            $carac+this->$alias&->cambia_estado_$titulo($carac+id, 'S');
+                            $carac+this->$alias&->cambia_estado_$controlador_m($carac+id, 'S');
                             $carac+mensaje->respuesta = 'S';
                         } else {
                             $carac+mensaje->respuesta = 'N';
@@ -191,6 +192,7 @@ class Generico extends CI_Controller
         $titulo = $this->input->post('titulos');
         $tabla = $this->input->post('tabla');
         $alias = $this->input->post('alias');
+        $controlador_m = strtolower($this->input->post('controlador'));
         $carac ="$";
         $formato = "
         class $alias extends CI_Model
@@ -202,31 +204,31 @@ class Generico extends CI_Controller
                 $carac+query = $carac+this->db->get();
                 return $carac+query->result();
             }
-            public function obtener_listado_$titulo()
+            public function obtener_listado_$controlador_m()
             {
                 $carac+this->db->select('
-                            $titulo.ID,
-                            $titulo.DESCRIPCION,
-                            $titulo.ACTIVO
+                            $controlador_m.ID,
+                            $controlador_m.DESCRIPCION,
+                            $controlador_m.ACTIVO
                 ')
-                ->from('$tabla $titulo');
+                ->from('$tabla $controlador_m');
                 $carac+query = $carac+this->db->get();
                 return $carac+query->result_array();
             }
-            public function ingresar_$titulo($carac+descripcion)
+            public function ingresar_$controlador_m($carac+descripcion)
             {
                 $carac+this->db->set('DESCRIPCION', $carac+descripcion);
                 $carac+this->db->set('ACTIVO', 'S');
                 $carac+this->db->insert('$tabla');
                 return $carac+this->db->insert_id();
             }
-            public function cambia_estado_$titulo($carac+id,$carac+estado)
+            public function cambia_estado_$controlador_m($carac+id,$carac+estado)
             {
                 $carac+this->db->set('ACTIVO', $carac+estado);
                 $carac+this->db->where('ID', $carac+id);
                 return $carac+this->db->update('$tabla');
             }
-            public function editar_$titulo($carac+id, $carac+descripcion)
+            public function editar_$controlador_m($carac+id, $carac+descripcion)
             {
                 $carac+this->db->set('DESCRIPCION', $carac+descripcion);
                 $carac+this->db->where('ID', $carac+id);
@@ -239,14 +241,15 @@ class Generico extends CI_Controller
     private function formato_js()
     {
         $titulo = $this->input->post('titulos');
+        $controlador_m = strtolower($this->input->post('controlador'));
         $formato = "
 $(document).ready(function () {
     // Variables Globales
-    var tabla = $('#tabla_$titulo')
-    var btn_agregar = $('#btn_agregar_$titulo')
+    var tabla = $('#tabla_$controlador_m')
+    var btn_agregar = $('#btn_agregar_$controlador_m')
     var modal_alerta_agregar_editar = $('#modal_alerta_agregar_editar')
-    var mdl_agregar_editar = $('#modal_agregar_editar_$titulo')
-    var mdl_titulo_agregar_editar = $('#titulo_agregar_editar_$titulo')
+    var mdl_agregar_editar = $('#modal_agregar_editar_$controlador_m')
+    var mdl_titulo_agregar_editar = $('#titulo_agregar_editar_$controlador_m')
     var mdl_btn_agregar = $('#btn_agregar_modal')
     var mdl_btn_editar = $('#btn_editar_modal')
     var mdl_descripcion = $('#descripcion')
@@ -258,7 +261,7 @@ $(document).ready(function () {
             'url': '/delysoft/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/$titulo/obtener_listado_$titulo',
+            'url': '/delysoft/administracion/$controlador_m/obtener_listado_$controlador_m',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -292,7 +295,7 @@ $(document).ready(function () {
         var array = {
             'descripcion': mdl_descripcion.val()
         }
-        var request = envia_ajax('/delysoft/administracion/$titulo/agregar_$titulo', array)
+        var request = envia_ajax('/delysoft/administracion/$controlador_m/agregar_$controlador_m', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -315,7 +318,7 @@ $(document).ready(function () {
             'descripcion': mdl_descripcion.val(),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/$titulo/editar_$titulo', array)
+            '/delysoft/administracion/$controlador_m/editar_$controlador_m', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -338,7 +341,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/$titulo/cambiar_estado_$titulo', array)
+            '/delysoft/administracion/$controlador_m/cambiar_estado_$controlador_m', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -383,19 +386,21 @@ $(document).ready(function () {
     {
         $titulo = $this->input->post('titulos');
         $titulo_m = strtoupper($titulo);
+        $controlador = $this->input->post('controlador');
+        $controlador_m = strtolower($this->input->post('controlador'));
         $formato = "
 <div class='row'>
     <div class='panel panel-primary'>
         <div class='panel-heading'>
             <div class='panel-title pull-left'>ADMINISTRACION $titulo_m</div>
             <div class='pull-right'>
-                <button type='submit' class='btn btn-success btn-xs' title='Agregar' id='btn_agregar_$titulo'><span
+                <button type='submit' class='btn btn-success btn-xs' title='Agregar' id='btn_agregar_$controlador_m'><span
                             class='glyphicon glyphicon-plus'></span><b> AGREGAR $titulo_m</b></button>
             </div>
             <div class='clearfix'></div>
         </div>
         <div class='panel-body'>
-            <table id='tabla_$titulo' class='table table-responsive'>
+            <table id='tabla_$controlador_m' class='table table-responsive'>
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -411,12 +416,12 @@ $(document).ready(function () {
     </div>
 </div>
 <!-- Modal Agregar / Editar  -->
-<div class='modal fade' id='modal_agregar_editar_$titulo' role='dialog'>
+<div class='modal fade' id='modal_agregar_editar_$controlador_m' role='dialog'>
     <div class='modal-dialog'>
         <div class='modal-content'>
             <div class='modal-header'>
                 <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                <h4 class='modal-title' id='titulo_agregar_editar_$titulo'></h4>
+                <h4 class='modal-title' id='titulo_agregar_editar_$controlador_m'></h4>
             </div>
             <div class='modal-body'>
                 <div id='modal_alerta_agregar_editar'></div>
@@ -438,7 +443,7 @@ $(document).ready(function () {
         </div>
     </div>
 </div>
-<script src=\"<?php echo base_url('/public/js/administracion/$titulo/script.js') ?>\"></script>
+<script src=\"<?php echo base_url('/public/js/administracion/$controlador/script.js') ?>\"></script>
 <!-- Fin Modal Agregar / Editar  -->";
         return $formato;
     }
