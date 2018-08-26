@@ -41,140 +41,140 @@ class Generico extends CI_Controller
         $modelo = $this->input->post('modelo');
         $controlador = $this->input->post('controlador');
         $helper = $this->input->post('helper');
-        $caracter ="$";
+        $carac ="$";
         $formato = "
         class $controlador extends CI_Controller
         {
             public function __construct()
             {
                 parent::__construct();
-                $caracter+this->load->helper('url', 'array_utf8', 'validaciones', 'form_validator');
-                $caracter+this->load->library('session');
-                $caracter+this->load->library('form_validation');
+                $carac+this->load->helper('url', 'array_utf8', 'validaciones', 'form_validator');
+                $carac+this->load->library('session');
+                $carac+this->load->library('form_validation');
             }
 
             public function index()
             {
-                $caracter+this->layout->setLayout('plantilla');
-                $caracter+this->layout->view('vista');
+                $carac+this->layout->setLayout('plantilla');
+                $carac+this->layout->view('vista');
             }
 
             public function obtener_listado_$titulo()
             {
-                $caracter+mensaje = new stdClass();
-                $caracter+this->load->model('/administracion/$modelo');
+                $carac+mensaje = new stdClass();
+                $carac+this->load->model('/administracion/$modelo');
                 if (validarUsuario(false)) {
-                    $caracter+datos = $caracter+this->$alias&->obtener_listado_$titulo();
-                    for ($caracter+i = 0; $caracter+i < count($caracter+datos); $caracter+i++) {
-                        $caracter+datos[$caracter+i]['ACCIONES'] = $caracter+this->formato_acciones($caracter+datos[$caracter+i]);
-                        $caracter+datos[$caracter+i]['ACTIVO'] = $caracter+this->formato_activo($caracter+datos[$caracter+i]['ACTIVO']);
+                    $carac+datos = $carac+this->$alias&->obtener_listado_$titulo();
+                    for ($carac+i = 0; $carac+i < count($carac+datos); $carac+i++) {
+                        $carac+datos[$carac+i]['ACCIONES'] = $carac+this->formato_acciones($carac+datos[$carac+i]);
+                        $carac+datos[$carac+i]['ACTIVO'] = $carac+this->formato_activo($carac+datos[$carac+i]['ACTIVO']);
                     }
-                    $caracter+mensaje->data = $caracter+datos;
-                    $caracter+mensaje->respuesta = 'S';
+                    $carac+mensaje->data = $carac+datos;
+                    $carac+mensaje->respuesta = 'S';
                 } else {
-                    $caracter+mensaje->respuesta = 'No hay mano';
+                    $carac+mensaje->respuesta = 'No hay mano';
                 }
-                $caracter+this->output->set_content_type('application/json')->set_output(json_encode($caracter+mensaje));
+                $carac+this->output->set_content_type('application/json')->set_output(json_encode($carac+mensaje));
             }
 
             public function agregar_$titulo()
             {
-                $caracter+mensaje = new stdClass();
-                $caracter+this->load->helper('array_utf8');
+                $carac+mensaje = new stdClass();
+                $carac+this->load->helper('array_utf8');
                 if (validarUsuario(true)) {
-                    $caracter+validator = $helper('agregar');
-                    if ($caracter+validator->respuesta == 'S') {
-                        $caracter+this->load->model('/administracion/$modelo', '$alias');
-                        $caracter+descripcion = $caracter+this->input->post('descripcion');
-                        $caracter+this->$alias&->ingresar_$titulo($caracter+descripcion);
-                        $caracter+mensaje->respuesta = 'S';
-                        $caracter+mensaje->data = '$titulo Modificado Correctamente';
+                    $carac+validator = $helper('agregar');
+                    if ($carac+validator->respuesta == 'S') {
+                        $carac+this->load->model('/administracion/$modelo', '$alias');
+                        $carac+descripcion = $carac+this->input->post('descripcion');
+                        $carac+this->$alias&->ingresar_$titulo($carac+descripcion);
+                        $carac+mensaje->respuesta = 'S';
+                        $carac+mensaje->data = '$titulo Modificado Correctamente';
                     } else {
-                        $caracter+mensaje->respuesta = 'N';
-                        $caracter+mensaje->data = $caracter+validator->mensaje;
+                        $carac+mensaje->respuesta = 'N';
+                        $carac+mensaje->data = $carac+validator->mensaje;
                     }
                 } else {
-                    $caracter+mensaje->respuesta = 'N';
-                    $caracter+mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+                    $carac+mensaje->respuesta = 'N';
+                    $carac+mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
                 }
-                $caracter+this->output->set_content_type('application/json')->set_output(json_encode($caracter+mensaje));
+                $carac+this->output->set_content_type('application/json')->set_output(json_encode($carac+mensaje));
             }
 
             public function editar_$titulo()
             {
-                $caracter+mensaje = new stdClass();
-                $caracter+this->load->helper('array_utf8');
+                $carac+mensaje = new stdClass();
+                $carac+this->load->helper('array_utf8');
                 if (validarUsuario(true)) {
-                    $caracter+validator = $helper('editar');
-                    if ($caracter+validator->respuesta == 'S') {
-                        $caracter+this->load->model('/administracion/$modelo');
-                        $caracter+id = $caracter+this->input->post('id');
-                        $caracter+descripcion = $caracter+this->input->post('descripcion');
-                        $caracter+this->$alias&->editar_$titulo($caracter+id, $caracter+descripcion);
-                        $caracter+mensaje->respuesta = 'S';
-                        $caracter+mensaje->data = '$titulo Modificado Correctamente';
+                    $carac+validator = $helper('editar');
+                    if ($carac+validator->respuesta == 'S') {
+                        $carac+this->load->model('/administracion/$modelo');
+                        $carac+id = $carac+this->input->post('id');
+                        $carac+descripcion = $carac+this->input->post('descripcion');
+                        $carac+this->$alias&->editar_$titulo($carac+id, $carac+descripcion);
+                        $carac+mensaje->respuesta = 'S';
+                        $carac+mensaje->data = '$titulo Modificado Correctamente';
                     } else {
-                        $caracter+mensaje->respuesta = 'N';
-                        $caracter+mensaje->data = validation_errors();
+                        $carac+mensaje->respuesta = 'N';
+                        $carac+mensaje->data = validation_errors();
                     }
                 } else {
-                    $caracter+mensaje->respuesta = 'N';
-                    $caracter+mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+                    $carac+mensaje->respuesta = 'N';
+                    $carac+mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
                 }
-                $caracter+this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($caracter+mensaje)));
+                $carac+this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($carac+mensaje)));
             }
 
             public function cambiar_estado_$titulo()
             {
-                $caracter+mensaje = new stdClass();
-                $caracter+this->load->helper('array_utf8');
+                $carac+mensaje = new stdClass();
+                $carac+this->load->helper('array_utf8');
                 if (validarUsuario(true)) {
-                    $caracter+validator = $helper('estado');
-                    if ($caracter+validator->respuesta == 'S') {
-                        $caracter+this->load->model('/administracion/$modelo');
-                        $caracter+id = $caracter+this->input->post('id');
-                        $caracter+perfil = $caracter+this->input->post('estado');
-                        if ($caracter+perfil == 'S') {
-                            $caracter+this->$alias&->cambia_estado_$titulo($caracter+id, 'N');
-                            $caracter+mensaje->respuesta = 'S';
-                        } elseif ($caracter+perfil == 'N') {
-                            $caracter+this->$alias&->cambia_estado_$titulo($caracter+id, 'S');
-                            $caracter+mensaje->respuesta = 'S';
+                    $carac+validator = $helper('estado');
+                    if ($carac+validator->respuesta == 'S') {
+                        $carac+this->load->model('/administracion/$modelo');
+                        $carac+id = $carac+this->input->post('id');
+                        $carac+perfil = $carac+this->input->post('estado');
+                        if ($carac+perfil == 'S') {
+                            $carac+this->$alias&->cambia_estado_$titulo($carac+id, 'N');
+                            $carac+mensaje->respuesta = 'S';
+                        } elseif ($carac+perfil == 'N') {
+                            $carac+this->$alias&->cambia_estado_$titulo($carac+id, 'S');
+                            $carac+mensaje->respuesta = 'S';
                         } else {
-                            $caracter+mensaje->respuesta = 'N';
-                            $caracter+mensaje->data = 'Error formato estado';
+                            $carac+mensaje->respuesta = 'N';
+                            $carac+mensaje->data = 'Error formato estado';
                         }
                     } else {
-                        $caracter+mensaje->respuesta = 'N';
-                        $caracter+mensaje->data = $caracter+validator->mensaje;
+                        $carac+mensaje->respuesta = 'N';
+                        $carac+mensaje->data = $carac+validator->mensaje;
                     }
                 } else {
-                    $caracter+mensaje->respuesta = 'N';
-                    $caracter+mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+                    $carac+mensaje->respuesta = 'N';
+                    $carac+mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
                 }
-                $caracter+this->output->set_content_type('application/json')->set_output(json_encode($caracter+mensaje));
+                $carac+this->output->set_content_type('application/json')->set_output(json_encode($carac+mensaje));
             }
             ";
         $formato .="
-            private function formato_activo($caracter+respuesta)
+            private function formato_activo($carac+respuesta)
             {
-                if ($caracter+respuesta === 'S') {
-                    $caracter+respuesta = &'''<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>&''';
+                if ($carac+respuesta === 'S') {
+                    $carac+respuesta = &'''<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>&''';
                 } else {
-                    $caracter+respuesta = &'''<button class='btn btn-danger btn-xs' type='button'>INACTIVO</button>&''';
+                    $carac+respuesta = &'''<button class='btn btn-danger btn-xs' type='button'>INACTIVO</button>&''';
                 }
-                return $caracter+respuesta;
+                return $carac+respuesta;
             }
-            private function formato_acciones($caracter+data)
+            private function formato_acciones($carac+data)
             {
-                $caracter+respuesta = &'''<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=&''' . $caracter+data['ID'] . &''' &''' .
-                    &''' data-descripcion=&''' . $caracter+data['DESCRIPCION'] . &''' &'''. $caracter+data['ACTIVO'] . &''' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>\";
-                if ($caracter+data['ACTIVO'] == 'S') {
-                    $caracter+respuesta .= &''' <button class='btn btn-success btn-xs btn_estado' type='button' data-id=&''' . $caracter+data['ID'] . &''' data-activo=&''' . $caracter+data['ACTIVO'] . &'''><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>&''';
+                $carac+respuesta = &'''<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=&''' . $carac+data['ID'] . &''' &''' .
+                    &''' data-descripcion='&''' . $carac+data['DESCRIPCION'] . &'''' data-activo='&'''. $carac+data['ACTIVO'] . &'''' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>\";
+                if ($carac+data['ACTIVO'] == 'S') {
+                    $carac+respuesta .= &''' <button class='btn btn-success btn-xs btn_estado' type='button' data-id=&''' . $carac+data['ID'] . &''' data-activo=&''' . $carac+data['ACTIVO'] . &'''><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>&''';
                 } else {
-                    $caracter+respuesta .= &''' <button class='btn btn-danger btn-xs btn_estado' type='button' data-id=&''' . $caracter+data['ID'] . &''' data-activo=&''' . $caracter+data['ACTIVO'] . &'''><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>&''';
+                    $carac+respuesta .= &''' <button class='btn btn-danger btn-xs btn_estado' type='button' data-id=&''' . $carac+data['ID'] . &''' data-activo=&''' . $carac+data['ACTIVO'] . &'''><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>&''';
                 }
-                return $caracter+respuesta;
+                return $carac+respuesta;
             }
     }
 ";
@@ -191,45 +191,45 @@ class Generico extends CI_Controller
         $titulo = $this->input->post('titulos');
         $tabla = $this->input->post('tabla');
         $alias = $this->input->post('alias');
-        $caracter ="$";
+        $carac ="$";
         $formato = "
         class $alias extends CI_Model
         {
             public function obtener()
             {
-                $caracter+this->db->select('*')
+                $carac+this->db->select('*')
                     ->from('$tabla');
-                $caracter+query = $caracter+this->db->get();
-                return $caracter+query->result();
+                $carac+query = $carac+this->db->get();
+                return $carac+query->result();
             }
             public function obtener_listado_$titulo()
             {
-                $caracter+this->db->select('
+                $carac+this->db->select('
                             $titulo.ID,
                             $titulo.DESCRIPCION,
                             $titulo.ACTIVO
                 ')
                 ->from('$tabla $titulo');
-                $caracter+query = $caracter+this->db->get();
-                return $caracter+query->result_array();
+                $carac+query = $carac+this->db->get();
+                return $carac+query->result_array();
             }
-            public function ingresar_$titulo($caracter+descripcion)
+            public function ingresar_$titulo($carac+descripcion)
             {
-                $caracter+this->db->set('DESCRIPCION', $caracter+descripcion);
-                $caracter+this->db->insert('$tabla');
-                return $caracter+this->db->insert_id();
+                $carac+this->db->set('DESCRIPCION', $carac+descripcion);
+                $carac+this->db->insert('$tabla');
+                return $carac+this->db->insert_id();
             }
-            public function cambia_estado_$titulo($caracter+id,$caracter+estado)
+            public function cambia_estado_$titulo($carac+id,$carac+estado)
             {
-                $caracter+this->db->set('ACTIVO', $caracter+estado);
-                $caracter+this->db->where('ID', $caracter+id);
-                return $caracter+this->db->update('$tabla');
+                $carac+this->db->set('ACTIVO', $carac+estado);
+                $carac+this->db->where('ID', $carac+id);
+                return $carac+this->db->update('$tabla');
             }
-            public function editar_$titulo($caracter+id, $caracter+descripcion)
+            public function editar_$titulo($carac+id, $carac+descripcion)
             {
-                $caracter+this->db->set('DESCRIPCION', $caracter+descripcion);
-                $caracter+this->db->where('ID', $caracter+id);
-                return $caracter+this->db->update('$tabla');
+                $carac+this->db->set('DESCRIPCION', $carac+descripcion);
+                $carac+this->db->where('ID', $carac+id);
+                return $carac+this->db->update('$tabla');
             }
         }";
         $formato= str_replace("$+", "$", $formato);
@@ -265,6 +265,7 @@ $(document).ready(function () {
         'columns': [
             {'data': 'ID'},
             {'data': 'DESCRIPCION'},
+            {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
     })
@@ -380,14 +381,15 @@ $(document).ready(function () {
     private function formato_html()
     {
         $titulo = $this->input->post('titulos');
+        $titulo_m = strtoupper($titulo);
         $formato = "
 <div class='row'>
     <div class='panel panel-primary'>
         <div class='panel-heading'>
-            <div class='panel-title pull-left'>ADMINISTRACION $titulo</div>
+            <div class='panel-title pull-left'>ADMINISTRACION $titulo_m</div>
             <div class='pull-right'>
                 <button type='submit' class='btn btn-success btn-xs' title='Agregar' id='btn_agregar_$titulo'><span
-                            class='glyphicon glyphicon-plus'></span><b> agregar $titulo</b></button>
+                            class='glyphicon glyphicon-plus'></span><b> AGREGAR $titulo_m</b></button>
             </div>
             <div class='clearfix'></div>
         </div>
@@ -397,6 +399,7 @@ $(document).ready(function () {
                 <tr>
                     <th>ID</th>
                     <th>DESCRIPCION</th>
+                    <th>ESTADO</th>
                     <th>ACCIONES</th>
                 </tr>
                 </thead>
