@@ -65,7 +65,6 @@
                         <select name="region" id="region">
                             <?php if (is_array($regiones)) {
                                 foreach ($regiones as $region) {
-                                    var_dump($region);
                                     echo "<option value='" . $region['ID'] . "'>" . $region['DESCRIPCION'] . "</option>";
                                 }
                             } ?>
@@ -80,7 +79,7 @@
                             <?php if (is_array($ciudades)) {
                                 foreach ($ciudades as $ciudad) {
                                     echo "<option value='" . $ciudad['ID'] . "'>" . $ciudad['DESCRIPCION'] . "</option>";
-                                    }
+                                }
                             }
                             ?>
                         </select>
@@ -98,5 +97,60 @@
         </div>
     </div>
 </div>
-<script src="<?php echo base_url('/public/js/administracion/Locales/script.js') ?>"></script>
 <!-- Fin Modal Agregar / Editar  -->
+<!-- Modal Ver Detalle Trabajadores -->
+<div class='modal fade' id='modal_ver_detalle_locales' role='dialog'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                <h4 class='modal-title' id="titulo_modal_ver_detalle_locales"></h4>
+            </div>
+            <div class='modal-body'>
+                <div id="contenedor_encargado_local">
+                    <form class="form-inline" disabled="true" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2 col-sm-offset-2" for="ciudad">Usuario:</label>
+                            <div class="col-sm-6">
+                                <select name="ciudad" id="usuario">
+                                    <?php if (is_array($usuarios)) {
+                                        foreach ($usuarios as $usuario) {
+                                            echo "<option value='" . $usuario->ID . "'>" . $usuario->NOMBRE . "</option>";
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" id="btn_guardar_encargado" type="button">Guardar
+                                    Encargado
+                                </button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <input type='hidden' name='id_edit' id='id_mod_local'>
+                    </form>
+                </div>
+                <br>
+                <table id="tabla_cargos_local" class="table table-hover table-striped table-responsive table-bordered">
+                    <thead>
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>USUARIO</th>
+                        <th>CARGO</th>
+                    </tr>
+                    </thead>
+                    <tbody id="contenedor_tabla_cargos_local">
+                    </tbody>
+                </table>
+            </div>
+            <div class='clearfix'></div>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Ver Detalle Trabajadores -->
+<script src="<?php echo base_url('/public/js/administracion/Locales/script.js') ?>"></script>
+

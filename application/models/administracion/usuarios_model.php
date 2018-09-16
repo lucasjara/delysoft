@@ -36,7 +36,7 @@ class usuarios_model extends CI_Model
     public function ingresar_usuario($usuario,$password,$nombre,$correo,$perfil)
     {
         $this->db->set('USUARIO', $usuario);
-        $this->db->set('PASSWORD', 'pendiente encriptar');
+        $this->db->set('PASSWORD', '12345');
         $this->db->set('NOMBRE', $nombre);
         $this->db->set('CORREO', $correo);
         $this->db->set('ACTIVO', 'S');

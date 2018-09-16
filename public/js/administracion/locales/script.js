@@ -12,6 +12,12 @@ $(document).ready(function () {
     var mdl_id_edit = $('#id_modificar')
     var mdl_region = $("#region").select2()
     var mdl_ciudad = $("#ciudad").select2()
+    var mdl_detalle = $("#modal_ver_detalle_locales")
+    var mdl_titulo_detalle = $("#titulo_modal_ver_detalle_locales")
+    var contenido_tabla_local = $("#contenedor_tabla_cargos_local")
+    var contenedor_encargado_local = $("#contenedor_encargado_local")
+    var btn_guardar_encargado = $("#btn_guardar_encargado")
+    var mdl_mod_local = $("#id_mod_local");
     // Fin Variables Globales
     // Carga Inicial Web
     var table = tabla.DataTable({
@@ -54,13 +60,24 @@ $(document).ready(function () {
         mdl_ciudad.val($(this).attr('data-ciudad')).trigger('change.select2')
         mdl_agregar_editar.modal('show')
     })
+    tabla.on('click', '.btn_detalle', function () {
+        var nombre = $(this).attr('data-nombre');
+        var id = $(this).attr('data-id')
+        mdl_mod_local.val(id)
+        mdl_titulo_detalle.text("Listado Encargados " + nombre)
+        buscar_detalle(id)
+    })
+    btn_guardar_encargado.on('click', function () {
+        var id = mdl_mod_local.val()
+        buscar_detalle_mod(id)
+    });
     // Agregar Locales
     mdl_btn_agregar.on('click', function () {
         var array = {
             'descripcion': mdl_descripcion.val(),
-            'nombre':mdl_nombre.val(),
-            'region':mdl_region.val(),
-            'ciudad':mdl_ciudad.val()
+            'nombre': mdl_nombre.val(),
+            'region': mdl_region.val(),
+            'ciudad': mdl_ciudad.val()
         }
         var request = envia_ajax('/delysoft/administracion/locales/agregar_locales', array)
         request.fail(function () {
@@ -83,9 +100,9 @@ $(document).ready(function () {
         var array = {
             'id': mdl_id_edit.val(),
             'descripcion': mdl_descripcion.val(),
-            'nombre':mdl_nombre.val(),
-            'region':mdl_region.val(),
-            'ciudad':mdl_ciudad.val()
+            'nombre': mdl_nombre.val(),
+            'region': mdl_region.val(),
+            'ciudad': mdl_ciudad.val()
         }
         var request = envia_ajax(
             '/delysoft/administracion/locales/editar_locales', array)
@@ -128,6 +145,66 @@ $(document).ready(function () {
     })
     // Fin Eventos
     // Funciones
+    function formato_tabla(data) {
+        let formato = "";
+        data.forEach(function (element) {
+            formato = formato + "<tr>";
+            formato = formato + "<td>"+element.NOMBRE+"</td>";
+            formato = formato + "<td>"+element.USUARIO+"</td>";
+            formato = formato + "<td>"+element.PERFIL+"</td>";
+            formato = formato + "</tr>";
+        });
+        return formato;
+    }
+
+    function buscar_detalle(id) {
+        var array = {
+            'id': id
+        }
+        var request = envia_ajax('/delysoft/administracion/locales/ver_detalle_locales', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                contenido_tabla_local.html("");
+                if (data.data != null) {
+                    contenedor_encargado_local.hide()
+                    contenido_tabla_local.html(formato_tabla(data.data))
+                } else {
+                    contenedor_encargado_local.show()
+                    $("#usuario").select2();
+                }
+                mdl_detalle.modal('show')
+            }
+            else {
+
+            }
+        })
+    }
+
+    function buscar_detalle_mod(id) {
+        var array = {
+            'id': id,
+            'usuario': $("#usuario").val()
+        }
+        var request = envia_ajax('/delysoft/administracion/locales/agregar_encargado_local', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                contenedor_encargado_local.hide()
+                contenido_tabla_local.html(formato_tabla(data.data))
+            }
+            else {
+
+            }
+        })
+    }
+
     function envia_ajax(url, data) {
         var variable = $.ajax({
             url: url,
