@@ -82,7 +82,7 @@ class Usuarios extends CI_Controller
                 $nombres = $this->input->post('nombre');
                 $perfil = $this->input->post('perfil');
                 $correo = $this->input->post('correo');
-                $this->usuarios_model->editar_usuario($id, $usuario, $nombres, $correo,$perfil);
+                $this->usuarios_model->editar_usuario($id, $usuario, $nombres, $correo, $perfil);
                 $mensaje->respuesta = "S";
                 $mensaje->data = "Usuario Modificado Correctamente";
             } else {
@@ -149,5 +149,45 @@ class Usuarios extends CI_Controller
             $respuesta .= " <button class='btn btn-danger btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>";
         }
         return $respuesta;
+    }
+
+    public function busca_usuario_json()
+    {
+        $data = array();
+        $this->load->helper('array_utf8');;
+        $usuario = $this->input->get(
+            'usuario',
+            true
+        );
+        $usuario = preg_replace(
+            '/\'/',
+            '',
+            $usuario
+        );
+        $usuario = trim($usuario);
+        if (strlen($usuario)) {
+            $this->load->model('administracion/usuarios_model');
+            $dato = $this->usuarios_model->busquedaUsuario($usuario);
+            $data["items"] = $dato;
+            $data["total_count"] = count($dato);
+            $data["status"] = "success";
+        } else {
+            $data = "";
+        }
+        $this->output->set_content_type('application/json')
+            ->set_output(json_encode(array_utf8_encode($data)));
+    }
+
+    public
+    function jsonProductos()
+    {
+        $data = array();
+        $this->load->helper('array_utf8');
+        if (validaSesion(false, true)) {
+        } else {
+            $data = "";
+        }
+        $this->output->set_content_type('application/json')
+            ->set_output(json_encode(array_utf8_encode($data)));
     }
 }

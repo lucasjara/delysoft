@@ -59,4 +59,12 @@ class usuarios_model extends CI_Model
         $this->db->where('ID', $id);
         return $this->db->update('tb_usuario');
     }
+    public function busquedaUsuario($usuario){
+        $this->db->select("usuario.USUARIO,usuario.ID")
+            ->from('tb_usuario usuario')
+            ->where("usuario.ACTIVO","S")
+        ->like("usuario.USUARIO",$usuario);
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

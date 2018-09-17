@@ -59,4 +59,17 @@ class perfiles_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function obtener_perfiles_carga_inicial(){
+        $this->db->select('
+                            perfiles.ID,
+                            perfiles.NOMBRE,
+                            perfiles.DESCRIPCION,
+                            perfiles.ACTIVO
+                ')
+            ->from('tb_perfil perfiles')
+        ->where("perfiles.ID IN (4,5)")
+            ->order_by("perfiles.ID","DESC");
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
