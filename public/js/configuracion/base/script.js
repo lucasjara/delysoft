@@ -19,8 +19,16 @@ $(document).ready(function () {
         placeholder: "Selecciona Usuario",
         minimumInputLength: 3,
         language: {
-            errorLoading: function () {
-                return "Buscando..."
+            noResults: function() {
+
+                return "No hay resultado";
+            },
+            searching: function() {
+
+                return "Buscando..";
+            },
+            inputTooShort: function () {
+                return 'Porfavor Agregar 2 Caracteres.';
             }
         },
         multiple: false,

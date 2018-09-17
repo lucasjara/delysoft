@@ -80,7 +80,7 @@ class locales_model extends CI_Model
     public function obtener_cargos_locales($id)
     {
         $this->db->select("locales.NOMBRE LOCAL, usuario.NOMBRE NOMBRE, perfil.NOMBRE PERFIL,usuario.USUARIO USUARIO
-        , perfil.ID ID_PERFIL")
+        , perfil.ID ID_PERFIL,usuario.ACTIVO, usuario.USUARIO")
             ->from('tb_usuario_local usr_local')
             ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
             ->join("tb_usuario usuario", "usuario.ID=usr_local.TB_USUARIO_ID", 'INNER')

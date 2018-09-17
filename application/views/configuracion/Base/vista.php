@@ -113,7 +113,19 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-
+                                    <?php
+                                    if (is_array($perfiles_local)) {
+                                        foreach ($perfiles_local as $perfil_l) {
+                                            echo "<tr>";
+                                            echo "<td>" . $perfil_l->NOMBRE . "</td>";
+                                            echo "<td>" . $perfil_l->USUARIO . "</td>";
+                                            echo "<td>" . $perfil_l->PERFIL . "</td>";
+                                            echo "<td>" . $perfil_l->ESTADO . "</td>";
+                                            echo "<td>" . $perfil_l->ACCIONES . "</td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                    ?>
                                     </tbody>
                                 </table>
                             </div>
