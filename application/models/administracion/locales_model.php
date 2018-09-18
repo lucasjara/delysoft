@@ -80,7 +80,7 @@ class locales_model extends CI_Model
     public function obtener_cargos_locales($id)
     {
         $this->db->select("locales.NOMBRE LOCAL, usuario.NOMBRE NOMBRE, perfil.NOMBRE PERFIL,usuario.USUARIO USUARIO
-        , perfil.ID ID_PERFIL,usuario.ACTIVO, usuario.USUARIO")
+        , perfil.ID ID_PERFIL,usr_local.ACTIVO, usuario.USUARIO")
             ->from('tb_usuario_local usr_local')
             ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
             ->join("tb_usuario usuario", "usuario.ID=usr_local.TB_USUARIO_ID", 'INNER')
@@ -96,6 +96,15 @@ class locales_model extends CI_Model
         $this->db->set('TB_LOCAL_ID', $id_local);
         $this->db->set('TB_PERFIL_ID', 1);
         $this->db->set('ACTIVO', 'S');
+        $this->db->insert('tb_usuario_local');
+        return $this->db->insert_id();
+    }
+    public function agregar_cargo_local($id_local, $usuario,$cargo)
+    {
+        $this->db->set('TB_USUARIO_ID', $usuario);
+        $this->db->set('TB_LOCAL_ID', $id_local);
+        $this->db->set('TB_PERFIL_ID', $cargo);
+        $this->db->set('ACTIVO', 'N');
         $this->db->insert('tb_usuario_local');
         return $this->db->insert_id();
     }

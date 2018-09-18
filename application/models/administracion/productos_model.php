@@ -30,7 +30,7 @@ class productos_model extends CI_Model
         return $query->result_array();
     }
 
-    public function ingresar_productos($descripcion,$nombre,$precio)
+    public function ingresar_productos($descripcion, $nombre, $precio)
     {
         $this->db->set('NOMBRE', $nombre);
         $this->db->set('DESCRIPCION', $descripcion);
@@ -47,12 +47,27 @@ class productos_model extends CI_Model
         return $this->db->update('tb_producto');
     }
 
-    public function editar_productos($id, $descripcion,$nombre,$precio)
+    public function editar_productos($id, $descripcion, $nombre, $precio)
     {
         $this->db->set('NOMBRE', $nombre);
         $this->db->set('DESCRIPCION', $descripcion);
         $this->db->set('PRECIO', $precio);
         $this->db->where('ID', $id);
         return $this->db->update('tb_producto');
+    }
+
+    public function obtener_listado_productos_local($id_local)
+    {
+        $this->db->select('
+                            productos.ID,
+                            productos.NOMBRE,
+                            productos.DESCRIPCION,
+                            productos.PRECIO,
+                            productos.ACTIVO
+                ')
+            ->from('tb_producto productos')
+            ->where('productos.TB_LOCAL_ID', $id_local);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }

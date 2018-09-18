@@ -19,9 +19,9 @@ if (!function_exists('form_usuario')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -51,9 +51,9 @@ if (!function_exists('form_permisos')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -81,9 +81,9 @@ if (!function_exists('form_perfiles')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -110,9 +110,9 @@ if (!function_exists('form_regiones')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -138,9 +138,9 @@ if (!function_exists('form_ciudades')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -166,9 +166,9 @@ if (!function_exists('form_estados_pedidos')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -195,9 +195,9 @@ if (!function_exists('form_locales')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado' || $tipo === 'detalle') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -226,9 +226,9 @@ if (!function_exists('form_zonas')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -256,9 +256,9 @@ if (!function_exists('form_pedido')) {
         $respuesta = new stdClass();
         if ($tipo === 'detalle_pedido' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
@@ -280,14 +280,18 @@ if (!function_exists('form_local_usuario')) {
      * @param $tipo =  campo para saber el tipo de validacion es para agregar o editar o cambiar estado
      * @return stdClass = campos con resultado de validacion
      */
-    function form_local_usuario($tipo){
+    function form_local_usuario($tipo)
+    {
         $CI =& get_instance();
         $respuesta = new stdClass();
         if ($tipo === 'agregar') {
             $CI->form_validation->set_rules("id", "Id", "required|is_numeric");
         }
-        if ($tipo === 'agregar') {
+        if ($tipo === 'agregar' || $tipo === 'agregar_cargo') {
             $CI->form_validation->set_rules("usuario", "Usuario", "required|is_numeric");
+        }
+        if ($tipo === 'agregar_cargo') {
+            $CI->form_validation->set_rules("cargo", "Cargo", "required|is_numeric");
         }
         if ($CI->form_validation->run() != false) {
             $respuesta->respuesta = 'S';
@@ -297,7 +301,6 @@ if (!function_exists('form_local_usuario')) {
         }
         return $respuesta;
     }
-
 }
 if (!function_exists('form_producto')) {
     /**
@@ -310,9 +313,9 @@ if (!function_exists('form_producto')) {
         $respuesta = new stdClass();
         if ($tipo === 'editar' || $tipo === 'estado') {
             $CI->form_validation->set_rules("id", "Id", "required");
-            $CI->form_validation->set_message('id','Id', 'Error al enviar la peticion');
+            $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
-        if ($tipo === 'estado'){
+        if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
