@@ -51,7 +51,8 @@ class Productos extends CI_Controller
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
                 $precio = $this->input->post('precio');
-                $this->productos_model->ingresar_productos($descripcion,$nombre,$precio);
+                $id_local = $this->input->post('local');
+                $this->productos_model->ingresar_productos($descripcion,$nombre,$precio,$id_local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Productos Modificado Correctamente';
             } else {
@@ -77,7 +78,8 @@ class Productos extends CI_Controller
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
                 $precio = $this->input->post('precio');
-                $this->productos_model->editar_productos($id, $descripcion,$nombre,$precio);
+                $id_local = $this->input->post('local');
+                $this->productos_model->editar_productos($id, $descripcion,$nombre,$precio,$id_local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Productos Modificado Correctamente';
             } else {

@@ -30,8 +30,9 @@ class Base extends CI_Controller
         $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
         for ($i = 0; $i < count($datos_cargos_local); $i++) {
             $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
-            $datos_cargos_local[$i]->ACTIVO = $this->formato_activo($datos_cargos_local[$i]->ACTIVO);
+            $datos_cargos_local[$i]->ACTIVO = $this->formato_activo_cargos($datos_cargos_local[$i]->ACTIVO);
         }
+        $data["local"] = $this->locales_model->obtener_datos_local($id_local);
         $data["perfiles_local"] = $datos_cargos_local;
         $this->layout->setLayout('plantilla');
         $this->layout->view('vista', $data);
@@ -42,6 +43,17 @@ class Base extends CI_Controller
         if ($respuesta === 'S') {
             $respuesta = "<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>";
         } else {
+            $respuesta = "<button class='btn btn-danger btn-xs' type='button'>INACTIVO</button>";
+        }
+        return $respuesta;
+    }
+    private function formato_activo_cargos($respuesta)
+    {
+        if ($respuesta === 'S') {
+            $respuesta = "<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>";
+        }elseif($respuesta === 'P'){
+            $respuesta = "<button class='btn btn-info btn-xs' type='button'>PENDIENTE</button>";
+        }else {
             $respuesta = "<button class='btn btn-danger btn-xs' type='button'>INACTIVO</button>";
         }
         return $respuesta;
@@ -97,6 +109,89 @@ class Base extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
+    public function agregar_productos_local()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_producto('agregar');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/productos_model', 'productos_model');
+                $descripcion = $this->input->post('descripcion');
+                $nombre = $this->input->post('nombre');
+                $precio = $this->input->post('precio');
+                // Valor estatico
+                $id_local = 1;
+                $this->productos_model->ingresar_productos($descripcion,$nombre,$precio,$id_local);
+                $mensaje->respuesta = 'S';
+                $mensaje->data = 'Productos Modificado Correctamente';
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = $validator->mensaje;
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
+    }
+    public function editar_productos_local()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_producto('editar');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/productos_model');
+                $id = $this->input->post('id');
+                $descripcion = $this->input->post('descripcion');
+                $nombre = $this->input->post('nombre');
+                $precio = $this->input->post('precio');
+                // Valor estatico
+                $id_local = 1;
+                $this->productos_model->editar_productos($id, $descripcion,$nombre,$precio,$id_local);
+                $mensaje->respuesta = 'S';
+                $mensaje->data = 'Productos Modificado Correctamente';
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+    public function cambiar_estado_productos_local()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_producto('estado');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/productos_model');
+                $id = $this->input->post('id');
+                $perfil = $this->input->post('estado');
+                if ($perfil == 'S') {
+                    $this->productos_model->cambia_estado_productos($id, 'N');
+                    $mensaje->respuesta = 'S';
+                } elseif ($perfil == 'N') {
+                    $this->productos_model->cambia_estado_productos($id, 'S');
+                    $mensaje->respuesta = 'S';
+                } else {
+                    $mensaje->respuesta = 'N';
+                    $mensaje->data = 'Error formato estado';
+                }
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = $validator->mensaje;
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
+    }
 
     public function agregar_cargo_local()
     {
@@ -114,7 +209,7 @@ class Base extends CI_Controller
                 $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
                 for ($i = 0; $i < count($datos_cargos_local); $i++) {
                     $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
-                    $datos_cargos_local[$i]->ACTIVO = $this->formato_activo($datos_cargos_local[$i]->ACTIVO);
+                    $datos_cargos_local[$i]->ACTIVO = $this->formato_activo_cargos($datos_cargos_local[$i]->ACTIVO);
                 }
                 $mensaje->respuesta = 'S';
                 $mensaje->data = $datos_cargos_local;

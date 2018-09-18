@@ -104,8 +104,27 @@ class locales_model extends CI_Model
         $this->db->set('TB_USUARIO_ID', $usuario);
         $this->db->set('TB_LOCAL_ID', $id_local);
         $this->db->set('TB_PERFIL_ID', $cargo);
-        $this->db->set('ACTIVO', 'N');
+        $this->db->set('ACTIVO', 'P');
         $this->db->insert('tb_usuario_local');
         return $this->db->insert_id();
+    }
+    public function obtener_datos_local($id)
+    {
+        $this->db->select('
+                            locales.ID,
+                            locales.NOMBRE,
+                            locales.DESCRIPCION,
+                            locales.ACTIVO,
+                            region.DESCRIPCION REGION,
+                            ciudad.DESCRIPCION CIUDAD,
+                            region.ID ID_REGION,
+                            ciudad.ID ID_CIUDAD
+                ')
+            ->from('tb_local locales')
+            ->join('tb_region region', 'region.ID=locales.TB_REGION_ID', 'INNER')
+            ->join('tb_ciudad ciudad', 'ciudad.ID=locales.TB_CIUDAD_ID', 'INNER')
+            ->where('locales.ID', $id);
+        $query = $this->db->get();
+        return $query->result();
     }
 }

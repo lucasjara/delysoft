@@ -65,6 +65,17 @@
                     </div>
                     <div class='clearfix'></div>
                 </div>
+                <div class="form-group">
+                    <label for="local">Local:</label>
+                    <select name="local" id="local">
+                        <?php if (is_array($locales)) {
+                            foreach ($locales as $local) {
+                                echo "<option value='" . $local['ID'] . "'>" . $local['NOMBRE'] . "</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
                 <input type='hidden' name='id_edit' id='id_modificar'>
             </div>
             <div class='clearfix'></div>

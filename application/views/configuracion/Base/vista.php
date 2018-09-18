@@ -28,13 +28,15 @@
                                 <div class="col-sm-12 col-xs-12 col-lg-3 col-md-3">
                                     <div class="form-group">
                                         <label for="email">Nombre:</label>
-                                        <input type="email" class="form-control" id="panel_nombre">
+                                        <input type="email" class="form-control" id="panel_nombre"
+                                               value="<?= $local[0]->NOMBRE ?>">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-xs-12 col-lg-3 col-md-3">
                                     <div class="form-group">
                                         <label for="email">Descripcion:</label>
-                                        <input type="email" class="form-control" id="panel_descripcion">
+                                        <input type="email" class="form-control" id="panel_descripcion"
+                                               value="<?= $local[0]->DESCRIPCION ?>">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-xs-12 col-lg-3 col-md-3">
@@ -43,7 +45,11 @@
                                         <select name="region" id="panel_region">
                                             <?php if (is_array($regiones)) {
                                                 foreach ($regiones as $region) {
-                                                    echo "<option value='" . $region['ID'] . "'>" . $region['DESCRIPCION'] . "</option>";
+                                                    if ($region['ID'] == $local[0]->ID_REGION) {
+                                                        echo "<option selected value='" . $region['ID'] . "'>" . $region['DESCRIPCION'] . "</option>";
+                                                    } else {
+                                                        echo "<option value='" . $region['ID'] . "'>" . $region['DESCRIPCION'] . "</option>";
+                                                    }
                                                 }
                                             } ?>
                                         </select>
@@ -55,7 +61,11 @@
                                         <select name="ciudad" id="panel_ciudad">
                                             <?php if (is_array($ciudades)) {
                                                 foreach ($ciudades as $ciudad) {
-                                                    echo "<option value='" . $ciudad['ID'] . "'>" . $ciudad['DESCRIPCION'] . "</option>";
+                                                    if ($ciudad['ID'] == $local[0]->ID_CIUDAD) {
+                                                        echo "<option selected value='" . $ciudad['ID'] . "'>" . $ciudad['DESCRIPCION'] . "</option>";
+                                                    } else {
+                                                        echo "<option value='" . $ciudad['ID'] . "'>" . $ciudad['DESCRIPCION'] . "</option>";
+                                                    }
                                                 }
                                             }
                                             ?>
@@ -89,7 +99,8 @@
                                         </select>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <button class="btn btn-success" type="button" id="btn_agregar_cargo">AGREGAR</button>
+                                    <button class="btn btn-success" type="button" id="btn_agregar_cargo">AGREGAR
+                                    </button>
                                 </form>
                             </div>
                             <div class="clearfix"></div>
@@ -132,7 +143,9 @@
                         <div class="panel-heading" style="padding: 5px;">
                             <div class="panel-title pull-left"><p><b>CONFIGURAR PRODUCTOS</b></p></div>
                             <div class="panel-title pull-right">
-                                <button class="btn btn-success" type="button" id="btn_agregar_productos"><span class="glyphicon glyphicon-plus"></span> AGREGAR PRODUCTOS</button>
+                                <button class="btn btn-success" type="button" id="btn_agregar_productos"><span
+                                            class="glyphicon glyphicon-plus"></span> AGREGAR PRODUCTOS
+                                </button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -156,7 +169,9 @@
                 <div class="row">
                     <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-primary">CONFIRMAR</button>
+                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>
+                                CONFIRMAR INFORMACION
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -201,7 +216,7 @@
             <div class='modal-footer'>
                 <button type='submit' id='btn_agregar_modal' class='btn btn-primary'>Agregar</button>
                 <button type='submit' id='btn_editar_modal' class='btn btn-primary'>Editar</button>
-                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
             </div>
         </div>
     </div>

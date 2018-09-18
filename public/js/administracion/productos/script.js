@@ -10,6 +10,7 @@ $(document).ready(function () {
     var mdl_descripcion = $('#descripcion')
     var mdl_nombre = $('#nombre')
     var mdl_precio = $('#precio')
+    var mdl_local = $('#local')
     var mdl_id_edit = $('#id_modificar')
     // Fin Variables Globales
     // Carga Inicial Web
@@ -56,7 +57,8 @@ $(document).ready(function () {
         var array = {
             'descripcion': mdl_descripcion.val(),
             'nombre':mdl_nombre.val(),
-            'precio': mdl_precio.val()
+            'precio': mdl_precio.val(),
+            'local': mdl_local.val()
         }
         var request = envia_ajax('/delysoft/administracion/productos/agregar_productos', array)
         request.fail(function () {
