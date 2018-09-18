@@ -94,7 +94,7 @@ class locales_model extends CI_Model
     {
         $this->db->set('TB_USUARIO_ID', $usuario);
         $this->db->set('TB_LOCAL_ID', $id_local);
-        $this->db->set('TB_PERFIL_ID', 1);
+        $this->db->set('TB_PERFIL_ID', 4);
         $this->db->set('ACTIVO', 'S');
         $this->db->insert('tb_usuario_local');
         return $this->db->insert_id();
@@ -126,5 +126,58 @@ class locales_model extends CI_Model
             ->where('locales.ID', $id);
         $query = $this->db->get();
         return $query->result();
+    }
+
+    /**
+     * Comprueba si existe un local por configurar , devolvera resultado si ya existe uno configurado
+     * @param $id_usuario
+     * @return null
+     */
+    public function comprobar_local_configurado($id_usuario){
+        $this->db->select("usr_local.ID")
+            ->from('tb_usuario_local usr_local')
+            ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
+            ->join("tb_producto productos", "productos.TB_LOCAL_ID=locales.ID", 'INNER')
+            ->where('productos.ACTIVO', "S")
+            ->where('locales.ACTIVO', "S")
+            ->where('usr_local.ACTIVO', "S")
+            ->where('usr_local.TB_USUARIO_ID', $id_usuario)
+            ->where('usr_local.TB_PERFIL_ID', 4);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
+
+    /**
+     * Obtiene local asociado al usuario
+     * @param $id_usuario
+     * @return null
+     */
+    public function obtener_local_configurar($id_usuario){
+        $this->db->select("locales.ID")
+            ->from('tb_usuario_local usr_local')
+            ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
+            ->where('locales.ACTIVO', "S")
+            ->where('usr_local.ACTIVO', "S")
+            ->where('usr_local.TB_USUARIO_ID', $id_usuario)
+            ->where('usr_local.TB_PERFIL_ID', 4);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result()[0]->ID : null;
+    }
+    /**
+     * Comprueba si tiene un local
+     * @param $id_usuario
+     * @return null
+     */
+    public function comprobar_primer_local($id_usuario){
+        $this->db->select("usr_local.ID")
+            ->from('tb_usuario_local usr_local')
+            ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
+            ->join("tb_producto productos", "productos.TB_LOCAL_ID=locales.ID", 'INNER')
+            ->where('locales.ACTIVO', "S")
+            ->where('usr_local.ACTIVO', "S")
+            ->where('usr_local.TB_USUARIO_ID', $id_usuario)
+            ->where('usr_local.TB_PERFIL_ID', 4);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
     }
 }

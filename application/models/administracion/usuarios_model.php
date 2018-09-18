@@ -29,11 +29,12 @@ class usuarios_model extends CI_Model
                             perfil.NOMBRE PERFIL
             ")
             ->from('tb_usuario usuario')
-            ->join('tb_perfil perfil', 'perfil.ID=usuario.TB_PERFIL_ID','INNER');
+            ->join('tb_perfil perfil', 'perfil.ID=usuario.TB_PERFIL_ID', 'INNER');
         $query = $this->db->get();
         return $query->result_array();
     }
-    public function ingresar_usuario($usuario,$password,$nombre,$correo,$perfil)
+
+    public function ingresar_usuario($usuario, $password, $nombre, $correo, $perfil)
     {
         $this->db->set('USUARIO', $usuario);
         $this->db->set('PASSWORD', '12345');
@@ -44,13 +45,15 @@ class usuarios_model extends CI_Model
         $this->db->insert("tb_usuario");
         return $this->db->insert_id();
     }
-    public function cambia_estado_usuario($id,$estado)
+
+    public function cambia_estado_usuario($id, $estado)
     {
         $this->db->set('ACTIVO', $estado);
         $this->db->where('ID', $id);
         return $this->db->update('tb_usuario');
     }
-    public function editar_usuario($id, $usuario,$nombre,$correo,$perfil)
+
+    public function editar_usuario($id, $usuario, $nombre, $correo, $perfil)
     {
         $this->db->set('USUARIO', $usuario);
         $this->db->set('NOMBRE', $nombre);
@@ -59,21 +62,45 @@ class usuarios_model extends CI_Model
         $this->db->where('ID', $id);
         return $this->db->update('tb_usuario');
     }
-    public function busquedaUsuario($usuario){
+
+    public function busquedaUsuario($usuario)
+    {
         $this->db->select("usuario.USUARIO,usuario.ID")
             ->from('tb_usuario usuario')
-            ->where("usuario.ACTIVO","S")
-        ->like("usuario.USUARIO",$usuario);
+            ->where("usuario.ACTIVO", "S")
+            ->like("usuario.USUARIO", $usuario);
         $query = $this->db->get();
         return $query->result();
     }
-    public function obtener_id_usuario($usuario,$password){
+
+    public function obtener_id_usuario($usuario, $password)
+    {
         $this->db->select("usuario.ID")
             ->from('tb_usuario usuario')
-            ->where("usuario.ACTIVO","S")
-            ->where("usuario.USUARIO",$usuario)
-            ->where("usuario.PASSWORD",$password);
+            ->where("usuario.ACTIVO", "S")
+            ->where("usuario.USUARIO", $usuario)
+            ->where("usuario.PASSWORD", $password);
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result()[0]->ID : null;
+    }
+
+    public function obtener_info_usuario($id_usuario)
+    {
+        $this->db->select(" 
+                            usuario.ID,
+                            usuario.NOMBRE,
+                            usuario.USUARIO,
+                            usuario.CORREO,
+                            usuario.PASSWORD,
+                            usuario.ACTIVO,
+                            perfil.ID ID_PERFIL,
+                            perfil.NOMBRE PERFIL
+                            ")
+            ->from('tb_usuario usuario')
+            ->join('tb_perfil perfil', 'perfil.ID=usuario.TB_PERFIL_ID', 'INNER')
+            ->where("usuario.ACTIVO", "S")
+            ->where("usuario.ID", $id_usuario);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
     }
 }

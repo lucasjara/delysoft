@@ -200,7 +200,8 @@ $(document).ready(function () {
                 contenido_tabla_local.html(formato_tabla(data.data))
             }
             else {
-
+                $('#modal_generico_body').html(data.data)
+                $('#modal_generico').modal('show')
             }
         })
     }

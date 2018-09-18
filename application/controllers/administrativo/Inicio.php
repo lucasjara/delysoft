@@ -15,13 +15,24 @@ class Inicio extends CI_Controller
         $this->load->library('session');
         $this->load->library('form_validation');
     }
+
     public function index()
     {
+        $this->load->model("/administracion/usuarios_model");
         $this->load->model("/administracion/locales_model");
-        if ($this->session->id_usuario != null){
+        $id_usuario = $this->session->id_usuario;
+        if ($id_usuario != null) {
+            $data["usuario"] = $this->usuarios_model->obtener_info_usuario($id_usuario)[0];
+            // Comprobar si esta configurado el local
+            $flag = $this->locales_model->comprobar_local_configurado($id_usuario);
+            if ($flag != null) {
+                $data["administracion_local"] = true;
+            }else{
+                $data["configuracion_local"] = true;
+            }
             $this->layout->setLayout('plantilla');
-            $this->layout->view('vista');
-        }else{
+            $this->layout->view('vista', $data);
+        } else {
             redirect('/Inicio/');
         }
     }

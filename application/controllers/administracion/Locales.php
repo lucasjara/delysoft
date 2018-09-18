@@ -213,10 +213,19 @@ class Locales extends CI_Controller
                 $this->load->model('/administracion/locales_model');
                 $id_local = $this->input->post('id');
                 $usuario = $this->input->post('usuario');
-                $this->locales_model->agregar_encargado_local($id_local, $usuario);
-                $datos = $this->locales_model->obtener_cargos_locales($id_local);
-                $mensaje->respuesta = 'S';
-                $mensaje->data = $datos;
+                // No tiene ningun local pendiente de configurar
+                $flag = $this->locales_model->comprobar_local_configurado($usuario);
+                // Comprueba si es el primer local
+                $flag_dos = $this->locales_model->comprobar_primer_local($usuario);
+                if ($flag_dos == null || $flag != null){
+                    $this->locales_model->agregar_encargado_local($id_local, $usuario);
+                    $datos = $this->locales_model->obtener_cargos_locales($id_local);
+                    $mensaje->respuesta = 'S';
+                    $mensaje->data = $datos;
+                }else{
+                    $mensaje->respuesta = 'N';
+                    $mensaje->data = "El Usuario Debe configurar un Local antes de poder ser asignado otro";
+                }
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = $validator->mensaje;

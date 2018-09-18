@@ -110,7 +110,7 @@
                 <div id="contenedor_encargado_local">
                     <form class="form-inline" disabled="true" method="post">
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-sm-offset-2" for="ciudad">Usuario:</label>
+                            <label class="control-label col-sm-2" for="ciudad">Usuario:</label>
                             <div class="col-sm-6">
                                 <select name="ciudad" id="usuario">
                                     <?php if (is_array($usuarios)) {

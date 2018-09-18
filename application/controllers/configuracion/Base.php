@@ -18,24 +18,29 @@ class Base extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/administracion/regiones_model");
-        $this->load->model("/administracion/ciudades_model");
-        $this->load->model("/administracion/perfiles_model");
-        $this->load->model("/administracion/locales_model");
-        $data["regiones"] = $this->regiones_model->obtener_regiones();
-        $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
-        $data["perfiles"] = $this->perfiles_model->obtener_perfiles_carga_inicial();
-        // estatico valor local
-        $id_local = 1;
-        $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
-        for ($i = 0; $i < count($datos_cargos_local); $i++) {
-            $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
-            $datos_cargos_local[$i]->ACTIVO = $this->formato_activo_cargos($datos_cargos_local[$i]->ACTIVO);
+        $id_usuario = $this->session->id_usuario;
+        if ($id_usuario != null){
+            $this->load->model("/administracion/regiones_model");
+            $this->load->model("/administracion/ciudades_model");
+            $this->load->model("/administracion/perfiles_model");
+            $this->load->model("/administracion/locales_model");
+            $data["regiones"] = $this->regiones_model->obtener_regiones();
+            $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
+            $data["perfiles"] = $this->perfiles_model->obtener_perfiles_carga_inicial();
+            $id_local = $this->locales_model->obtener_local_configurar($id_usuario);
+            $this->session->id_local=$id_local;
+            $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
+            for ($i = 0; $i < count($datos_cargos_local); $i++) {
+                $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
+                $datos_cargos_local[$i]->ACTIVO = $this->formato_activo_cargos($datos_cargos_local[$i]->ACTIVO);
+            }
+            $data["local"] = $this->locales_model->obtener_datos_local($id_local);
+            $data["perfiles_local"] = $datos_cargos_local;
+            $this->layout->setLayout('plantilla');
+            $this->layout->view('vista', $data);
+        }else{
+            redirect('/Inicio/');
         }
-        $data["local"] = $this->locales_model->obtener_datos_local($id_local);
-        $data["perfiles_local"] = $datos_cargos_local;
-        $this->layout->setLayout('plantilla');
-        $this->layout->view('vista', $data);
     }
 
     private function formato_activo($respuesta)
@@ -95,8 +100,7 @@ class Base extends CI_Controller
         $mensaje = new stdClass();
         $this->load->model('/administracion/productos_model');
         if (validarUsuario(false)) {
-            // estatico
-            $id_local = 1;
+            $id_local = $this->session->id_local;
             $datos = $this->productos_model->obtener_listado_productos_local($id_local);
             for ($i = 0; $i < count($datos); $i++) {
                 $datos[$i]['ACCIONES'] = $this->formato_acciones_producto($datos[$i]);
@@ -121,7 +125,7 @@ class Base extends CI_Controller
                 $nombre = $this->input->post('nombre');
                 $precio = $this->input->post('precio');
                 // Valor estatico
-                $id_local = 1;
+                $id_local = $this->session->id_local;
                 $this->productos_model->ingresar_productos($descripcion,$nombre,$precio,$id_local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Productos Modificado Correctamente';
@@ -148,7 +152,7 @@ class Base extends CI_Controller
                 $nombre = $this->input->post('nombre');
                 $precio = $this->input->post('precio');
                 // Valor estatico
-                $id_local = 1;
+                $id_local = $this->session->id_local;
                 $this->productos_model->editar_productos($id, $descripcion,$nombre,$precio,$id_local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Productos Modificado Correctamente';
@@ -202,7 +206,7 @@ class Base extends CI_Controller
             if ($validator->respuesta == 'S') {
                 $this->load->model('/administracion/locales_model');
                 // valor estatico
-                $id_local = 1;
+                $id_local = $this->session->id_local;
                 $usuario = $this->input->post('usuario');
                 $cargo = $this->input->post('cargo');
                 $this->locales_model->agregar_cargo_local($id_local, $usuario, $cargo);
