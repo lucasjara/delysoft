@@ -28,14 +28,14 @@
                                 <div class="col-sm-12 col-xs-12 col-lg-3 col-md-3">
                                     <div class="form-group">
                                         <label for="email">Nombre:</label>
-                                        <input type="email" class="form-control" id="panel_nombre"
+                                        <input type="text" class="form-control" id="panel_nombre"
                                                value="<?= $local[0]->NOMBRE ?>">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-xs-12 col-lg-3 col-md-3">
                                     <div class="form-group">
                                         <label for="email">Descripcion:</label>
-                                        <input type="email" class="form-control" id="panel_descripcion"
+                                        <input type="text" class="form-control" id="panel_descripcion"
                                                value="<?= $local[0]->DESCRIPCION ?>">
                                     </div>
                                 </div>

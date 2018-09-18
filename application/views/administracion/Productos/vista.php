@@ -24,6 +24,7 @@
                     <th>NOMBRE</th>
                     <th>DESCRIPCION</th>
                     <th>PRECIO</th>
+                    <th>LOCAL</th>
                     <th>ESTADO</th>
                     <th>ACCIONES</th>
                 </tr>
@@ -66,15 +67,18 @@
                     <div class='clearfix'></div>
                 </div>
                 <div class="form-group">
-                    <label for="local">Local:</label>
-                    <select name="local" id="local">
-                        <?php if (is_array($locales)) {
-                            foreach ($locales as $local) {
-                                echo "<option value='" . $local['ID'] . "'>" . $local['NOMBRE'] . "</option>";
+                    <label class="control-label col-sm-2 col-sm-offset-2" for="local">Local:</label>
+                    <div class="col-sm-6">
+                        <select name="local" id="local">
+                            <?php if (is_array($locales)) {
+                                foreach ($locales as $local) {
+                                    echo "<option value='" . $local['ID'] . "'>" . $local['NOMBRE'] . "</option>";
+                                }
                             }
-                        }
-                        ?>
-                    </select>
+                            ?>
+                        </select>
+                    </div>
+                    <div class='clearfix'></div>
                 </div>
                 <input type='hidden' name='id_edit' id='id_modificar'>
             </div>

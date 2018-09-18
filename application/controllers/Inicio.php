@@ -22,6 +22,22 @@ class Inicio extends CI_Controller
         $usuarios = $this->inicio_model->obtener();
         $this->layout->setLayout("plantilla");
         $this->layout->view('vista');
-        $this->output->enable_profiler();
+    }
+    public function login_sistema(){
+        $this->session->id_usuario = null;
+        $mensaje = new stdClass();
+        $usuario = $this->input->post('usuario');
+        $password = $this->input->post('password');
+        $this->load->model("/administracion/usuarios_model");
+        $user = $this->usuarios_model->obtener_id_usuario($usuario,$password);
+        if ($user != null){
+            $this->session->id_usuario = $user;
+            $mensaje->respuesta = 'S';
+            $mensaje->data = 'Usuario OK';
+        }else{
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'Usuario no encontrado';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
 }

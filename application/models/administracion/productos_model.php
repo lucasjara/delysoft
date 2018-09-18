@@ -23,9 +23,12 @@ class productos_model extends CI_Model
                             productos.NOMBRE,
                             productos.DESCRIPCION,
                             productos.PRECIO,
-                            productos.ACTIVO
+                            productos.ACTIVO,
+                            locales.NOMBRE LOCAL,
+                            locales.ID ID_LOCAL
                 ')
-            ->from('tb_producto productos');
+            ->from('tb_producto productos')
+            ->join('tb_local locales','locales.ID=productos.TB_LOCAL_ID','INNER');
         $query = $this->db->get();
         return $query->result_array();
     }

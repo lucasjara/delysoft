@@ -14,6 +14,7 @@ $(document).ready(function () {
     var mdl_id_edit = $('#id_modificar')
     // Fin Variables Globales
     // Carga Inicial Web
+    mdl_local.select2()
     var table = tabla.DataTable({
         'language': {
             'url': '/delysoft/public/Spanish.json',
@@ -29,6 +30,7 @@ $(document).ready(function () {
             {'data': 'NOMBRE'},
             {'data': 'DESCRIPCION'},
             {'data': 'PRECIO'},
+            {'data': 'LOCAL'},
             {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
@@ -49,6 +51,7 @@ $(document).ready(function () {
         mdl_id_edit.val($(this).attr('data-id'))
         mdl_nombre.val($(this).attr('data-nombre'))
         mdl_precio.val($(this).attr('data-precio'))
+        mdl_local.val($(this).attr('data-id_local')).trigger('change.select2');
         mdl_descripcion.val($(this).attr('data-descripcion'))
         mdl_agregar_editar.modal('show')
     })
@@ -82,7 +85,8 @@ $(document).ready(function () {
             'id': mdl_id_edit.val(),
             'descripcion': mdl_descripcion.val(),
             'nombre':mdl_nombre.val(),
-            'precio': mdl_precio.val()
+            'precio': mdl_precio.val(),
+            'local': mdl_local.val()
         }
         var request = envia_ajax(
             '/delysoft/administracion/productos/editar_productos', array)
