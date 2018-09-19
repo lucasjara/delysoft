@@ -24,7 +24,7 @@ class Zonas extends CI_Controller
             $this->layout->setLayout('plantilla');
             $this->layout->view('vista', $data);
         } else {
-            redirect('/Inicio/');
+            redirect('/inicio/');
         }
     }
 

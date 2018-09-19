@@ -22,7 +22,7 @@ class Pedidos extends CI_Controller
             $this->layout->setLayout('plantilla');
             $this->layout->view('vista');
         } else {
-            redirect('/Inicio/');
+            redirect('/inicio/');
         }
     }
 
