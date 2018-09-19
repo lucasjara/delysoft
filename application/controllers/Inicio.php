@@ -20,8 +20,9 @@ class Inicio extends CI_Controller
     {
         $this->load->model("/inicio_model");
         $usuarios = $this->inicio_model->obtener();
+        $data["rutas"] = $this->inicio_model->obtener_rutas();
         $this->layout->setLayout("plantilla");
-        $this->layout->view('vista');
+        $this->layout->view('vista',$data);
     }
     public function login_sistema(){
         $this->session->id_usuario = null;

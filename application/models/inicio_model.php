@@ -42,4 +42,12 @@ class Inicio_model extends CI_Model
             return true;
         }
     }
+    public function obtener_rutas()
+    {
+        $this->db->select("*")
+            ->from('tb_permisos permisos')
+            ->where("permisos.ACTIVO",'S');
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

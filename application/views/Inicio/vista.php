@@ -15,23 +15,35 @@
                 <div class="clearfix"></div>
             </div>
             <div class="panel-body">
-                <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
-                    <div class="form-group">
-                        <label for="usuario">Usuario:</label>
-                        <input type="text" class="form-control" id="usuario"
-                               value="">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="usuario">Usuario:</label>
+                            <input type="text" class="form-control" id="usuario"
+                                   value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="password">Contraseña:</label>
+                            <input type="password" class="form-control" id="password"
+                                   value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
+                        <button type="button" class="btn btn-primary" style="margin-top: 8%;" id="btn_login">LOGIN
+                            SISTEMA
+                        </button>
                     </div>
                 </div>
-                <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
-                    <div class="form-group">
-                        <label for="password">Contraseña:</label>
-                        <input type="password" class="form-control" id="password"
-                               value="">
-                    </div>
-                </div>
-                <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
-                    <button type="button" class="btn btn-primary" style="margin-top: 8%;" id="btn_login">LOGIN SISTEMA
-                    </button>
+                <div class="row">
+                    <?php if (isset($rutas)) { ?>
+                        <ul>
+                            <?php foreach ($rutas as $ruta) { ?>
+                                <li><a href="<?= $ruta->URL ?>"><?= $ruta->NOMBRE ?></a></li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
                 </div>
             </div>
         </div>
