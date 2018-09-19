@@ -25,6 +25,7 @@
                         </div>
                         <div class="panel-body" id="contenido_local">
                             <div class="row">
+                                <form action=""></form>
                                 <div class="col-sm-12 col-xs-12 col-lg-3 col-md-3">
                                     <div class="form-group">
                                         <label for="email">Nombre:</label>
@@ -107,7 +108,8 @@
                         </div>
                         <div class="panel-body" id="contenido_cargo">
                             <div class="row" id="contenido_cargos_local" style="margin-left: 1%;margin-right: 1%;">
-                                <table class="table table-responsive table-bordered table-striped" id="tabla_cargos">
+
+                                <table class="table table-responsive table-striped" id="tabla_cargos">
                                     <thead>
                                     <tr>
                                         <th>NOMBRE</th>
@@ -149,29 +151,35 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
+                        <div class="alert alert-info">
+                            <strong>Importante!</strong> Debe contar con almenos un producto Disponible.
+                        </div>
                         <div class="panel-body" id="contenido_producto">
-                            <table class="table table-responsive table-bordered table-striped" id="tabla_productos">
-                                <thead>
-                                <tr>
-                                    <th>NOMBRE</th>
-                                    <th>DESCRIPCION</th>
-                                    <th>PRECIO</th>
-                                    <th>ESTADO</th>
-                                    <th>ACCIONES</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div class="row" style="margin-left: 1%;margin-right: 1%;">
+                                <table class="table table-responsive table-striped" id="tabla_productos">
+                                    <thead>
+                                    <tr>
+                                        <th>NOMBRE</th>
+                                        <th>DESCRIPCION</th>
+                                        <th>PRECIO</th>
+                                        <th>ESTADO</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-primary" id="btn_confirmar_informacion"><span
-                                        class="glyphicon glyphicon-ok"></span>
-                                CONFIRMAR INFORMACION
+                            <button type="button" class="btn btn-primary" id="btn_confirmar_informacion">
+                                SIGUIENTE
+                                <span
+                                        class="glyphicon glyphicon-arrow-right"></span>
                             </button>
                         </div>
                     </div>

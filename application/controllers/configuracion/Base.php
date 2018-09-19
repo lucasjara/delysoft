@@ -260,14 +260,20 @@ class Base extends CI_Controller
             $validator = form_locales('agregar');
             if ($validator->respuesta == 'S') {
                 $this->load->model('/administracion/locales_model');
-                // Editamos es local si se modifico la informacion
                 $id_local = $this->session->id_local;
-                $nombre = $this->input->post('nombre');
-                $descripcion = $this->input->post('descripcion');
-                $region = $this->input->post('region');
-                $ciudad = $this->input->post('ciudad');
-                $this->locales_model->editar_locales($id_local, $descripcion, $nombre, $region, $ciudad);
-                //
+                $respuesta = $this->locales_model->validar_producto_activo($id_local);
+                if ($respuesta != null){
+                    // Editamos es local si se modifico la informacion
+                    $nombre = $this->input->post('nombre');
+                    $descripcion = $this->input->post('descripcion');
+                    $region = $this->input->post('region');
+                    $ciudad = $this->input->post('ciudad');
+                    $this->locales_model->editar_locales($id_local, $descripcion, $nombre, $region, $ciudad);
+                    $mensaje->respuesta = 'S';
+                }else{
+                    $mensaje->respuesta = 'N';
+                    $mensaje->data = "Debe contar con un producto disponible.";
+                }
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = $validator->mensaje;

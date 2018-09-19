@@ -35,6 +35,8 @@ $(document).ready(function () {
             {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
+        responsive: true,
+        autoWidth: false
     })
     // Fin Crud Productos
 // Fin Variables Globales
@@ -246,8 +248,8 @@ $(document).ready(function () {
     // Confirmar Informacion Evento
     btn_informacion.on('click', function () {
         var array =  {
-            'nombre': panel_nombre.val(),
-            'descripcion': panel_descripcion.val(),
+            'nombre': $("#panel_nombre").val(),
+            'descripcion': $("#panel_descripcion").val(),
             'region': $("#panel_region").val(),
             'ciudad': $("#panel_ciudad").val()
         }
@@ -258,7 +260,7 @@ $(document).ready(function () {
         })
         request.done(function (data) {
             if (data.respuesta == 'S') {
-                table.ajax.reload()
+
             }
             else {
                 $('#modal_generico_body').html(data.data)

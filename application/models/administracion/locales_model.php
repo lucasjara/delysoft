@@ -180,4 +180,20 @@ class Locales_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
+
+    /**
+     *  Comprobamos que el local tenga al menos un producto disponible
+     * @param $id_local
+     * @return null
+     */
+    public function validar_producto_activo($id_local){
+        $this->db->select("*")
+            ->from('tb_local locales')
+            ->join("tb_producto productos", "productos.TB_LOCAL_ID=locales.ID", 'INNER')
+            ->where('locales.ACTIVO', "S")
+            ->where('productos.ACTIVO', "S")
+            ->where('locales.ID', $id_local);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
 }
