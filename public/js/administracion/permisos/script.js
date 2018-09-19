@@ -15,10 +15,10 @@ $(document).ready(function () {
     // Carga Inicial Web
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/permisos/obtener_listado_permisos',
+            'url': '/administracion/permisos/obtener_listado_permisos',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -58,7 +58,7 @@ $(document).ready(function () {
             'nombre': mdl_nombre.val(),
             'url': mdl_url.val()
         }
-        var request = envia_ajax('/delysoft/administracion/permisos/agregar_permisos', array)
+        var request = envia_ajax('/administracion/permisos/agregar_permisos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -83,7 +83,7 @@ $(document).ready(function () {
             'url': mdl_url.val()
         }
         var request = envia_ajax(
-            '/delysoft/administracion/permisos/editar_permisos', array)
+            '/administracion/permisos/editar_permisos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -106,7 +106,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/permisos/cambiar_estado_permisos', array)
+            '/administracion/permisos/cambiar_estado_permisos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

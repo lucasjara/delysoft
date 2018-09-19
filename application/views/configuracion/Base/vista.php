@@ -223,4 +223,4 @@
     </div>
 </div>
 <!-- Fin Modal Agregar / Editar  -->
-<script src="<?php echo base_url('/public/js/configuracion/Base/script.js') ?>"></script>
+<script src="<?php echo base_url('/public/js/configuracion/base/script.js') ?>"></script>

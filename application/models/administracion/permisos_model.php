@@ -5,7 +5,7 @@
  * Date: 25-08-2018
  * Time: 22:11
  */
-class permisos_model extends CI_Model
+class Permisos_model extends CI_Model
 {
     public function obtener()
     {

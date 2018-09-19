@@ -152,5 +152,5 @@
     </div>
 </div>
 <!-- Fin Modal Ver Detalle Trabajadores -->
-<script src="<?php echo base_url('/public/js/administracion/Locales/script.js') ?>"></script>
+<script src="<?php echo base_url('/public/js/administracion/locales/script.js') ?>"></script>
 

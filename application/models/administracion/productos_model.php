@@ -6,7 +6,7 @@
  * Time: 1:52
  */
 
-class productos_model extends CI_Model
+class Productos_model extends CI_Model
 {
     public function obtener()
     {

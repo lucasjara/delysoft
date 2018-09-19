@@ -21,7 +21,7 @@ $(document).ready(function () {
             'tabla': tabla.val(),
             'helper': helper.val()
         }
-        var request = envia_ajax('/delysoft/administracion/generico/generar_mantenedor', array)
+        var request = envia_ajax('/administracion/generico/generar_mantenedor', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

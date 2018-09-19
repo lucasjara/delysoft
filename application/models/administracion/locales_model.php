@@ -6,7 +6,7 @@
  * Date: 26-08-2018
  * Time: 1:04
  */
-class locales_model extends CI_Model
+class Locales_model extends CI_Model
 {
     public function obtener()
     {

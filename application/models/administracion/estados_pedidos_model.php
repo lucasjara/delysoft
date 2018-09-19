@@ -5,7 +5,7 @@
  * Date: 26-08-2018
  * Time: 0:37
  */
-class estados_pedidos_model extends CI_Model
+class Estados_pedidos_model extends CI_Model
 {
     public function obtener()
     {

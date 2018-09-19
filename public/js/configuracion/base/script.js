@@ -20,10 +20,10 @@ $(document).ready(function () {
     var mdl_id_edit = $('#id_modificar')
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/configuracion/base/obtener_listado_productos_local',
+            'url': '/configuracion/base/obtener_listado_productos_local',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -44,7 +44,7 @@ $(document).ready(function () {
     $("#panel_ciudad").select2();
     tabla_cargos.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         destroy: true
     });
@@ -68,7 +68,7 @@ $(document).ready(function () {
         multiple: false,
         width: 400,
         ajax: {
-            url: '/delysoft/administracion/Usuarios/busca_usuario_json',
+            url: '/administracion/Usuarios/busca_usuario_json',
             dataType: 'json',
             data: function (term) {
                 return {
@@ -127,7 +127,7 @@ $(document).ready(function () {
                 'usuario': select_automatico,
                 'cargo': select_cargo
             }
-            var request = envia_ajax('/delysoft/configuracion/base/agregar_cargo_local', array)
+            var request = envia_ajax('/configuracion/base/agregar_cargo_local', array)
             request.fail(function () {
                 $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
                 $('#modal_generico').modal('show')
@@ -136,7 +136,7 @@ $(document).ready(function () {
                 if (data.respuesta == 'S') {
                     tabla_cargos.DataTable({
                         language: {
-                            'url': '/delysoft/public/Spanish.json',
+                            'url': '/public/Spanish.json',
                         },
                         destroy: true,
                         data: data.data,
@@ -180,7 +180,7 @@ $(document).ready(function () {
             'nombre': mdl_nombre.val(),
             'precio': mdl_precio.val()
         }
-        var request = envia_ajax('/delysoft/configuracion/base/agregar_productos_local', array)
+        var request = envia_ajax('/configuracion/base/agregar_productos_local', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -205,7 +205,7 @@ $(document).ready(function () {
             'precio': mdl_precio.val()
         }
         var request = envia_ajax(
-            '/delysoft/configuracion/base/editar_productos_local', array)
+            '/configuracion/base/editar_productos_local', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -228,7 +228,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/configuracion/base/cambiar_estado_productos_local', array)
+            '/configuracion/base/cambiar_estado_productos_local', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -251,7 +251,7 @@ $(document).ready(function () {
             'region': panel_region.val(),
             'ciudad': panel_ciudad.val()
         }
-        var request = envia_ajax('/delysoft/configuracion/base/confirmar_informacion',array)
+        var request = envia_ajax('/configuracion/base/confirmar_informacion',array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

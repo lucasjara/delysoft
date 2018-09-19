@@ -20,10 +20,10 @@ $(document).ready(function () {
     mdl_perfil.select2()
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/usuarios/obtener_listado_usuarios',
+            'url': '/administracion/usuarios/obtener_listado_usuarios',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -70,7 +70,7 @@ $(document).ready(function () {
             'correo': mdl_correo.val(),
             'perfil': mdl_perfil.val()
         }
-        var request = envia_ajax('/delysoft/administracion/usuarios/agregar_usuario', array)
+        var request = envia_ajax('/administracion/usuarios/agregar_usuario', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -96,7 +96,7 @@ $(document).ready(function () {
             'perfil': mdl_perfil.val(),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/usuarios/editar_usuario', array)
+            '/administracion/usuarios/editar_usuario', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -119,7 +119,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/usuarios/cambiar_estado_usuario', array)
+            '/administracion/usuarios/cambiar_estado_usuario', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

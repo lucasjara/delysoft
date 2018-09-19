@@ -12,7 +12,7 @@ $(document).ready(function () {
             'usuario': usuario.val(),
             'password':password.val()
         }
-        var request = envia_ajax('/delysoft/inicio/login_sistema', array)
+        var request = envia_ajax('/inicio/login_sistema', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

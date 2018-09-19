@@ -21,10 +21,10 @@ $(document).ready(function () {
     // Carga Inicial Web
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/pedidos/obtener_listado_pedidos',
+            'url': '/administracion/pedidos/obtener_listado_pedidos',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -59,7 +59,7 @@ $(document).ready(function () {
     tabla.on('click', '.btn_detalle', function () {
         mdl_titulo_agregar_editar.text('Ver Detalle Pedido');
         var id = $(this).attr('data-id');
-        var request = envia_ajax('/delysoft/administracion/pedidos/ver_detalle_pedido', {id: id})
+        var request = envia_ajax('/administracion/pedidos/ver_detalle_pedido', {id: id})
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -77,7 +77,7 @@ $(document).ready(function () {
                 //rellenamos tabla
                 tabla_detalle_pedido.DataTable({
                     'language': {
-                        'url': '/delysoft/public/Spanish.json',
+                        'url': '/public/Spanish.json',
                     },
                     'paging': false,
                     'destroy': true,
@@ -115,7 +115,7 @@ $(document).ready(function () {
         var array = {
             'descripcion': mdl_descripcion.val()
         }
-        var request = envia_ajax('/delysoft/administracion/pedidos/agregar_pedidos', array)
+        var request = envia_ajax('/administracion/pedidos/agregar_pedidos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -138,7 +138,7 @@ $(document).ready(function () {
             'descripcion': mdl_descripcion.val(),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/pedidos/editar_pedidos', array)
+            '/administracion/pedidos/editar_pedidos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -161,7 +161,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/pedidos/cambiar_estado_pedidos', array)
+            '/administracion/pedidos/cambiar_estado_pedidos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

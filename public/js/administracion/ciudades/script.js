@@ -13,10 +13,10 @@ $(document).ready(function () {
     // Carga Inicial Web
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/ciudades/obtener_listado_ciudades',
+            'url': '/administracion/ciudades/obtener_listado_ciudades',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -50,7 +50,7 @@ $(document).ready(function () {
         var array = {
             'descripcion': mdl_descripcion.val()
         }
-        var request = envia_ajax('/delysoft/administracion/ciudades/agregar_ciudades', array)
+        var request = envia_ajax('/administracion/ciudades/agregar_ciudades', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -73,7 +73,7 @@ $(document).ready(function () {
             'descripcion': mdl_descripcion.val(),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/ciudades/editar_ciudades', array)
+            '/administracion/ciudades/editar_ciudades', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -96,7 +96,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/ciudades/cambiar_estado_ciudades', array)
+            '/administracion/ciudades/cambiar_estado_ciudades', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

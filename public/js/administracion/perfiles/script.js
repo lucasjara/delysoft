@@ -14,10 +14,10 @@ $(document).ready(function () {
     // Carga Inicial Web
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/perfiles/obtener_listado_perfiles',
+            'url': '/administracion/perfiles/obtener_listado_perfiles',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -54,7 +54,7 @@ $(document).ready(function () {
             'descripcion': mdl_descripcion.val(),
             'nombre': mdl_nombre.val()
         }
-        var request = envia_ajax('/delysoft/administracion/perfiles/agregar_perfiles', array)
+        var request = envia_ajax('/administracion/perfiles/agregar_perfiles', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -78,7 +78,7 @@ $(document).ready(function () {
             'nombre': mdl_nombre.val()
         }
         var request = envia_ajax(
-            '/delysoft/administracion/perfiles/editar_perfiles', array)
+            '/administracion/perfiles/editar_perfiles', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -101,7 +101,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/perfiles/cambiar_estado_perfiles', array)
+            '/administracion/perfiles/cambiar_estado_perfiles', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

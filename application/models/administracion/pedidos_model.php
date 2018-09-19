@@ -6,7 +6,7 @@
  * Date: 26-08-2018
  * Time: 15:27
  */
-class pedidos_model extends CI_Model
+class Pedidos_model extends CI_Model
 {
     public function obtener()
     {

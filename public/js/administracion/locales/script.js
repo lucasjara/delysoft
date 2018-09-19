@@ -22,10 +22,10 @@ $(document).ready(function () {
     // Carga Inicial Web
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/locales/obtener_listado_locales',
+            'url': '/administracion/locales/obtener_listado_locales',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -79,7 +79,7 @@ $(document).ready(function () {
             'region': mdl_region.val(),
             'ciudad': mdl_ciudad.val()
         }
-        var request = envia_ajax('/delysoft/administracion/locales/agregar_locales', array)
+        var request = envia_ajax('/administracion/locales/agregar_locales', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -105,7 +105,7 @@ $(document).ready(function () {
             'ciudad': mdl_ciudad.val()
         }
         var request = envia_ajax(
-            '/delysoft/administracion/locales/editar_locales', array)
+            '/administracion/locales/editar_locales', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -128,7 +128,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/locales/cambiar_estado_locales', array)
+            '/administracion/locales/cambiar_estado_locales', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -161,7 +161,7 @@ $(document).ready(function () {
         var array = {
             'id': id
         }
-        var request = envia_ajax('/delysoft/administracion/locales/ver_detalle_locales', array)
+        var request = envia_ajax('/administracion/locales/ver_detalle_locales', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -189,7 +189,7 @@ $(document).ready(function () {
             'id': id,
             'usuario': $("#usuario").val()
         }
-        var request = envia_ajax('/delysoft/administracion/locales/agregar_encargado_local', array)
+        var request = envia_ajax('/administracion/locales/agregar_encargado_local', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

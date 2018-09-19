@@ -6,7 +6,7 @@
  * Time: 21:17
  */
 
-class perfiles_model extends CI_Model
+class Perfiles_model extends CI_Model
 {
     public function obtener()
     {

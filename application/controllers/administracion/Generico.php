@@ -267,10 +267,10 @@ $(document).ready(function () {
     // Carga Inicial Web
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/$controlador_m/obtener_listado_$controlador_m',
+            'url': '/administracion/$controlador_m/obtener_listado_$controlador_m',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -304,7 +304,7 @@ $(document).ready(function () {
         var array = {
             'descripcion': mdl_descripcion.val()
         }
-        var request = envia_ajax('/delysoft/administracion/$controlador_m/agregar_$controlador_m', array)
+        var request = envia_ajax('/administracion/$controlador_m/agregar_$controlador_m', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -327,7 +327,7 @@ $(document).ready(function () {
             'descripcion': mdl_descripcion.val(),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/$controlador_m/editar_$controlador_m', array)
+            '/administracion/$controlador_m/editar_$controlador_m', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -350,7 +350,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/$controlador_m/cambiar_estado_$controlador_m', array)
+            '/administracion/$controlador_m/cambiar_estado_$controlador_m', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

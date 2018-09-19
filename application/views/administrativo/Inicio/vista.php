@@ -20,7 +20,7 @@
                         <strong>Importante!</strong> se le fue asignado un local y no esta configurado todavia.
                     </div>
                     <div style="text-align: center;">
-                        <form action="/delysoft/configuracion/base" method="post" class="form-inline">
+                        <form action="/configuracion/base" method="post" class="form-inline">
                             <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-cog"></span>
                                 IR A
                                 CONFIGURAR LOCAL

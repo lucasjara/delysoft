@@ -5,7 +5,7 @@
  * Date: 26-08-2018
  * Time: 0:26
  */
-class ciudades_model extends CI_Model
+class Ciudades_model extends CI_Model
 {
     public function obtener()
     {

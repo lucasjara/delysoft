@@ -5,7 +5,7 @@
  * Date: 26-08-2018
  * Time: 0:16
  */
-class regiones_model extends CI_Model
+class Regiones_model extends CI_Model
 {
     public function obtener()
     {

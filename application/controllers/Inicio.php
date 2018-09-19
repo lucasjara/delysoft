@@ -28,8 +28,9 @@ class Inicio extends CI_Controller
         $mensaje = new stdClass();
         $usuario = $this->input->post('usuario');
         $password = $this->input->post('password');
-        $this->load->model("/administracion/usuarios_model");
-        $user = $this->usuarios_model->obtener_id_usuario($usuario,$password);
+        $this->load->model("/administracion/Usuarios_model");
+        $obj_user = new Usuarios_model();
+        $user = $obj_user->obtener_id_usuario($usuario,$password);
         if ($user != null){
             $this->session->id_usuario = $user;
             $mensaje->respuesta = 'S';

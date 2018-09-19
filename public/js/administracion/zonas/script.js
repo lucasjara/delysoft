@@ -15,10 +15,10 @@ $(document).ready(function () {
     // Carga Inicial Web
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/zonas/obtener_listado_zonas',
+            'url': '/administracion/zonas/obtener_listado_zonas',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -58,7 +58,7 @@ $(document).ready(function () {
             'nombre': mdl_nombre.val(),
             'local': mdl_local.val()
         }
-        var request = envia_ajax('/delysoft/administracion/zonas/agregar_zonas', array)
+        var request = envia_ajax('/administracion/zonas/agregar_zonas', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -82,7 +82,7 @@ $(document).ready(function () {
             'nombre': mdl_nombre.val(),
             'local': mdl_local.val()
         }
-        var request = envia_ajax('/delysoft/administracion/zonas/editar_zonas', array)
+        var request = envia_ajax('/administracion/zonas/editar_zonas', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -104,7 +104,7 @@ $(document).ready(function () {
             'id': $.trim($(this).attr('data-id')),
             'estado': $(this).attr('data-activo'),
         }
-        var request = envia_ajax('/delysoft/administracion/zonas/cambiar_estado_zonas', array)
+        var request = envia_ajax('/administracion/zonas/cambiar_estado_zonas', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

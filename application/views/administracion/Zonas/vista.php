@@ -82,5 +82,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo base_url('/public/js/administracion/Zonas/script.js') ?>"></script>
+<script src="<?php echo base_url('/public/js/administracion/zonas/script.js') ?>"></script>
 <!-- Fin Modal Agregar / Editar  -->

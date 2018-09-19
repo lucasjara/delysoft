@@ -5,7 +5,7 @@
  * Date: 26-08-2018
  * Time: 12:50
  */
-class zonas_model extends CI_Model
+class Zonas_model extends CI_Model
 {
     public function obtener()
     {

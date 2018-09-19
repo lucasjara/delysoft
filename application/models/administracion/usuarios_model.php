@@ -6,7 +6,7 @@
  * Time: 22:08
  */
 
-class usuarios_model extends CI_Model
+class Usuarios_model extends CI_Model
 {
     public function obtener()
     {

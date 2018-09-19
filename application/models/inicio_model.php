@@ -6,7 +6,7 @@
  * Time: 1:11
  */
 
-class inicio_model extends CI_Model
+class Inicio_model extends CI_Model
 {
     public function obtener()
     {

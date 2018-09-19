@@ -17,10 +17,10 @@ $(document).ready(function () {
     mdl_local.select2()
     var table = tabla.DataTable({
         'language': {
-            'url': '/delysoft/public/Spanish.json',
+            'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/delysoft/administracion/productos/obtener_listado_productos',
+            'url': '/administracion/productos/obtener_listado_productos',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',
@@ -63,7 +63,7 @@ $(document).ready(function () {
             'precio': mdl_precio.val(),
             'local': mdl_local.val()
         }
-        var request = envia_ajax('/delysoft/administracion/productos/agregar_productos', array)
+        var request = envia_ajax('/administracion/productos/agregar_productos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -89,7 +89,7 @@ $(document).ready(function () {
             'local': mdl_local.val()
         }
         var request = envia_ajax(
-            '/delysoft/administracion/productos/editar_productos', array)
+            '/administracion/productos/editar_productos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
@@ -112,7 +112,7 @@ $(document).ready(function () {
             'estado': $(this).attr('data-activo'),
         }
         var request = envia_ajax(
-            '/delysoft/administracion/productos/cambiar_estado_productos', array)
+            '/administracion/productos/cambiar_estado_productos', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')

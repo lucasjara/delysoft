@@ -91,5 +91,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo base_url('/public/js/administracion/Productos/script.js') ?>"></script>
+<script src="<?php echo base_url('/public/js/administracion/productos/script.js') ?>"></script>
 <!-- Fin Modal Agregar / Editar  -->

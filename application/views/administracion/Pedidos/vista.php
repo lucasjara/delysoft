@@ -136,4 +136,4 @@
     </div>
 </div>
 <!-- Fin Modal Crear Pedido  -->
-<script src="<?php echo base_url('/public/js/administracion/Pedidos/script.js') ?>"></script>
+<script src="<?php echo base_url('/public/js/administracion/pedidos/script.js') ?>"></script>
