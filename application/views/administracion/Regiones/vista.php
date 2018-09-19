@@ -55,7 +55,7 @@
             <div class='modal-footer'>
                 <button type='submit' id='btn_agregar_modal' class='btn btn-primary'>Agregar</button>
                 <button type='submit' id='btn_editar_modal' class='btn btn-primary'>Editar</button>
-                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
             </div>
         </div>
     </div>

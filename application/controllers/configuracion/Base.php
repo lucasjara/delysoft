@@ -19,7 +19,7 @@ class Base extends CI_Controller
     public function index()
     {
         $id_usuario = $this->session->id_usuario;
-        if ($id_usuario != null){
+        if ($id_usuario != null) {
             $this->load->model("/administracion/regiones_model");
             $this->load->model("/administracion/ciudades_model");
             $this->load->model("/administracion/perfiles_model");
@@ -28,7 +28,7 @@ class Base extends CI_Controller
             $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
             $data["perfiles"] = $this->perfiles_model->obtener_perfiles_carga_inicial();
             $id_local = $this->locales_model->obtener_local_configurar($id_usuario);
-            $this->session->id_local=$id_local;
+            $this->session->id_local = $id_local;
             $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
             for ($i = 0; $i < count($datos_cargos_local); $i++) {
                 $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
@@ -38,10 +38,11 @@ class Base extends CI_Controller
             $data["perfiles_local"] = $datos_cargos_local;
             $this->layout->setLayout('plantilla');
             $this->layout->view('vista', $data);
-        }else{
+        } else {
             redirect('/inicio/');
         }
     }
+
     public function login_sistema()
     {
         $mensaje = new stdClass();
@@ -56,19 +57,20 @@ class Base extends CI_Controller
             $id_perfil = $this->session->id_perfil;
             switch ($id_perfil) {
                 case "1":
-                    redirect("/administracion/permisos",'refresh');
+                    redirect("/administracion/permisos", 'refresh');
                     break;
                 case "4":
-                    redirect("/administrativo/inicio",'refresh');
+                    redirect("/administrativo/inicio", 'refresh');
                     break;
                 default:
-                    redirect('/inicio/','refresh');
+                    redirect('/inicio/', 'refresh');
                     break;
             }
         } else {
             redirect("/inicio/");
         }
     }
+
     private function formato_activo($respuesta)
     {
         if ($respuesta === 'S') {
@@ -78,13 +80,14 @@ class Base extends CI_Controller
         }
         return $respuesta;
     }
+
     private function formato_activo_cargos($respuesta)
     {
         if ($respuesta === 'S') {
             $respuesta = "<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>";
-        }elseif($respuesta === 'P'){
+        } elseif ($respuesta === 'P') {
             $respuesta = "<button class='btn btn-info btn-xs' type='button'>PENDIENTE</button>";
-        }else {
+        } else {
             $respuesta = "<button class='btn btn-danger btn-xs' type='button'>INACTIVO</button>";
         }
         return $respuesta;
@@ -139,6 +142,7 @@ class Base extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
+
     public function agregar_productos_local()
     {
         $mensaje = new stdClass();
@@ -152,7 +156,7 @@ class Base extends CI_Controller
                 $precio = $this->input->post('precio');
                 // Valor estatico
                 $id_local = $this->session->id_local;
-                $this->productos_model->ingresar_productos($descripcion,$nombre,$precio,$id_local);
+                $this->productos_model->ingresar_productos($descripcion, $nombre, $precio, $id_local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Productos Modificado Correctamente';
             } else {
@@ -165,6 +169,7 @@ class Base extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
+
     public function editar_productos_local()
     {
         $mensaje = new stdClass();
@@ -179,7 +184,7 @@ class Base extends CI_Controller
                 $precio = $this->input->post('precio');
                 // Valor estatico
                 $id_local = $this->session->id_local;
-                $this->productos_model->editar_productos($id, $descripcion,$nombre,$precio,$id_local);
+                $this->productos_model->editar_productos($id, $descripcion, $nombre, $precio, $id_local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Productos Modificado Correctamente';
             } else {
@@ -192,6 +197,7 @@ class Base extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }
+
     public function cambiar_estado_productos_local()
     {
         $mensaje = new stdClass();
@@ -252,6 +258,7 @@ class Base extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
+
     public function confirmar_informacion()
     {
         $mensaje = new stdClass();
@@ -262,7 +269,7 @@ class Base extends CI_Controller
                 $this->load->model('/administracion/locales_model');
                 $id_local = $this->session->id_local;
                 $respuesta = $this->locales_model->validar_producto_activo($id_local);
-                if ($respuesta != null){
+                if ($respuesta != null) {
                     // Editamos es local si se modifico la informacion
                     $nombre = $this->input->post('nombre');
                     $descripcion = $this->input->post('descripcion');
@@ -270,7 +277,7 @@ class Base extends CI_Controller
                     $ciudad = $this->input->post('ciudad');
                     $this->locales_model->editar_locales($id_local, $descripcion, $nombre, $region, $ciudad);
                     $mensaje->respuesta = 'S';
-                }else{
+                } else {
                     $mensaje->respuesta = 'N';
                     $mensaje->data = "Debe contar con un producto disponible.";
                 }

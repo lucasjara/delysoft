@@ -20,6 +20,8 @@ class Inicio extends CI_Controller
     {
         $this->load->model("/administracion/usuarios_model");
         $this->load->model("/administracion/locales_model");
+        $this->load->model("/administracion/perfiles_model");
+        $data["perfiles"] = $this->perfiles_model->obtener_perfiles();
         $id_usuario = $this->session->id_usuario;
         if ($id_usuario != null) {
             $data["usuario"] = $this->usuarios_model->obtener_info_usuario($id_usuario)[0];
@@ -27,7 +29,7 @@ class Inicio extends CI_Controller
             $flag = $this->locales_model->comprobar_local_configurado($id_usuario);
             if ($flag != null) {
                 $data["administracion_local"] = true;
-            }else{
+            } else {
                 $data["configuracion_local"] = true;
             }
             $this->layout->setLayout('plantilla');
@@ -35,5 +37,44 @@ class Inicio extends CI_Controller
         } else {
             redirect('/inicio/');
         }
+    }
+
+    public function obtener_datos_usuario()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(false)) {
+            $this->load->model('/administracion/usuarios_model');
+            $id_usuario = $this->session->id_usuario;
+            $mensaje->respuesta = "S";
+            $mensaje->data = $this->usuarios_model->obtener_info_usuario($id_usuario)[0];
+        } else {
+            $mensaje->respuesta = "N";
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+    public function editar_datos_usuario()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_usuario('editar_administrativo');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/usuarios_model');
+                $id = $this->input->post('id');
+                $nombres = $this->input->post('nombre');
+                $correo = $this->input->post('correo');
+                $this->usuarios_model->editar_usuario_administrativo($id, $nombres, $correo);
+                $mensaje->respuesta = "S";
+            } else {
+                $mensaje->respuesta = "N";
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = "N";
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }
 }

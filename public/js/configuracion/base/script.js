@@ -247,20 +247,20 @@ $(document).ready(function () {
     })
     // Confirmar Informacion Evento
     btn_informacion.on('click', function () {
-        var array =  {
+        var array = {
             'nombre': $("#panel_nombre").val(),
             'descripcion': $("#panel_descripcion").val(),
             'region': $("#panel_region").val(),
             'ciudad': $("#panel_ciudad").val()
         }
-        var request = envia_ajax('/configuracion/base/confirmar_informacion',array)
+        var request = envia_ajax('/configuracion/base/confirmar_informacion', array)
         request.fail(function () {
             $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
             $('#modal_generico').modal('show')
         })
         request.done(function (data) {
             if (data.respuesta == 'S') {
-
+                $("#btn_formulario_web").submit();
             }
             else {
                 $('#modal_generico_body').html(data.data)

@@ -17,19 +17,21 @@ if (!function_exists('form_usuario')) {
     {
         $CI =& get_instance();
         $respuesta = new stdClass();
-        if ($tipo === 'editar' || $tipo === 'estado') {
+        if ($tipo === 'editar' || $tipo === 'estado' || $tipo === 'editar_administrativo') {
             $CI->form_validation->set_rules("id", "Id", "required");
             $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
         if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
-        if ($tipo === 'agregar' || $tipo === 'editar') {
-            $CI->form_validation->set_rules("usuario", "Usuario", "required|min_length[5]|max_length[255]");
+        if ($tipo === 'agregar' || $tipo === 'editar' || $tipo === 'editar_administrativo') {
             // $CI->form_validation->set_rules("password", "Contraseña", "required|min_length[5]|max_length[255]");
             $CI->form_validation->set_rules("nombre", "Nombre", "required|min_length[5]|max_length[255]");
-            $CI->form_validation->set_rules("perfil", "Perfil", "required|is_numeric|exact_length[1]");
             $CI->form_validation->set_rules("correo", "Correo", "required|min_length[5]|max_length[255]");
+        }
+        if ($tipo === 'agregar' || $tipo === 'editar') {
+            $CI->form_validation->set_rules("usuario", "Usuario", "required|min_length[5]|max_length[255]");
+            $CI->form_validation->set_rules("perfil", "Perfil", "required|is_numeric|exact_length[1]");
         }
         if ($CI->form_validation->run() != false) {
             $respuesta->respuesta = 'S';

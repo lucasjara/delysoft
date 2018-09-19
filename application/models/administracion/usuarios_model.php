@@ -103,4 +103,12 @@ class Usuarios_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
+
+    public function editar_usuario_administrativo($id, $nombre, $correo)
+    {
+        $this->db->set('NOMBRE', $nombre);
+        $this->db->set('CORREO', $correo);
+        $this->db->where('ID', $id);
+        return $this->db->update('tb_usuario');
+    }
 }
