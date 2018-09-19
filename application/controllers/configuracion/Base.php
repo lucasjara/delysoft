@@ -205,7 +205,6 @@ class Base extends CI_Controller
             $validator = form_local_usuario('agregar_cargo');
             if ($validator->respuesta == 'S') {
                 $this->load->model('/administracion/locales_model');
-                // valor estatico
                 $id_local = $this->session->id_local;
                 $usuario = $this->input->post('usuario');
                 $cargo = $this->input->post('cargo');
@@ -217,6 +216,32 @@ class Base extends CI_Controller
                 }
                 $mensaje->respuesta = 'S';
                 $mensaje->data = $datos_cargos_local;
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = $validator->mensaje;
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
+    }
+    public function confirmar_informacion()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_locales('agregar');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/locales_model');
+                // Editamos es local si se modifico la informacion
+                $id_local = $this->session->id_local;
+                $nombre = $this->input->post('nombre');
+                $descripcion = $this->input->post('descripcion');
+                $region = $this->input->post('region');
+                $ciudad = $this->input->post('ciudad');
+                $this->locales_model->editar_locales($id_local, $descripcion, $nombre, $region, $ciudad);
+                //
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = $validator->mensaje;

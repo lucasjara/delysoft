@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Lucas
@@ -17,8 +18,12 @@ class Perfiles extends CI_Controller
 
     public function index()
     {
-        $this->layout->setLayout('plantilla');
-        $this->layout->view('vista');
+        if (validarUsuario(false)) {
+            $this->layout->setLayout('plantilla');
+            $this->layout->view('vista');
+        } else {
+            redirect('/Inicio/');
+        }
     }
 
     public function obtener_listado_perfiles()
@@ -49,7 +54,7 @@ class Perfiles extends CI_Controller
                 $this->load->model('/administracion/perfiles_model', 'perfiles_model');
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
-                $this->perfiles_model->ingresar_perfiles($descripcion,$nombre);
+                $this->perfiles_model->ingresar_perfiles($descripcion, $nombre);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'perfiles Modificado Correctamente';
             } else {
@@ -74,7 +79,7 @@ class Perfiles extends CI_Controller
                 $id = $this->input->post('id');
                 $nombre = $this->input->post('nombre');
                 $descripcion = $this->input->post('descripcion');
-                $this->perfiles_model->editar_perfiles($id, $descripcion,$nombre);
+                $this->perfiles_model->editar_perfiles($id, $descripcion, $nombre);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'perfiles Modificado Correctamente';
             } else {
@@ -128,10 +133,11 @@ class Perfiles extends CI_Controller
         }
         return $respuesta;
     }
+
     private function formato_acciones($data)
     {
         $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
-            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-activo='". $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-activo='" . $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data['ACTIVO'] == 'S') {
             $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
         } else {

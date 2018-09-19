@@ -5,6 +5,7 @@ $(document).ready(function () {
     var tabla_cargos = $("#tabla_cargos")
     var usuario_select = $("#usuario_select2");
     var btn_agregar_cargo = $("#btn_agregar_cargo")
+    var btn_informacion = $("#btn_confirmar_informacion")
     // Crud Productos
     var tabla = $('#tabla_productos')
     var btn_agregar = $('#btn_agregar_productos')
@@ -52,11 +53,11 @@ $(document).ready(function () {
         placeholder: "Seleccionar Usuario Sistema",
         minimumInputLength: 3,
         language: {
-            noResults: function() {
+            noResults: function () {
 
                 return "No hay resultado";
             },
-            searching: function() {
+            searching: function () {
 
                 return "Buscando..";
             },
@@ -76,7 +77,7 @@ $(document).ready(function () {
             },
             processResults: function (data, params) {
                 var results = [];
-                data.items.forEach(function(element) {
+                data.items.forEach(function (element) {
                     results.push({
                         id: element.ID,
                         usuario: element.USUARIO.toUpperCase()
@@ -118,13 +119,13 @@ $(document).ready(function () {
 
 // Fin Carga Inicial Web
 // Eventos
-    btn_agregar_cargo.on('click',function () {
+    btn_agregar_cargo.on('click', function () {
         var select_automatico = $("#example1").val();
         var select_cargo = $("#panel_cargo").val();
-        if (select_automatico){
+        if (select_automatico) {
             var array = {
                 'usuario': select_automatico,
-                'cargo':select_cargo
+                'cargo': select_cargo
             }
             var request = envia_ajax('/delysoft/configuracion/base/agregar_cargo_local', array)
             request.fail(function () {
@@ -138,7 +139,7 @@ $(document).ready(function () {
                             'url': '/delysoft/public/Spanish.json',
                         },
                         destroy: true,
-                        data:data.data,
+                        data: data.data,
                         columns: [
                             {'data': 'NOMBRE'},
                             {'data': 'USUARIO'},
@@ -176,7 +177,7 @@ $(document).ready(function () {
     mdl_btn_agregar.on('click', function () {
         var array = {
             'descripcion': mdl_descripcion.val(),
-            'nombre':mdl_nombre.val(),
+            'nombre': mdl_nombre.val(),
             'precio': mdl_precio.val()
         }
         var request = envia_ajax('/delysoft/configuracion/base/agregar_productos_local', array)
@@ -200,7 +201,7 @@ $(document).ready(function () {
         var array = {
             'id': mdl_id_edit.val(),
             'descripcion': mdl_descripcion.val(),
-            'nombre':mdl_nombre.val(),
+            'nombre': mdl_nombre.val(),
             'precio': mdl_precio.val()
         }
         var request = envia_ajax(
@@ -242,6 +243,29 @@ $(document).ready(function () {
             }
         })
     })
+    // Confirmar Informacion Evento
+    btn_informacion.on('click', function () {
+        var array =  {
+            'nombre': panel_nombre.val(),
+            'descripcion': panel_descripcion.val(),
+            'region': panel_region.val(),
+            'ciudad': panel_ciudad.val()
+        }
+        var request = envia_ajax('/delysoft/configuracion/base/confirmar_informacion',array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                table.ajax.reload()
+            }
+            else {
+                $('#modal_generico_body').html(data.data)
+                $('#modal_generico').modal('show')
+            }
+        })
+    });
 // Fin Eventos
 // Funciones
     function envia_ajax(url, data) {
@@ -264,5 +288,6 @@ $(document).ready(function () {
         mdl_btn_agregar.hide()
         mdl_btn_editar.hide()
     }
+
 // Fin Funciones
 });

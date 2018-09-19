@@ -18,10 +18,14 @@ class Generico extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/administracion/perfiles_model");
-        $data["perfiles"] = $this->perfiles_model->obtener_perfiles();
-        $this->layout->setLayout("plantilla");
-        $this->layout->view('vista', $data);
+        if (validarUsuario(false)) {
+            $this->load->model("/administracion/perfiles_model");
+            $data["perfiles"] = $this->perfiles_model->obtener_perfiles();
+            $this->layout->setLayout("plantilla");
+            $this->layout->view('vista', $data);
+        } else {
+            redirect('/Inicio/');
+        }
     }
 
     public function generar_mantenedor()
@@ -34,7 +38,9 @@ class Generico extends CI_Controller
         $resultados->respuesta = 'S';
         $this->output->set_content_type('application/json')->set_output(json_encode(($resultados)));
     }
-    private function formato_controlador(){
+
+    private function formato_controlador()
+    {
         $titulo = $this->input->post('titulos');
         $tabla = $this->input->post('tabla');
         $alias = $this->input->post('alias');
@@ -42,7 +48,7 @@ class Generico extends CI_Controller
         $controlador = $this->input->post('controlador');
         $controlador_m = strtolower($this->input->post('controlador'));
         $helper = $this->input->post('helper');
-        $carac ="$";
+        $carac = "$";
         $formato = "
         class $controlador extends CI_Controller
         {
@@ -156,7 +162,7 @@ class Generico extends CI_Controller
                 $carac+this->output->set_content_type('application/json')->set_output(json_encode($carac+mensaje));
             }
             ";
-        $formato .="
+        $formato .= "
             private function formato_activo($carac+respuesta)
             {
                 if ($carac+respuesta === 'S') {
@@ -179,21 +185,23 @@ class Generico extends CI_Controller
             }
     }
 ";
-        $formato= str_replace("$+", "$", $formato);
-        $formato= str_replace("&-", "-", $formato);
-        $formato= str_replace("&'''", "\"", $formato);
+        $formato = str_replace("$+", "$", $formato);
+        $formato = str_replace("&-", "-", $formato);
+        $formato = str_replace("&'''", "\"", $formato);
         /*
 
         }";
         */
         return $formato;
     }
-    private function formato_modelos(){
+
+    private function formato_modelos()
+    {
         $titulo = $this->input->post('titulos');
         $tabla = $this->input->post('tabla');
         $alias = $this->input->post('alias');
         $controlador_m = strtolower($this->input->post('controlador'));
-        $carac ="$";
+        $carac = "$";
         $formato = "
         class $alias extends CI_Model
         {
@@ -235,9 +243,10 @@ class Generico extends CI_Controller
                 return $carac+this->db->update('$tabla');
             }
         }";
-        $formato= str_replace("$+", "$", $formato);
+        $formato = str_replace("$+", "$", $formato);
         return $formato;
     }
+
     private function formato_js()
     {
         $titulo = $this->input->post('titulos');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Lucas
@@ -17,8 +18,12 @@ class Regiones extends CI_Controller
 
     public function index()
     {
-        $this->layout->setLayout('plantilla');
-        $this->layout->view('vista');
+        if (validarUsuario(false)) {
+            $this->layout->setLayout('plantilla');
+            $this->layout->view('vista');
+        } else {
+            redirect('/Inicio/');
+        }
     }
 
     public function obtener_listado_regiones()
@@ -126,10 +131,11 @@ class Regiones extends CI_Controller
         }
         return $respuesta;
     }
+
     private function formato_acciones($data)
     {
         $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
-            " data-descripcion='" . $data['DESCRIPCION'] . "' data-activo='". $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+            " data-descripcion='" . $data['DESCRIPCION'] . "' data-activo='" . $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data['ACTIVO'] == 'S') {
             $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
         } else {

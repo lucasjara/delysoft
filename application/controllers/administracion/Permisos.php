@@ -18,8 +18,12 @@ class Permisos extends CI_Controller
 
     public function index()
     {
-        $this->layout->setLayout('plantilla');
-        $this->layout->view('vista');
+        if (validarUsuario(false)) {
+            $this->layout->setLayout('plantilla');
+            $this->layout->view('vista');
+        } else {
+            redirect('/Inicio/');
+        }
     }
 
     public function obtener_listado_permisos()
@@ -51,7 +55,7 @@ class Permisos extends CI_Controller
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
                 $url = $this->input->post('url');
-                $this->permisos_model->ingresar_permisos($descripcion,$nombre,$url);
+                $this->permisos_model->ingresar_permisos($descripcion, $nombre, $url);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'permisos Modificado Correctamente';
             } else {
@@ -77,7 +81,7 @@ class Permisos extends CI_Controller
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
                 $url = $this->input->post('url');
-                $this->permisos_model->editar_permisos($id, $descripcion,$nombre,$url);
+                $this->permisos_model->editar_permisos($id, $descripcion, $nombre, $url);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'permisos Modificado Correctamente';
             } else {
@@ -131,10 +135,11 @@ class Permisos extends CI_Controller
         }
         return $respuesta;
     }
+
     private function formato_acciones($data)
     {
         $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
-            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-url='" . $data['URL'] . "' data-activo='". $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-url='" . $data['URL'] . "' data-activo='" . $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data['ACTIVO'] == 'S') {
             $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
         } else {

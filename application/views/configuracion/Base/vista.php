@@ -169,7 +169,8 @@
                 <div class="row">
                     <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>
+                            <button type="button" class="btn btn-primary" id="btn_confirmar_informacion"><span
+                                        class="glyphicon glyphicon-ok"></span>
                                 CONFIRMAR INFORMACION
                             </button>
                         </div>

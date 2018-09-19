@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Lucas
@@ -17,10 +18,14 @@ class Zonas extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/administracion/locales_model");
-        $data["locales"] = $this->locales_model->obtener_locales();
-        $this->layout->setLayout('plantilla');
-        $this->layout->view('vista',$data);
+        if (validarUsuario(false)) {
+            $this->load->model("/administracion/locales_model");
+            $data["locales"] = $this->locales_model->obtener_locales();
+            $this->layout->setLayout('plantilla');
+            $this->layout->view('vista', $data);
+        } else {
+            redirect('/Inicio/');
+        }
     }
 
     public function obtener_listado_zonas()
@@ -52,7 +57,7 @@ class Zonas extends CI_Controller
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
                 $local = $this->input->post('local');
-                $this->zonas_model->ingresar_zonas($descripcion,$nombre,$local);
+                $this->zonas_model->ingresar_zonas($descripcion, $nombre, $local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Zonas Modificado Correctamente';
             } else {
@@ -78,7 +83,7 @@ class Zonas extends CI_Controller
                 $descripcion = $this->input->post('descripcion');
                 $nombre = $this->input->post('nombre');
                 $local = $this->input->post('local');
-                $this->zonas_model->editar_zonas($id, $descripcion,$nombre,$local);
+                $this->zonas_model->editar_zonas($id, $descripcion, $nombre, $local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Zonas Modificado Correctamente';
             } else {
@@ -132,10 +137,11 @@ class Zonas extends CI_Controller
         }
         return $respuesta;
     }
+
     private function formato_acciones($data)
     {
         $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
-            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-local='" . $data['ID_LOCAL'] . "' data-activo='". $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-local='" . $data['ID_LOCAL'] . "' data-activo='" . $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data['ACTIVO'] == 'S') {
             $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
         } else {

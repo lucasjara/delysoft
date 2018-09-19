@@ -18,8 +18,12 @@ class Estados_Pedidos extends CI_Controller
 
     public function index()
     {
-        $this->layout->setLayout('plantilla');
-        $this->layout->view('vista');
+        if (validarUsuario(false)) {
+            $this->layout->setLayout('plantilla');
+            $this->layout->view('vista');
+        } else {
+            redirect('/Inicio/');
+        }
     }
 
     public function obtener_listado_estados_pedidos()

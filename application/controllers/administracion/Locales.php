@@ -18,14 +18,18 @@ class Locales extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/administracion/regiones_model");
-        $this->load->model("/administracion/ciudades_model");
-        $this->load->model("/administracion/usuarios_model");
-        $data["regiones"] = $this->regiones_model->obtener_regiones();
-        $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
-        $data["usuarios"] = $this->usuarios_model->obtener();
-        $this->layout->setLayout('plantilla');
-        $this->layout->view('vista', $data);
+        if (validarUsuario(false)) {
+            $this->load->model("/administracion/regiones_model");
+            $this->load->model("/administracion/ciudades_model");
+            $this->load->model("/administracion/usuarios_model");
+            $data["regiones"] = $this->regiones_model->obtener_regiones();
+            $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
+            $data["usuarios"] = $this->usuarios_model->obtener();
+            $this->layout->setLayout('plantilla');
+            $this->layout->view('vista', $data);
+        }else{
+            redirect('/Inicio/');
+        }
     }
 
     public function obtener_listado_locales()
@@ -41,7 +45,7 @@ class Locales extends CI_Controller
             $mensaje->data = $datos;
             $mensaje->respuesta = 'S';
         } else {
-            $mensaje->respuesta = 'No hay mano';
+            $mensaje->respuesta = 'Errror al obtener listado';
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }

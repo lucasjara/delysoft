@@ -18,10 +18,14 @@ class Productos extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/administracion/locales_model");
-        $data["locales"] = $this->locales_model->obtener_listado_locales();
-        $this->layout->setLayout('plantilla');
-        $this->layout->view('vista',$data);
+        if (validarUsuario(false)) {
+            $this->load->model("/administracion/locales_model");
+            $data["locales"] = $this->locales_model->obtener_listado_locales();
+            $this->layout->setLayout('plantilla');
+            $this->layout->view('vista', $data);
+        } else {
+            redirect('/Inicio/');
+        }
     }
 
     public function obtener_listado_productos()
@@ -54,7 +58,7 @@ class Productos extends CI_Controller
                 $nombre = $this->input->post('nombre');
                 $precio = $this->input->post('precio');
                 $id_local = $this->input->post('local');
-                $this->productos_model->ingresar_productos($descripcion,$nombre,$precio,$id_local);
+                $this->productos_model->ingresar_productos($descripcion, $nombre, $precio, $id_local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Productos Modificado Correctamente';
             } else {
@@ -81,7 +85,7 @@ class Productos extends CI_Controller
                 $nombre = $this->input->post('nombre');
                 $precio = $this->input->post('precio');
                 $id_local = $this->input->post('local');
-                $this->productos_model->editar_productos($id, $descripcion,$nombre,$precio,$id_local);
+                $this->productos_model->editar_productos($id, $descripcion, $nombre, $precio, $id_local);
                 $mensaje->respuesta = 'S';
                 $mensaje->data = 'Productos Modificado Correctamente';
             } else {

@@ -18,10 +18,14 @@ class Usuarios extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/administracion/perfiles_model");
-        $data["perfiles"] = $this->perfiles_model->obtener_perfiles();
-        $this->layout->setLayout("plantilla");
-        $this->layout->view('vista', $data);
+        if (validarUsuario(false)) {
+            $this->load->model("/administracion/perfiles_model");
+            $data["perfiles"] = $this->perfiles_model->obtener_perfiles();
+            $this->layout->setLayout("plantilla");
+            $this->layout->view('vista', $data);
+        } else {
+            redirect('/Inicio/');
+        }
     }
 
     public function obtener_listado_usuarios()
