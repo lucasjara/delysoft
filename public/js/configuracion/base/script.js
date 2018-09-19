@@ -248,8 +248,8 @@ $(document).ready(function () {
         var array =  {
             'nombre': panel_nombre.val(),
             'descripcion': panel_descripcion.val(),
-            'region': panel_region.val(),
-            'ciudad': panel_ciudad.val()
+            'region': $("#panel_region").val(),
+            'ciudad': $("#panel_ciudad").val()
         }
         var request = envia_ajax('/configuracion/base/confirmar_informacion',array)
         request.fail(function () {

@@ -73,15 +73,15 @@ class Usuarios_model extends CI_Model
         return $query->result();
     }
 
-    public function obtener_id_usuario($usuario, $password)
+    public function obtener_datos_usuario($usuario, $password)
     {
-        $this->db->select("usuario.ID")
+        $this->db->select("usuario.ID, usuario.TB_PERFIL_ID ID_PERFIL")
             ->from('tb_usuario usuario')
             ->where("usuario.ACTIVO", "S")
             ->where("usuario.USUARIO", $usuario)
             ->where("usuario.PASSWORD", $password);
         $query = $this->db->get();
-        return ($query->num_rows() > 0) ? $query->result()[0]->ID : null;
+        return ($query->num_rows() > 0) ? $query->result_array() : null;
     }
 
     public function obtener_info_usuario($id_usuario)

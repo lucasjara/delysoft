@@ -42,7 +42,33 @@ class Base extends CI_Controller
             redirect('/inicio/');
         }
     }
-
+    public function login_sistema()
+    {
+        $mensaje = new stdClass();
+        $usuario = $this->input->post('usuario');
+        $password = $this->input->post('password');
+        $this->load->model("/administracion/Usuarios_model");
+        $obj_user = new Usuarios_model();
+        $user = $obj_user->obtener_datos_usuario($usuario, $password);
+        if ($user != null) {
+            $this->session->id_usuario = $user[0]['ID'];
+            $this->session->id_perfil = $user[0]["ID_PERFIL"];
+            $id_perfil = $this->session->id_perfil;
+            switch ($id_perfil) {
+                case "1":
+                    redirect("/administracion/permisos",'refresh');
+                    break;
+                case "4":
+                    redirect("/administrativo/inicio",'refresh');
+                    break;
+                default:
+                    redirect('/inicio/','refresh');
+                    break;
+            }
+        } else {
+            redirect("/inicio/");
+        }
+    }
     private function formato_activo($respuesta)
     {
         if ($respuesta === 'S') {

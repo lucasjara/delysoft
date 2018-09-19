@@ -7,21 +7,7 @@ $(document).ready(function () {
 // Carga Inicial Web
 // Fin Carga Inicial Web
 // Eventos
-    btn_login.on('click',function () {
-        var array = {
-            'usuario': usuario.val(),
-            'password':password.val()
-        }
-        var request = envia_ajax('/inicio/login_sistema', array)
-        request.fail(function () {
-            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
-            $('#modal_generico').modal('show')
-        })
-        request.done(function (data) {
-            $('#modal_generico_body').html(data.data)
-            $('#modal_generico').modal('show')
-        })
-    });
+
 // Fin Eventos
 // Funciones
     function envia_ajax(url, data) {

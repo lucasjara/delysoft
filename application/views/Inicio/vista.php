@@ -16,25 +16,28 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
-                        <div class="form-group">
-                            <label for="usuario">Usuario:</label>
-                            <input type="text" class="form-control" id="usuario"
-                                   value="">
+                    <form action="/configuracion/base/login_sistema" method="post">
+                        <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label for="usuario">Usuario:</label>
+                                <input type="text" class="form-control" id="usuario" name="usuario"
+                                       value="">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
-                        <div class="form-group">
-                            <label for="password">Contraseña:</label>
-                            <input type="password" class="form-control" id="password"
-                                   value="">
+                        <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label for="password">Contraseña:</label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                       value="">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
-                        <button type="button" class="btn btn-primary" style="margin-top: 8%;" id="btn_login">LOGIN
-                            SISTEMA
-                        </button>
-                    </div>
+                        <div class="col-sm-12 col-xs-12 col-lg-4 col-md-4">
+                            <button type="submit" class="btn btn-primary" style="margin-top: 6%;" id="btn_login">
+                                <span class="glyphicon glyphicon-ok glyphicon" style="color:greenyellow;"></span> LOGIN
+                                SISTEMA
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div class="row">
                     <?php if (isset($rutas)) { ?>
@@ -45,6 +48,9 @@
                         </ul>
                     <?php } ?>
                 </div>
+                <form id="formulario_web">
+
+                </form>
             </div>
         </div>
     </div>
