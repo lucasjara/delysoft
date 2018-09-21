@@ -185,7 +185,7 @@ class Locales extends CI_Controller
                 $flag = false;
                 if ($datos != null){
                     foreach ($datos as $dato) {
-                        if ($dato->ID_PERFIL == 1) {
+                        if ($dato->ID_PERFIL === "4") {
                             $flag = true;
                         }
                     }

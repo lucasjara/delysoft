@@ -21,7 +21,7 @@ class Mapas  extends CI_Controller
         if ($id_usuario != null) {
             $this->load->model("/administracion/locales_model");
             $id_local = $this->session->id_local;
-            $this->layout->setLayout('plantilla');
+            $this->layout->setLayout('plantilla2');
             $this->layout->view('vista');
         } else {
             redirect('/inicio/');
