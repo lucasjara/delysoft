@@ -52,4 +52,20 @@ class Zonas_model extends CI_Model
         $this->db->where('ID', $id);
         return $this->db->update('tb_zona');
     }
+    public function obtener_listado_zona_local($id_local)
+    {
+        $this->db->select('
+                            zonas.ID,
+                            zonas.NOMBRE,
+                            zonas.DESCRIPCION,
+                            zonas.ACTIVO,
+                            locales.NOMBRE LOCAL,
+                            locales.ID ID_LOCAL
+                ')
+            ->from('tb_zona zonas')
+            ->join('tb_local locales','locales.ID=zonas.TB_LOCAL_ID','INNER')
+        ->where("locales.ID",$id_local);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

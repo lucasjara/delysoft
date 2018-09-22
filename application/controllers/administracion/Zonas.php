@@ -59,7 +59,7 @@ class Zonas extends CI_Controller
                 $local = $this->input->post('local');
                 $this->zonas_model->ingresar_zonas($descripcion, $nombre, $local);
                 $mensaje->respuesta = 'S';
-                $mensaje->data = 'Zonas Modificado Correctamente';
+                $mensaje->data = 'Zonas Agregada Correctamente';
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = $validator->mensaje;

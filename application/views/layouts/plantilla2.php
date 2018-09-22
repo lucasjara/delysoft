@@ -49,12 +49,13 @@
     .select2 {
         width: 100% !important;
     }
-
+/*
     .dataTables_filter {
         width: 50%;
         float: right;
         text-align: right;
     }
+    */
 </style>
 <!-- Inicio Modal Generico -->
 <div class="modal fade" id="modal_generico" tabindex="-1"

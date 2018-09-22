@@ -16,7 +16,12 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title pull-left"><p>CONFIGURAR ZONAS DE TRABAJO</p></div>
-            <div class="panel-title pull-right"></div>
+            <div class="panel-title pull-right">
+                <button class="btn btn-primary" id="btn_agregar_zonas"><p class="glyphicon glyphicon-plus"></p> AGREGAR
+                    ZONA
+                    MAPA
+                </button>
+            </div>
             <div class="clearfix"></div>
         </div>
         <div class="panel-body">
@@ -25,11 +30,16 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="panel-title pull-left"><p>ZONAS DE TRABAJO</p></div>
-                            <div class="panel-title pull-right"></div>
+                            <div class="panel-title pull-right">
+                                <button class="btn btn-success" data-toggle="collapse" data-target="#demo">Colapsar
+                                </button>
+                            </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="panel-body">
-                            <div id="map"></div>
+                            <div id="demo" class="collapse">
+                                <div id="map"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -38,12 +48,11 @@
                         <div class="panel-heading">
                             <div class="panel-title pull-left"><p>ZONAS DISPONIBLES</p></div>
                             <div class="panel-title pull-right">
-                                <button class="btn btn-primary">AGREGAR PRODUCTO</button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="panel-body">
-                            <table class="table table-responsive table-striped table-bordered">
+                            <table class="table table-responsive table-striped" id="tabla_zonas_local">
                                 <thead>
                                 <tr>
                                     <th>SELECCIONAR</th>
@@ -52,12 +61,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                </tbody>
+                            </table>
+                            <!--
+                            <tr>
                                     <td><input type="checkbox" name="check"></td>
                                     <td>ZONA A</td>
                                     <td>
                                         <button class="btn btn-info btn-xs btn_detalle" type="button"><span
                                                     class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                        </button>
+                                        <button class="btn btn-success btn-xs btn_producto" type="button"><span
+                                                    class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                         </button>
                                     </td>
                                 </tr>
@@ -68,6 +83,9 @@
                                         <button class="btn btn-info btn-xs btn_detalle" type="button"><span
                                                     class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
                                         </button>
+                                        <button class="btn btn-success btn-xs btn_producto" type="button"><span
+                                                    class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -77,59 +95,63 @@
                                         <button class="btn btn-info btn-xs btn_detalle" type="button"><span
                                                     class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
                                         </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3>Detalle Zona A</h3>
-                            <table class="table table-responsive table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>PRODUCTO</th>
-                                    <th>PRECIO</th>
-                                    <th>ACCIONES</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>SUSHI 27 PIEZAS</td>
-                                    <td>$8.500</td>
-                                    <td>
-                                        <button class="btn btn-info btn-xs btn_detalle" type="button"><span
-                                                    class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                        <button class="btn btn-success btn-xs btn_producto" type="button"><span
+                                                    class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                         </button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>SUSHI 36 PIEZAS</td>
-                                    <td>$10.000</td>
-                                    <td>
-                                        <button class="btn btn-info btn-xs btn_detalle" type="button"><span
-                                                    class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>SUSHI 54 PIEZAS</td>
-                                    <td>$13.000</td>
-                                    <td>
-                                        <button class="btn btn-info btn-xs btn_detalle" type="button"><span
-                                                    class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>SUSHI 63 PIEZAS</td>
-                                    <td>$15.500</td>
-                                    <td>
-                                        <button class="btn btn-info btn-xs btn_detalle" type="button"><span
-                                                    class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            -->
+                            <!--
+                               <hr>
+                               <h3>Detalle Zona A</h3>
+                               <table class="table table-responsive table-striped table-bordered">
+                                   <thead>
+                                   <tr>
+                                       <th>PRODUCTO</th>
+                                       <th>PRECIO</th>
+                                       <th>ACCIONES</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   <tr>
+                                       <td>SUSHI 27 PIEZAS</td>
+                                       <td>$8.500</td>
+                                       <td>
+                                           <button class="btn btn-info btn-xs btn_detalle" type="button"><span
+                                                       class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                           </button>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>SUSHI 36 PIEZAS</td>
+                                       <td>$10.000</td>
+                                       <td>
+                                           <button class="btn btn-info btn-xs btn_detalle" type="button"><span
+                                                       class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                           </button>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>SUSHI 54 PIEZAS</td>
+                                       <td>$13.000</td>
+                                       <td>
+                                           <button class="btn btn-info btn-xs btn_detalle" type="button"><span
+                                                       class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                           </button>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>SUSHI 63 PIEZAS</td>
+                                       <td>$15.500</td>
+                                       <td>
+                                           <button class="btn btn-info btn-xs btn_detalle" type="button"><span
+                                                       class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                           </button>
+                                       </td>
+                                   </tr>
+                                   </tbody>
+                               </table>
+                               -->
                         </div>
                     </div>
                 </div>
@@ -137,47 +159,41 @@
         </div>
     </div>
 </div>
-<script>
-    let latitud;
-    let longitud;
-    let mapa;
-    let ubicacion_actual;
-    const iniciarMapa = (posicion) => {
-        latitud = posicion.coords.latitude;
-        longitud = posicion.coords.longitude;
-        ubicacion_actual = {lat: latitud, lng: longitud};
-        mapa = new google.maps.Map(document.getElementById('map'), {
-            center: ubicacion_actual,
-            zoom: 18
-        });
-        let marker = new google.maps.Marker({
-            position: ubicacion_actual,
-            map: mapa,
-            title: 'Ubicacion Actual'
-        });
-        AgregarDibujo()
-    };
-    const AgregarDibujo = () => {
-        let drawingManager = new google.maps.drawing.DrawingManager({
-            drawingMode: google.maps.drawing.OverlayType.POLYGON,
-            drawingControl: true,
-            drawingControlOptions: {
-                position: google.maps.ControlPosition.TOP_CENTER,
-                drawingModes: ['polygon'],
-            },
-            markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
-            circleOptions: {
-                fillColor: '#ffff00',
-                fillOpacity: 1,
-                strokeWeight: 5,
-                clickable: false,
-                editable: true,
-                zIndex: 1,
-            },
-        })
-        drawingManager.setMap(mapa)
-    }
-    navigator.geolocation.getCurrentPosition(function (posicion) {
-        iniciarMapa(posicion);
-    });
-</script>
+<!-- Modal Zona-->
+<div class='modal fade' id='modal_agregar_editar_zonas' role='dialog'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                <h4 class='modal-title' id='titulo_agregar_editar_zonas'></h4>
+            </div>
+            <div class='modal-body'>
+                <div id='modal_alerta_agregar_editar'></div>
+                <div class='form-group'>
+                    <label class='control-label col-sm-2 col-sm-offset-2' for='nombre'>Nombre:</label>
+                    <div class='col-sm-6'>
+                        <input type='text' class='form-control' id='nombre' name='nombre' value=''>
+                    </div>
+                    <div class='clearfix'></div>
+                </div>
+                <div class='form-group'>
+                    <label class='control-label col-sm-2 col-sm-offset-2' for='descripcion'>Descripcion:</label>
+                    <div class='col-sm-6'>
+                        <input type='text' class='form-control' id='descripcion' name='Descripcion' value=''>
+                    </div>
+                    <div class='clearfix'></div>
+                </div>
+                <input type='hidden' name='id_edit' id='id_modificar'>
+            </div>
+            <div class='clearfix'></div>
+            <div class='modal-footer'>
+                <button type='submit' id='btn_agregar_modal' class='btn btn-primary'>Agregar</button>
+                <button type='submit' id='btn_editar_modal' class='btn btn-primary'>Editar</button>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Zona-->
+<script src="<?php echo base_url('/public/js/configuracion/mapas/script.js') ?>"></script>
+<script src="<?php echo base_url('/public/js/configuracion/mapas/mapa.js') ?>"></script>

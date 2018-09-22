@@ -226,16 +226,19 @@ if (!function_exists('form_zonas')) {
     {
         $CI =& get_instance();
         $respuesta = new stdClass();
-        if ($tipo === 'editar' || $tipo === 'estado') {
+        if ($tipo === 'editar' || $tipo === 'estado' || $tipo === 'editar_zona_personalizado') {
             $CI->form_validation->set_rules("id", "Id", "required");
             $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
         if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
-        if ($tipo === 'agregar' || $tipo === 'editar') {
+        if ($tipo === 'agregar' || $tipo === 'editar' ||
+            $tipo === 'agregar_zona_personalizado' || $tipo == 'editar_zona_personalizado') {
             $CI->form_validation->set_rules("descripcion", "Descripcion", "required|min_length[5]|max_length[255]");
             $CI->form_validation->set_rules("nombre", "Nombre", "required|min_length[5]|max_length[255]");
+        }
+        if ($tipo === 'agregar' || $tipo === 'editar') {
             $CI->form_validation->set_rules("local", "Local", "required|is_numeric");
         }
         if ($CI->form_validation->run() != false) {

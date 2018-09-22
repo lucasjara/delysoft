@@ -83,4 +83,3 @@
 <script src="<?php echo base_url('/public/js/integracion_datatables.js') ?>"></script>
 <script src="<?php echo base_url('/public/select2/dist/js/select2.full.js') ?>"></script>
 </html>
-
