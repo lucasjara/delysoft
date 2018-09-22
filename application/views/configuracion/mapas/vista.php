@@ -9,7 +9,7 @@
 <style type="text/css">
     #map {
         width: 100%;
-        height: 600px;
+        height: 800px;
     }
 </style>
 <div class="row" style="margin-left: 1%;margin-right: 1%;margin-top: 1%;">
@@ -31,8 +31,6 @@
                         <div class="panel-heading">
                             <div class="panel-title pull-left"><p>ZONAS DE TRABAJO</p></div>
                             <div class="panel-title pull-right">
-                                <button class="btn btn-success" data-toggle="collapse" data-target="#demo">Colapsar
-                                </button>
                             </div>
                             <div class="clearfix"></div>
                         </div>

@@ -53,6 +53,7 @@ class Mapas extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
+
     public function editar_zona_local()
     {
         $mensaje = new stdClass();
@@ -79,7 +80,63 @@ class Mapas extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }
 
-    public function obtener_listado_zonas_local()
+    public function buscar_zona_mapa()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_zonas('comprueba');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/zonas_model');
+                $id_zona = $this->input->post('id');
+                $respuesta = $this->zonas_model->obtener_detalle_zona($id_zona);
+                $mensaje->respuesta = 'S';
+                $mensaje->data = $respuesta;
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+
+    public function guardar_detalle_zona()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_detalle_zonas('agregar');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/zonas_model');
+                $id_zona = $this->input->post('id_zona');
+                $longitud = $this->input->post('longitud');
+                $latitud = $this->input->post('latitud');
+                if (count($longitud) == count($latitud)) {
+                    for ($i = 0; $i < count($longitud); $i++) {
+                        $this->zonas_model->guardar_detalle_zona($longitud[$i], $latitud[$i], $id_zona);
+                    }
+                    $mensaje->respuesta = 'S';
+                } else {
+                    $mensaje->respuesta = 'N';
+                    $mensaje->data = "Inconsistencia de datos";
+                }
+                $mensaje->respuesta = 'S';
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+
+    public
+    function obtener_listado_zonas_local()
     {
         $mensaje = new stdClass();
         $this->load->model('/administracion/zonas_model', 'zonas_model');
@@ -99,14 +156,23 @@ class Mapas extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
 
-    private function formato_cuadro($respuesta)
-    {
-        $respuesta = "<input type='checkbox' name='check' style='width: 18px; height: 18px;'>";
+    private
+    function formato_cuadro(
+        $data
+    ) {
+        $respuesta = "<input 
+                        type='checkbox' 
+                        name='check'
+                        class='check_zona'
+                        style='width: 18px; height: 18px;'
+                        data-id=" . $data['ID'] . " >";
         return $respuesta;
     }
 
-    private function formato_activo($respuesta)
-    {
+    private
+    function formato_activo(
+        $respuesta
+    ) {
         if ($respuesta === 'S') {
             $respuesta = "<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>";
         } else {
@@ -115,8 +181,10 @@ class Mapas extends CI_Controller
         return $respuesta;
     }
 
-    private function formato_acciones($data)
-    {
+    private
+    function formato_acciones(
+        $data
+    ) {
         $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
             " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-local='" . $data['ID_LOCAL'] . "' data-activo='" . $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data['ACTIVO'] == 'S') {

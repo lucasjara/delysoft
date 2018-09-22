@@ -226,7 +226,7 @@ if (!function_exists('form_zonas')) {
     {
         $CI =& get_instance();
         $respuesta = new stdClass();
-        if ($tipo === 'editar' || $tipo === 'estado' || $tipo === 'editar_zona_personalizado') {
+        if ($tipo === 'editar' || $tipo === 'estado' || $tipo === 'editar_zona_personalizado' || $tipo == 'comprueba') {
             $CI->form_validation->set_rules("id", "Id", "required");
             $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
@@ -328,6 +328,27 @@ if (!function_exists('form_producto')) {
             $CI->form_validation->set_rules("nombre", "Nombre", "required|min_length[5]|max_length[255]");
             $CI->form_validation->set_rules("precio", "Precio", "required|is_numeric");
         }
+        if ($CI->form_validation->run() != false) {
+            $respuesta->respuesta = 'S';
+        } else {
+            $respuesta->respuesta = 'N';
+            $respuesta->mensaje = validation_errors();;
+        }
+        return $respuesta;
+    }
+}
+if (!function_exists('form_detalle_zonas')) {
+    /**
+     * @param $tipo =  campo para saber el tipo de validacion es para agregar o editar o cambiar estado
+     * @return stdClass = campos con resultado de validacion
+     */
+    function form_detalle_zonas($tipo)
+    {
+        $CI =& get_instance();
+        $respuesta = new stdClass();
+        $CI->form_validation->set_rules("longitud[]", "Longitud", "required|is_numeric");
+        $CI->form_validation->set_rules("latitud[]", "Latitud", "required|is_numeric");
+        $CI->form_validation->set_rules("id_zona", "id_zona", "required|is_numeric");
         if ($CI->form_validation->run() != false) {
             $respuesta->respuesta = 'S';
         } else {

@@ -1,5 +1,12 @@
 $(document).ready(function () {
 // Variables Globales
+    // Inicio Mapa
+    let latitud;
+    let longitud;
+    let mapa;
+    let ubicacion_actual;
+    var zona;
+    // Fin Mapa
     // CRUD Zonas
     var btn_agregar = $('#btn_agregar_zonas')
     var modal_alerta_agregar_editar = $('#modal_alerta_agregar_editar')
@@ -39,8 +46,11 @@ $(document).ready(function () {
                 "targets": 2,
                 "className": "text-right",
             }],
-        "order": [[ 1, "asc" ]]
+        "order": [[1, "asc"]]
     })
+    navigator.geolocation.getCurrentPosition(function (posicion) {
+        iniciarMapa(posicion);
+    });
 // Fin Carga Inicial Web
 // Eventos
     btn_agregar.on('click', function () {
@@ -124,8 +134,36 @@ $(document).ready(function () {
             }
         })
     })
+    tabla.on('click', '.check_zona', function () {
+        var array = {
+            'id': $(this).attr('data-id')
+        }
+        zona = $(this).attr('data-id')
+        var request = envia_ajax('/configuracion/mapas/buscar_zona_mapa', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                let valor = data.data.length;
+                if (valor > 0) {
+                    AgregarPoligono(data.data)
+                } else {
+                    AgregarDibujo()
+                }
+
+                $("#demo").collapse();
+            }
+            else {
+                $('#modal_generico_body').html(data.data)
+                $('#modal_generico').modal('show')
+            }
+        })
+    })
 // Fin Eventos
 // Funciones
+
     function envia_ajax(url, data) {
         var variable = $.ajax({
             url: url,
@@ -147,4 +185,91 @@ $(document).ready(function () {
     }
 
 // Fin Funciones
+// Funciones Mapa
+    const iniciarMapa = (posicion) => {
+        latitud = posicion.coords.latitude;
+        longitud = posicion.coords.longitude;
+        ubicacion_actual = {lat: latitud, lng: longitud};
+        mapa = new google.maps.Map(document.getElementById('map'), {
+            center: ubicacion_actual,
+            zoom: 18
+        });
+        /*
+        let marker = new google.maps.Marker({
+            position: ubicacion_actual,
+            map: mapa,
+            title: 'Ubicacion Actual'
+        });
+        */
+        //AgregarDibujo()
+    };
+    const AgregarDibujo = () => {
+        console.log("dibujo");
+        let drawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: google.maps.drawing.OverlayType.POLYGON,
+            drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: ['polygon'],
+            },
+            markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+            circleOptions: {
+                fillColor: '#ffff00',
+                fillOpacity: 1,
+                strokeWeight: 5,
+                clickable: false,
+                editable: true,
+                zIndex: 1,
+            },
+        })
+        drawingManager.setMap(mapa)
+        google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+            drawingManager.setDrawingMode(null)
+            var coordinates = (polygon.getPath().getArray());
+            var path = polygon.getPath();
+            let longitud = [];
+            let latitud = [];
+            for (var i = 0; i < coordinates.length; i++) {
+                longitud.push(path.getAt(i).lng())
+                latitud.push(path.getAt(i).lat())
+            }
+            var array = {
+                'id_zona': zona,
+                'latitud': latitud,
+                'longitud': longitud
+            }
+            var request = envia_ajax('/configuracion/mapas/guardar_detalle_zona', array)
+            request.fail(function () {
+                $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+                $('#modal_generico').modal('show')
+            })
+            request.done(function (data) {
+                if (data.respuesta == 'S') {
+
+                }
+                else {
+                    $('#modal_generico_body').html(data.data)
+                    $('#modal_generico').modal('show')
+                }
+            })
+        });
+    }
+    const AgregarPoligono = (data) => {
+        var CoordenadasZona = []
+        for (var i = 0; i < data.length; i++) {
+            CoordenadasZona.push({lat: parseFloat(data[i].LATITUD), lng: parseFloat(data[i].LONGITUD)})
+        }
+        console.log(CoordenadasZona);
+        // Construct the polygon.
+        var zona = new google.maps.Polygon({
+            paths: CoordenadasZona,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35
+        });
+        zona.setMap(mapa);
+    }
+// Fin Funciones Mapa
 });
