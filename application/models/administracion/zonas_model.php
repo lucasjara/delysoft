@@ -66,7 +66,8 @@ class Zonas_model extends CI_Model
                             zonas.DESCRIPCION,
                             zonas.ACTIVO,
                             locales.NOMBRE LOCAL,
-                            locales.ID ID_LOCAL
+                            locales.ID ID_LOCAL,
+                            (SELECT COUNT(*) FROM tb_puntos_zona puntos_zona where puntos_zona.TB_ZONA_ID=zonas.ID AND puntos_zona.ACTIVO=\'S\') CANTIDAD_PUNTOS
                 ')
             ->from('tb_zona zonas')
             ->join('tb_local locales', 'locales.ID=zonas.TB_LOCAL_ID', 'INNER')
@@ -82,7 +83,22 @@ class Zonas_model extends CI_Model
                             puntos_zona.LATITUD
                 ')
             ->from('tb_puntos_zona puntos_zona')
-            ->where("puntos_zona.TB_ZONA_ID", $id_zona);
+            ->where("puntos_zona.TB_ZONA_ID", $id_zona)
+            ->where("puntos_zona.ACTIVO", 'S');
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
+
+    public function obtener_detalles_zonas($id_zonas)
+    {
+        $this->db->select('
+                            puntos_zona.LONGITUD,
+                            puntos_zona.LATITUD,
+                            puntos_zona.TB_ZONA_ID
+                ')
+            ->from('tb_puntos_zona puntos_zona')
+            ->where("puntos_zona.TB_ZONA_ID IN ($id_zonas)")
+            ->where("puntos_zona.ACTIVO", 'S');
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
@@ -95,5 +111,12 @@ class Zonas_model extends CI_Model
         $this->db->set('ACTIVO', 'S');
         $this->db->insert('tb_puntos_zona');
         return $this->db->insert_id();
+    }
+
+    public function limpieza_detalle_zona($id_zona)
+    {
+        $this->db->set('ACTIVO', 'N');
+        $this->db->where('TB_ZONA_ID', $id_zona);
+        return $this->db->update('tb_puntos_zona');
     }
 }

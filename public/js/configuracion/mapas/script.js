@@ -46,11 +46,14 @@ $(document).ready(function () {
                 "targets": 2,
                 "className": "text-right",
             }],
-        "order": [[1, "asc"]]
+        "order": [[1, "asc"]],
+        "initComplete": function (settings, json) {
+            navigator.geolocation.getCurrentPosition(function (posicion) {
+                iniciarMapa(posicion);
+            });
+            $("#demo").collapse();
+        }
     })
-    navigator.geolocation.getCurrentPosition(function (posicion) {
-        iniciarMapa(posicion);
-    });
 // Fin Carga Inicial Web
 // Eventos
     btn_agregar.on('click', function () {
@@ -68,6 +71,26 @@ $(document).ready(function () {
         mdl_descripcion.val($(this).attr('data-descripcion'))
         mdl_nombre.val($(this).attr('data-nombre'))
         mdl_agregar_editar.modal('show')
+    })
+    tabla.on('click', '.btn_limpieza', function () {
+        var array = {
+            'id_zona': $(this).attr('data-id')
+        }
+        var request = envia_ajax('/configuracion/mapas/limpieza_detalle_zona', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                mdl_agregar_editar.modal('hide')
+                table.ajax.reload()
+            }
+            else {
+                modal_alerta_agregar_editar.html(data.data)
+                modal_alerta_agregar_editar.addClass('alert alert-danger')
+            }
+        })
     })
     mdl_btn_agregar.on('click', function () {
         var array = {
@@ -152,8 +175,6 @@ $(document).ready(function () {
                 } else {
                     AgregarDibujo()
                 }
-
-                $("#demo").collapse();
             }
             else {
                 $('#modal_generico_body').html(data.data)
@@ -187,13 +208,16 @@ $(document).ready(function () {
 // Fin Funciones
 // Funciones Mapa
     const iniciarMapa = (posicion) => {
-        latitud = posicion.coords.latitude;
-        longitud = posicion.coords.longitude;
+        // latitud = posicion.coords.latitude;
+        // longitud = posicion.coords.longitude;
+        latitud = -38.7362442;
+        longitud = -72.5905979;
         ubicacion_actual = {lat: latitud, lng: longitud};
         mapa = new google.maps.Map(document.getElementById('map'), {
             center: ubicacion_actual,
-            zoom: 18
+            zoom: 13
         });
+        CargarMapasActivos()
         /*
         let marker = new google.maps.Marker({
             position: ubicacion_actual,
@@ -201,10 +225,37 @@ $(document).ready(function () {
             title: 'Ubicacion Actual'
         });
         */
-        //AgregarDibujo()
     };
+    const CargarMapasActivos = () => {
+        var MapasActivos = []
+        $("#tabla_zonas_local .check_zona").each(function () {
+            if ($(this).prop('checked')) {
+                MapasActivos.push($(this).attr('data-id'))
+            }
+        })
+        // Si el numero es menor a cero no exiten poligonos creados
+        if (MapasActivos.length > 0) {
+            var array = {
+                'id_zonas': MapasActivos
+            }
+            var request = envia_ajax('/configuracion/mapas/buscar_zonas_mapas', array)
+            request.fail(function () {
+                $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+                $('#modal_generico').modal('show')
+            })
+            request.done(function (data) {
+                if (data.respuesta == 'S') {
+                    AgregarPoligonoMapa(data.zonas, data.data);
+                }
+                else {
+                    $('#modal_generico_body').html(data.data)
+                    $('#modal_generico').modal('show')
+                }
+            })
+        }
+
+    }
     const AgregarDibujo = () => {
-        console.log("dibujo");
         let drawingManager = new google.maps.drawing.DrawingManager({
             drawingMode: google.maps.drawing.OverlayType.POLYGON,
             drawingControl: true,
@@ -259,7 +310,6 @@ $(document).ready(function () {
         for (var i = 0; i < data.length; i++) {
             CoordenadasZona.push({lat: parseFloat(data[i].LATITUD), lng: parseFloat(data[i].LONGITUD)})
         }
-        console.log(CoordenadasZona);
         // Construct the polygon.
         var zona = new google.maps.Polygon({
             paths: CoordenadasZona,
@@ -270,6 +320,31 @@ $(document).ready(function () {
             fillOpacity: 0.35
         });
         zona.setMap(mapa);
+    }
+    const AgregarPoligonoMapa = (zonas, data) => {
+        var contador = 0;
+        var CoordenadasZona = []
+        var zona;
+        for (var i = 0; i < zonas.length; i++) {
+            CoordenadasZona = []
+            for (var y = 0; y < data[contador].length; y++) {
+                CoordenadasZona.push({
+                    lat: parseFloat(data[contador][y].LATITUD),
+                    lng: parseFloat(data[contador][y].LONGITUD)
+                })
+            }
+            // Construir Poligono.
+            zona = new google.maps.Polygon({
+                paths: CoordenadasZona,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35
+            });
+            zona.setMap(mapa);
+            contador++;
+        }
     }
 // Fin Funciones Mapa
 });

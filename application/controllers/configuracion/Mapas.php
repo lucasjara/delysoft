@@ -103,6 +103,33 @@ class Mapas extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }
 
+    public function buscar_zonas_mapas(){
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_zonas('comprueba_anidado');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/zonas_model');
+                $id_zonas = $this->input->post('id_zonas');
+                $data = array();
+                for ($i=0;$i<count($id_zonas);$i++){
+                    $respuesta = $this->zonas_model->obtener_detalle_zona($id_zonas[$i]);
+                    array_push($data,$respuesta);
+                }
+                $mensaje->respuesta = 'S';
+                $mensaje->data = $data;
+                $mensaje->zonas = $id_zonas;
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+
     public function guardar_detalle_zona()
     {
         $mensaje = new stdClass();
@@ -124,6 +151,29 @@ class Mapas extends CI_Controller
                     $mensaje->data = "Inconsistencia de datos";
                 }
                 $mensaje->respuesta = 'S';
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+
+    public function limpieza_detalle_zona()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_detalle_zonas('detalle');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/zonas_model');
+                $id_zona = $this->input->post('id_zona');
+                $this->zonas_model->limpieza_detalle_zona($id_zona);
+                $mensaje->respuesta = 'S';
+                $mensaje->data = 'Limpieza Realizada Correctamente';
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = validation_errors();
@@ -160,12 +210,23 @@ class Mapas extends CI_Controller
     function formato_cuadro(
         $data
     ) {
-        $respuesta = "<input 
+        $respuesta = "";
+        if ($data['CANTIDAD_PUNTOS'] > 0) {
+            $respuesta .= "<input 
+                        type='checkbox' 
+                        name='check'
+                        class='check_zona'
+                        style='width: 18px; height: 18px;'
+                        data-id=" . $data['ID'] . "
+                         checked>";
+        }else{
+            $respuesta .= "<input 
                         type='checkbox' 
                         name='check'
                         class='check_zona'
                         style='width: 18px; height: 18px;'
                         data-id=" . $data['ID'] . " >";
+        }
         return $respuesta;
     }
 
@@ -174,7 +235,7 @@ class Mapas extends CI_Controller
         $respuesta
     ) {
         if ($respuesta === 'S') {
-            $respuesta = "<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>";
+            $respuesta = "<button class='btn btn-success bt2n-xs' type='button'>ACTIVO</button>";
         } else {
             $respuesta = "<button class='btn btn-danger btn-xs' type='button'>INACTIVO</button>";
         }
@@ -185,13 +246,18 @@ class Mapas extends CI_Controller
     function formato_acciones(
         $data
     ) {
-        $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' data-id=" . $data['ID'] . " " .
+        $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' title='Editar Zona' data-id=" . $data['ID'] . " " .
             " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-local='" . $data['ID_LOCAL'] . "' data-activo='" . $data['ACTIVO'] . "' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
         if ($data['ACTIVO'] == 'S') {
-            $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
+            $respuesta .= " <button class='btn btn-success btn-xs btn_estado' title='Cambiar Estado Zona' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
         } else {
-            $respuesta .= " <button class='btn btn-danger btn-xs btn_estado' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>";
+            $respuesta .= " <button class='btn btn-danger btn-xs btn_estado' title='Cambiar Estado Zona' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>";
         }
+        $respuesta .= " <button class='btn btn-info btn-xs btn_limpieza' title='Limpieza Mapa' type='button' data-id=" . $data['ID'] . "><span
+                            class='glyphicon glyphicon-list-alt' aria-hidden='true'></span></button>
+                    <button class='btn btn-success btn-xs btn_producto' title='Asignar Productos' type='button'><span
+                                class='glyphicon glyphicon-plus' aria-hidden='true'></span>
+                    </button>";
         return $respuesta;
     }
 }

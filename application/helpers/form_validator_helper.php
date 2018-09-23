@@ -230,6 +230,10 @@ if (!function_exists('form_zonas')) {
             $CI->form_validation->set_rules("id", "Id", "required");
             $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }
+        if ($tipo === 'comprueba_anidado') {
+            $CI->form_validation->set_rules("id_zonas[]", "Id", "required");
+            $CI->form_validation->set_message('id_zonas[]', 'Id', 'Error al enviar la peticion');
+        }
         if ($tipo === 'estado') {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
@@ -346,9 +350,14 @@ if (!function_exists('form_detalle_zonas')) {
     {
         $CI =& get_instance();
         $respuesta = new stdClass();
-        $CI->form_validation->set_rules("longitud[]", "Longitud", "required|is_numeric");
-        $CI->form_validation->set_rules("latitud[]", "Latitud", "required|is_numeric");
-        $CI->form_validation->set_rules("id_zona", "id_zona", "required|is_numeric");
+        if ($tipo === 'agregar' || $tipo === 'detalle'){
+            $CI->form_validation->set_rules("id_zona", "id_zona", "required|is_numeric");
+        }
+        if ($tipo === 'agregar'){
+            $CI->form_validation->set_rules("longitud[]", "Longitud", "required|is_numeric");
+            $CI->form_validation->set_rules("latitud[]", "Latitud", "required|is_numeric");
+        }
+
         if ($CI->form_validation->run() != false) {
             $respuesta->respuesta = 'S';
         } else {
