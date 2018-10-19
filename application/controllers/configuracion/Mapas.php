@@ -103,7 +103,8 @@ class Mapas extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }
 
-    public function buscar_zonas_mapas(){
+    public function buscar_zonas_mapas()
+    {
         $mensaje = new stdClass();
         $this->load->helper('array_utf8');
         if (validarUsuario(true)) {
@@ -112,9 +113,9 @@ class Mapas extends CI_Controller
                 $this->load->model('/administracion/zonas_model');
                 $id_zonas = $this->input->post('id_zonas');
                 $data = array();
-                for ($i=0;$i<count($id_zonas);$i++){
+                for ($i = 0; $i < count($id_zonas); $i++) {
                     $respuesta = $this->zonas_model->obtener_detalle_zona($id_zonas[$i]);
-                    array_push($data,$respuesta);
+                    array_push($data, $respuesta);
                 }
                 $mensaje->respuesta = 'S';
                 $mensaje->data = $data;
@@ -151,6 +152,39 @@ class Mapas extends CI_Controller
                     $mensaje->data = "Inconsistencia de datos";
                 }
                 $mensaje->respuesta = 'S';
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+
+    public function agregar_producto_zona()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_producto('agregar');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/productos_model');
+                $this->load->model('/administracion/zonas_model');
+                $id_local = $this->session->id_local;
+                $id_zona = $this->input->post('id_zona');
+                $nombre = $this->input->post('nombre');
+                $descripcion = $this->input->post('descripcion');
+                $precio = $this->input->post('precio');
+                $id_producto = $this->productos_model->ingresar_productos($descripcion, $nombre, $precio, $id_local);
+                if ($id_producto != null){
+                    $this->zonas_model->vincular_productos_zona($id_local,$id_producto);
+                    $mensaje->respuesta = 'S';
+                }else{
+                    $mensaje->respuesta = 'N';
+                    $mensaje->data = 'Error al Vincular Producto';
+                }
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = validation_errors();
@@ -206,6 +240,32 @@ class Mapas extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
 
+    public
+    function obtener_productos_zona()
+    {
+        $mensaje = new stdClass();
+        $this->load->model('/administracion/zonas_model', 'zonas_model');
+        if (validarUsuario(true)) {
+            $validator = form_detalle_zonas('detalle');
+            if ($validator->respuesta == 'S') {
+                $id_zona = $this->input->post('id_zona');
+                $datos = $this->zonas_model->obtener_productos_zona($id_zona);
+                for ($i = 0; $i < count($datos); $i++) {
+                    $datos[$i]->ACCIONES = $this->formato_acciones_productos_zona($datos[$i]);
+                    $datos[$i]->ACTIVO = $this->formato_activo($datos[$i]->ACTIVO);
+                }
+                $mensaje->respuesta = 'S';
+                $mensaje->data = $datos;
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = validation_errors();
+            }
+        } else {
+            $mensaje->respuesta = 'Session no Valida';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
+    }
+
     private
     function formato_cuadro(
         $data
@@ -219,7 +279,7 @@ class Mapas extends CI_Controller
                         style='width: 18px; height: 18px;'
                         data-id=" . $data['ID'] . "
                          checked>";
-        }else{
+        } else {
             $respuesta .= "<input 
                         type='checkbox' 
                         name='check'
@@ -255,9 +315,37 @@ class Mapas extends CI_Controller
         }
         $respuesta .= " <button class='btn btn-info btn-xs btn_limpieza' title='Limpieza Mapa' type='button' data-id=" . $data['ID'] . "><span
                             class='glyphicon glyphicon-list-alt' aria-hidden='true'></span></button>
-                    <button class='btn btn-success btn-xs btn_producto' title='Asignar Productos' type='button'><span
+                    <button class='btn btn-success btn-xs btn_producto' title='Asignar Productos' data-id=" . $data['ID'] . " type='button'><span
                                 class='glyphicon glyphicon-plus' aria-hidden='true'></span>
                     </button>";
+        return $respuesta;
+    }
+
+    private function formato_acciones_productos_zona(
+        $data
+    ) {
+        $respuesta = "<button class='btn btn-primary btn-xs btn_editar' type='button' title='Editar Producto' " .
+            " data-id=" . $data->ID . " " .
+            " data-descripcion='" . $data->DESCRIPCION . "' " .
+            " data-nombre='" . $data->PRODUCTO . "' " .
+            " data-precio='" . $data->PRECIO . "' " .
+            " data-activo='" . $data->ACTIVO . "' >" .
+            "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+        if ($data->ACTIVO == 'S') {
+            $respuesta .= " <button class='btn btn-success btn-xs btn_estado' " .
+                " title='Cambiar Estado Producto' " .
+                " type='button' " .
+                " data-id=" . $data->ID . " " .
+                " data-activo=" . $data->ACTIVO . ">" .
+                "<span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
+        } else {
+            $respuesta .= " <button class='btn btn-danger btn-xs btn_estado' " .
+                " title='Cambiar Estado Producto' " .
+                " type='button' " .
+                " data-id=" . $data->ID . " " .
+                " data-activo=" . $data->ACTIVO . ">" .
+                "<span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>";
+        }
         return $respuesta;
     }
 }

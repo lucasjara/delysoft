@@ -18,6 +18,12 @@ $(document).ready(function () {
     var mdl_descripcion = $('#descripcion')
     var mdl_local = $('#local').select2()
     var mdl_id_edit = $('#id_modificar')
+    var mdl_agregar_productos = $("#modal_agregar_productos")
+    var modal_alerta_productos = $("#modal_alerta_productos_zona")
+    var titulo_mdl_productos = $("#titulo_agregar_productos_zonas")
+    var id_zona = $("#id_zona")
+    var tabla_productos_zona = $("#tabla_productos_zona")
+    var btn_agregar_prod = $("#btn_agregar_producto")
 // Fin Variables Globales
 // Carga Inicial Web
     var tabla = $("#tabla_zonas_local")
@@ -84,11 +90,50 @@ $(document).ready(function () {
         request.done(function (data) {
             if (data.respuesta == 'S') {
                 mdl_agregar_editar.modal('hide')
+                //mapa.overlay.setMap(null);
                 table.ajax.reload()
             }
             else {
                 modal_alerta_agregar_editar.html(data.data)
                 modal_alerta_agregar_editar.addClass('alert alert-danger')
+            }
+        })
+    })
+    tabla.on('click', '.btn_producto', function () {
+        let zona = $(this).attr('data-id')
+        var array = {
+            'id_zona': zona
+        }
+        var request = envia_ajax('/configuracion/mapas/obtener_productos_zona', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                titulo_mdl_productos.text('Listado de Productos en Zona')
+                mdl_agregar_productos.modal('show')
+                id_zona.val(zona)
+                tabla_productos_zona.DataTable({
+                    'language': {
+                        'url': '/public/Spanish.json',
+                    },
+                    'data': data.data,
+                    'columns': [
+                        {'data': 'PRODUCTO'},
+                        {'data': 'DESCRIPCION'},
+                        {'data': 'PRECIO'},
+                        {'data': 'ACTIVO'},
+                        {'data': 'ACCIONES'},
+                    ],
+                    "order": [[0, "asc"]],
+                    destroy: true,
+                    responsive: true
+                });
+            }
+            else {
+                modal_alerta_productos.html(data.data)
+                modal_alerta_productos.addClass('alert alert-danger')
             }
         })
     })
@@ -170,8 +215,8 @@ $(document).ready(function () {
         request.done(function (data) {
             if (data.respuesta == 'S') {
                 let valor = data.data.length;
-                if (valor > 0) {
-                    AgregarPoligono(data.data)
+                if (valor < 0) {
+                    AgregarDibujo()
                 } else {
                     AgregarDibujo()
                 }
@@ -182,6 +227,31 @@ $(document).ready(function () {
             }
         })
     })
+    btn_agregar_prod.on('click', function () {
+        var array = {
+            'id_zona': id_zona.val(),
+            'nombre': mdl_nom.val(),
+            'descripcion': mdl_desc.val(),
+            'precio': mdl_precio.val()
+        }
+        var request = envia_ajax("/configuracion/mapas/agregar_producto_zona", array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                tabla_productos_zona.ajax.reload()
+            }
+            else {
+                $('#modal_generico_body').html(data.data)
+                $('#modal_generico').modal('show')
+            }
+        })
+    })
+    tabla_productos_zona.on('click','.btn_editar',function () {
+       console.log(uno)
+    });
 // Fin Eventos
 // Funciones
 
@@ -207,6 +277,7 @@ $(document).ready(function () {
 
 // Fin Funciones
 // Funciones Mapa
+    var all_overlays = [];
     const iniciarMapa = (posicion) => {
         // latitud = posicion.coords.latitude;
         // longitud = posicion.coords.longitude;
@@ -296,7 +367,8 @@ $(document).ready(function () {
             })
             request.done(function (data) {
                 if (data.respuesta == 'S') {
-
+                    $("#map").html("");
+                    iniciarMapa();
                 }
                 else {
                     $('#modal_generico_body').html(data.data)

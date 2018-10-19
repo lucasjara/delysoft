@@ -119,4 +119,27 @@ class Zonas_model extends CI_Model
         $this->db->where('TB_ZONA_ID', $id_zona);
         return $this->db->update('tb_puntos_zona');
     }
+    public function obtener_productos_zona($id_zona)
+    {
+        $this->db->select('
+                            producto.ID,
+                            producto.NOMBRE PRODUCTO,
+                            producto.DESCRIPCION,
+                            producto.PRECIO,
+                            producto.ACTIVO
+                ')
+            ->from('tb_zona zonas')
+            ->join('tb_zona_producto zona_producto', 'zonas.ID=zona_producto.TB_ZONA_ID', 'INNER')
+            ->join('tb_producto producto', 'producto.ID=zona_producto.TB_PRODUCTO_ID', 'INNER')
+            ->where("zonas.ID", $id_zona);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
+    public function vincular_productos_zona($id_zona,$id_producto){
+        $this->db->set('TB_ZONA_ID', $longitud);
+        $this->db->set('TB_PRODUCTO_ID', $latitud);
+        $this->db->set('ACTIVO', 'S');
+        $this->db->insert('tb_zona_producto');
+        return $this->db->insert_id();
+    }
 }
