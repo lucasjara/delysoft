@@ -24,6 +24,10 @@ $(document).ready(function () {
     var id_zona = $("#id_zona")
     var tabla_productos_zona = $("#tabla_productos_zona")
     var btn_agregar_prod = $("#btn_agregar_producto")
+    // Modal Prod
+    var mdl_nom = $('#mdl_nom')
+    var mdl_desc = $('#mdl_desc')
+    var mdl_precio = $('#mdl_precio')
 // Fin Variables Globales
 // Carga Inicial Web
     var tabla = $("#tabla_zonas_local")
@@ -114,22 +118,7 @@ $(document).ready(function () {
                 titulo_mdl_productos.text('Listado de Productos en Zona')
                 mdl_agregar_productos.modal('show')
                 id_zona.val(zona)
-                tabla_productos_zona.DataTable({
-                    'language': {
-                        'url': '/public/Spanish.json',
-                    },
-                    'data': data.data,
-                    'columns': [
-                        {'data': 'PRODUCTO'},
-                        {'data': 'DESCRIPCION'},
-                        {'data': 'PRECIO'},
-                        {'data': 'ACTIVO'},
-                        {'data': 'ACCIONES'},
-                    ],
-                    "order": [[0, "asc"]],
-                    destroy: true,
-                    responsive: true
-                });
+                cargar_productos_zona(data.data)
             }
             else {
                 modal_alerta_productos.html(data.data)
@@ -241,7 +230,8 @@ $(document).ready(function () {
         })
         request.done(function (data) {
             if (data.respuesta == 'S') {
-                tabla_productos_zona.ajax.reload()
+                cargar_productos_zona(data.data)
+                $('#formulario_productos_modal').trigger("reset");
             }
             else {
                 $('#modal_generico_body').html(data.data)
@@ -250,7 +240,7 @@ $(document).ready(function () {
         })
     })
     tabla_productos_zona.on('click','.btn_editar',function () {
-       console.log(uno)
+
     });
 // Fin Eventos
 // Funciones
@@ -274,7 +264,28 @@ $(document).ready(function () {
         mdl_btn_agregar.hide()
         mdl_btn_editar.hide()
     }
-
+    function cargar_productos_zona(data) {
+        if(data == null){
+            tabla_productos_zona.dataTable().fnClearTable();
+        }else{
+            tabla_productos_zona.DataTable({
+                'language': {
+                    'url': '/public/Spanish.json',
+                },
+                'data': data,
+                'columns': [
+                    {'data': 'PRODUCTO'},
+                    {'data': 'DESCRIPCION'},
+                    {'data': 'PRECIO'},
+                    {'data': 'ACTIVO'},
+                    {'data': 'ACCIONES'},
+                ],
+                "order": [[0, "asc"]],
+                destroy: true,
+                responsive: true
+            });
+        }
+    }
 // Fin Funciones
 // Funciones Mapa
     var all_overlays = [];

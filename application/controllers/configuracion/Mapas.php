@@ -178,10 +178,16 @@ class Mapas extends CI_Controller
                 $descripcion = $this->input->post('descripcion');
                 $precio = $this->input->post('precio');
                 $id_producto = $this->productos_model->ingresar_productos($descripcion, $nombre, $precio, $id_local);
-                if ($id_producto != null){
-                    $this->zonas_model->vincular_productos_zona($id_local,$id_producto);
+                if ($id_producto != null) {
+                    $this->zonas_model->vincular_productos_zona($id_zona, $id_producto);
                     $mensaje->respuesta = 'S';
-                }else{
+                    $datos = $this->zonas_model->obtener_productos_zona($id_zona);
+                    for ($i = 0; $i < count($datos); $i++) {
+                        $datos[$i]->ACCIONES = $this->formato_acciones_productos_zona($datos[$i]);
+                        $datos[$i]->ACTIVO = $this->formato_activo($datos[$i]->ACTIVO);
+                    }
+                    $mensaje->data = $datos;
+                } else {
                     $mensaje->respuesta = 'N';
                     $mensaje->data = 'Error al Vincular Producto';
                 }
@@ -240,8 +246,7 @@ class Mapas extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
 
-    public
-    function obtener_productos_zona()
+    public function obtener_productos_zona()
     {
         $mensaje = new stdClass();
         $this->load->model('/administracion/zonas_model', 'zonas_model');
@@ -261,7 +266,7 @@ class Mapas extends CI_Controller
                 $mensaje->data = validation_errors();
             }
         } else {
-            $mensaje->respuesta = 'Session no Valida';
+            $mensaje->data = 'Session no Valida';
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }

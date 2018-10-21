@@ -136,8 +136,8 @@ class Zonas_model extends CI_Model
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
     public function vincular_productos_zona($id_zona,$id_producto){
-        $this->db->set('TB_ZONA_ID', $longitud);
-        $this->db->set('TB_PRODUCTO_ID', $latitud);
+        $this->db->set('TB_ZONA_ID', $id_zona);
+        $this->db->set('TB_PRODUCTO_ID', $id_producto);
         $this->db->set('ACTIVO', 'S');
         $this->db->insert('tb_zona_producto');
         return $this->db->insert_id();
