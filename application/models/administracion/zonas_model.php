@@ -108,6 +108,7 @@ class Zonas_model extends CI_Model
         $this->db->set('LONGITUD', $longitud);
         $this->db->set('LATITUD', $latitud);
         $this->db->set('TB_ZONA_ID', $id_zona);
+        $this->db->set('POINT', "geomfromtext('POINT($longitud $latitud)')",false);
         $this->db->set('ACTIVO', 'S');
         $this->db->insert('tb_puntos_zona');
         return $this->db->insert_id();
