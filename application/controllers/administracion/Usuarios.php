@@ -19,7 +19,9 @@ class Usuarios extends CI_Controller
     public function index()
     {
         if (validarUsuario(false)) {
+            $this->load->model("/inicio_model");
             $this->load->model("/administracion/perfiles_model");
+            $data["rutas"] = $this->inicio_model->obtener_rutas();
             $data["perfiles"] = $this->perfiles_model->obtener_perfiles();
             $this->layout->setLayout("plantilla");
             $this->layout->view('vista', $data);

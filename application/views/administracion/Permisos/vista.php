@@ -6,13 +6,13 @@
  * Time: 22:06
  */
 ?>
-<div class='row'>
+<div style="margin:1%;">
     <div class='panel panel-primary'>
         <div class='panel-heading'>
-            <div class='panel-title pull-left'>ADMINISTRACION PERMISOS</div>
+            <div class='panel-title pull-left'>Administración Sistema de Permisos</div>
             <div class='pull-right'>
                 <button type='submit' class='btn btn-success btn-xs' title='Agregar' id='btn_agregar_permisos'><span
-                        class='glyphicon glyphicon-plus'></span><b> AGREGAR PERMISOS</b></button>
+                            class='glyphicon glyphicon-plus'></span><b> Agregar Permisos</b></button>
             </div>
             <div class='clearfix'></div>
         </div>
@@ -34,6 +34,7 @@
         </div>
     </div>
 </div>
+
 <!-- Modal Agregar / Editar  -->
 <div class='modal fade' id='modal_agregar_editar_permisos' role='dialog'>
     <div class='modal-dialog'>
@@ -60,9 +61,9 @@
                 </div>
                 <div class='form-group'>
                     <label class='control-label col-sm-2 col-sm-offset-2' for='url'>URL:</label>
-                        <div class='col-sm-6'>
-                            <input type='text' class='form-control' id='url' name='url' value=''>
-                        </div>
+                    <div class='col-sm-6'>
+                        <input type='text' class='form-control' id='url' name='url' value=''>
+                    </div>
                     <div class='clearfix'></div>
                 </div>
                 <input type='hidden' name='id_edit' id='id_modificar'>

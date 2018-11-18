@@ -6,7 +6,7 @@
  * Time: 12:51
  */
 ?>
-<div class='row'>
+<div style="margin:1%;">
     <div class='panel panel-primary'>
         <div class='panel-heading'>
             <div class='panel-title pull-left'>ADMINISTRACION ZONAS</div>

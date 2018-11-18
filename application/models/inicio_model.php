@@ -46,7 +46,8 @@ class Inicio_model extends CI_Model
     {
         $this->db->select("*")
             ->from('tb_permisos permisos')
-            ->where("permisos.ACTIVO",'S');
+            ->where("permisos.ACTIVO",'S')
+        ->order_by("permisos.DESCRIPCION","DESC");
         $query = $this->db->get();
         return $query->result();
     }

@@ -6,13 +6,13 @@
  * Time: 23:03
  */
  ?>
-<div class='row'>
+<div style="margin:1%;">
     <div class='panel panel-primary'>
         <div class='panel-heading'>
-            <div class='panel-title pull-left'>ADMINISTRACION PERFILES</div>
+            <div class='panel-title pull-left'>Administración Sistema de Perfiles</div>
             <div class='pull-right'>
                 <button type='submit' class='btn btn-success btn-xs' title='Agregar' id='btn_agregar_perfiles'><span
-                        class='glyphicon glyphicon-plus'></span><b> AGREGAR PERFILES</b></button>
+                        class='glyphicon glyphicon-plus'></span><b> Agregar Perfiles</b></button>
             </div>
             <div class='clearfix'></div>
         </div>

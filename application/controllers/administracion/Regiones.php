@@ -19,8 +19,10 @@ class Regiones extends CI_Controller
     public function index()
     {
         if (validarUsuario(false)) {
+            $this->load->model("/inicio_model");
+            $data["rutas"] = $this->inicio_model->obtener_rutas();
             $this->layout->setLayout('plantilla');
-            $this->layout->view('vista');
+            $this->layout->view('vista',$data);
         } else {
             redirect('/inicio/');
         }

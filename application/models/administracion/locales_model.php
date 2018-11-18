@@ -196,4 +196,35 @@ class Locales_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
+    public function obtener_historico_pedidos_local($id_local)
+    {
+        $this->db->select('
+                            enc.FECHA,
+                            count(*) CANTIDAD
+                        ')
+            ->from('tb_pedido_enc enc')
+            ->where('enc.TB_LOCAL_ID', $id_local)
+            ->where('enc.TB_ESTADO_PEDIDO_ID', 5)
+            ->group_by("enc.FECHA");
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
+    public function obtener_cantidad_pedidos_zona_local($id_local)
+    {
+        $this->db->select('
+                             zona.NOMBRE ZONA,
+                             COUNT(*) CANTIDAD_PEDIDOS 
+                        ')
+            ->from('tb_pedido_enc enc')
+            ->join("tb_pedido_det det", "det.TB_PEDIDO_ENC_ID=enc.ID", 'INNER')
+            ->join("tb_zona_producto zona_prod", "zona_prod.TB_PRODUCTO_ID=det.TB_PRODUCTO_ID", 'INNER')
+            ->join("tb_zona zona", "zona.ID=zona_prod.TB_ZONA_ID", 'INNER')
+            ->where('enc.TB_LOCAL_ID', $id_local)
+            ->where('enc.TB_ESTADO_PEDIDO_ID', 5)
+            ->where('enc.ACTIVO', 'S')
+            ->where('zona.ACTIVO', 'S')
+            ->group_by("zona.NOMBRE");
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
 }

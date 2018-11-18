@@ -62,6 +62,7 @@ class Pedidos_model extends CI_Model
         $this->db->where('ID', $id);
         return $this->db->update('tb_pedido_enc');
     }
+
     public function obtener_encabezado_pedido($id)
     {
         $this->db->select('
@@ -80,10 +81,11 @@ class Pedidos_model extends CI_Model
             ->join('tb_estado_pedido estado_pedido', 'estado_pedido.ID=pedido_enc.TB_ESTADO_PEDIDO_ID', 'INNER')
             ->join('tb_usuario usuario1', 'usuario1.ID=pedido_enc.TB_USUARIO_ENCARGADO_ID', 'INNER')
             ->join('tb_usuario usuario2', 'usuario2.ID=pedido_enc.TB_USUARIO_SOLICITA_ID', 'INNER')
-            ->where('pedido_enc.ID',$id);;
+            ->where('pedido_enc.ID', $id);;
         $query = $this->db->get();
         return $query->result_array();
     }
+
     public function obtener_detalle_pedido($id)
     {
         $this->db->select('
@@ -96,8 +98,9 @@ class Pedidos_model extends CI_Model
                         ')
             ->from('tb_pedido_det pedido_detalle')
             ->join('tb_producto productos', 'productos.ID=pedido_detalle.TB_PRODUCTO_ID', 'INNER')
-            ->where('pedido_detalle.TB_PEDIDO_ENC_ID',$id);
+            ->where('pedido_detalle.TB_PEDIDO_ENC_ID', $id);
         $query = $this->db->get();
         return $query->result_array();
     }
+
 }

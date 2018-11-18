@@ -22,6 +22,8 @@ class Locales extends CI_Controller
             $this->load->model("/administracion/regiones_model");
             $this->load->model("/administracion/ciudades_model");
             $this->load->model("/administracion/usuarios_model");
+            $this->load->model("/inicio_model");
+            $data["rutas"] = $this->inicio_model->obtener_rutas();
             $data["regiones"] = $this->regiones_model->obtener_regiones();
             $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
             $data["usuarios"] = $this->usuarios_model->obtener();

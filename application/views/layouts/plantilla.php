@@ -14,7 +14,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Delysoft</title>
-    <link rel="shortcut icon" href="<?php echo base_url('/public/img/icon.png') ?>" >
+    <link rel="shortcut icon" href="<?php echo base_url('/public/img/icon.png') ?>">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="<?php echo base_url('/public/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?php echo base_url('/public/select2/dist/css/select2.min.css') ?>">
@@ -24,28 +24,75 @@
     <!-- Carga Inicial por carga de plantilla-->
     <script src="<?php echo base_url('/public/js/jquery.js') ?>"></script>
 </head>
-<body>
-<!-- comienzo banner -->
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div name="banner" style="color: white; height: 40px;background: linear-gradient(to right,#1F4661 , #04BBBF); ">
-            <div class="row">
-                <div class="col-md-10 col-lg-10 col-xs-12 col-sm-12" style="margin-left: 1%;">
-                    <h4>Delysoft Entertaiment.</h4>
+<body style="background-color: #222222;">
+<!-- ========== MENU ========== -->
+<nav class="navbar navbar-inverse" style="background-color: #1A1A1A; margin-bottom: 0%;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand active" style="color:white;">Delysoft</a>
+        </div>
+    </div>
+</nav>
+
+<!-- contenedor centro -->
+<div class="container-fluid" style="padding: 0px;">
+    <div class="col-md-2 col-sm-12 col-xs-12 col-lg-2" style="padding-left: 0px;">
+        <div class="sidebar-nav" style="height:100%;">
+            <div class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".sidebar-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <span class="visible-xs navbar-brand">Menu</span>
                 </div>
+                <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a>Menu</a></li>
+                        <?php
+                        if (isset($rutas)) {?>
+                            <?php foreach ($rutas as $ruta) { ?>
+                                <li><a href="<?= $ruta->URL ?>"><?= $ruta->NOMBRE ?></a></li>
+                            <?php } ?>
+                        <?php } ?>
+                    </ul>
+                </div><!--/.nav-collapse -->
             </div>
+            <style>
+                @media (min-width: 768px) {
+                    .sidebar-nav .navbar .navbar-collapse {
+                        padding: 0;
+                        max-height: none;
+                    }
+
+                    .sidebar-nav .navbar ul {
+                        float: none;
+                        display: block;
+                    }
+
+                    .sidebar-nav .navbar li {
+                        float: none;
+                        display: block;
+                    }
+
+                    .sidebar-nav .navbar li a {
+                        padding-top: 12px;
+                        padding-bottom: 12px;
+                    }
+                }
+            </style>
+        </div>
+    </div>
+    <div class="col-md-10 col-sm-12 col-xs-12 col-lg-10">
+        <div class="panel panel-default" style="margin-top: 1%;">
+            <?php echo $content_for_layout; ?>
         </div>
     </div>
 </div>
-<!-- fin banner -->
-<br>
-<!-- contenedor centro -->
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <?php echo $content_for_layout; ?>
-        <div class="clearfix"></div>
-    </div>
-</div>
+
 <!-- fin contenedor centro -->
 </body>
 <style>

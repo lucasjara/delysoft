@@ -6,13 +6,13 @@
  * Time: 0:38
  */
  ?>
-<div class='row'>
+<div style="margin:1%;">
     <div class='panel panel-primary'>
         <div class='panel-heading'>
-            <div class='panel-title pull-left'>ADMINISTRACION ESTADOS PEDIDOS</div>
+            <div class='panel-title pull-left'>Administracion Sistema Estado del Pedido</div>
             <div class='pull-right'>
                 <button type='submit' class='btn btn-success btn-xs' title='Agregar' id='btn_agregar_estados_pedidos'><span
-                        class='glyphicon glyphicon-plus'></span><b> AGREGAR ESTADOS PEDIDOS</b></button>
+                        class='glyphicon glyphicon-plus'></span><b> Agregar Estado Pedido</b></button>
             </div>
             <div class='clearfix'></div>
         </div>

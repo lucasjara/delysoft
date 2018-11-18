@@ -17,7 +17,7 @@ $(document).ready(function () {
             'url': '/public/Spanish.json',
         },
         'ajax': {
-            'url': '/administracion/estados_pedidos/obtener_listado_estados_pedidos',
+            'url': '/administracion/Estados_Pedidos/obtener_listado_estados_pedidos',
             'datatype': 'json',
             'dataSrc': 'data',
             'type': 'post',

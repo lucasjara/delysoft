@@ -19,6 +19,8 @@ class Productos extends CI_Controller
     public function index()
     {
         if (validarUsuario(false)) {
+            $this->load->model("/inicio_model");
+            $data["rutas"] = $this->inicio_model->obtener_rutas();
             $this->load->model("/administracion/locales_model");
             $data["locales"] = $this->locales_model->obtener_listado_locales();
             $this->layout->setLayout('plantilla');

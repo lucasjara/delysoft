@@ -6,7 +6,7 @@
  * Time: 16:57
  */
 ?>
-<div class="row">
+<div style="margin:1%;">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="panel-title pull-left"><p>CONFIGURACION</p></div>
@@ -176,14 +176,6 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12">
-                        <div class="pull-left">
-                            <form action="/administrativo/inicio/" method="post">
-                                <button type="submit" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-arrow-left"></span>
-                                    VOLVER
-                                </button>
-                            </form>
-                        </div>
                         <div class="pull-right">
                             <button type="button" class="btn btn-primary" id="btn_confirmar_informacion">
                                 SIGUIENTE

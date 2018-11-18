@@ -61,7 +61,51 @@ $(document).ready(function () {
             }
         })
     })
-    // Cambio Estado
+    // Grafico funcion del tiempo
+    var request = envia_ajax('/administrativo/inicio/obtener_datos_grafico_tiempo')
+    request.fail(function () {
+        $('#grafico_tiempo').html("<div class='alert alert-info'>No se pudo cargar el Grafico Correctamente porfavor recargue la pagina</div>");
+    })
+    request.done(function (data) {
+        if (data.respuesta == 'S') {
+            var datos = [];
+            for (var x = 0; x < data.data.length; x++) {
+                datos.push({
+                    fecha: data.data[x]['FECHA'],
+                    cantidad: data.data[x]['CANTIDAD']
+                });
+            }
+            new Morris.Line({
+                element: 'grafico_tiempo',
+                data: datos,
+                xkey: 'fecha',
+                ykeys: ['cantidad'],
+                labels: ['Cantidad Pedidos'],
+                xLabelFormat: function(d) {
+                    return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+                },
+                dateFormat: function(date) {
+                    d = new Date(date);
+                    return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+                },
+                xLabelAngle: -80,
+            });
+            var datos_bar = [];
+            for (var x = 0; x < data.data_bar.length; x++) {
+                datos_bar.push({
+                    label: data.data_bar[x]['ZONA'],
+                    value: data.data_bar[x]['CANTIDAD_PEDIDOS']
+                });
+            }
+            Morris.Donut({
+                element: 'grafico_char_zonas',
+                data: datos_bar
+            });
+        }
+        else {
+            $('#grafico_tiempo').html("<div class='alert alert-info' style='margin-left: 1%;margin-right: 1%;'><strong>Alerta </strong>" + data.data + "</div>")
+        }
+    })
     //
 // Fin Eventos
 // Funciones

@@ -26,6 +26,9 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
+    <!-- Favicons -->
+    <link href="<?php echo base_url('/public/minimal/img/favicon.png') ?>" rel="icon">
+    <link href="<?php echo base_url('/public/minimal/img/apple-touch-icon.png') ?>" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Oswald:400,300,700|EB+Garamond" rel="stylesheet">

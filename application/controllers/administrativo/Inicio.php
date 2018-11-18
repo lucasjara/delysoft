@@ -21,6 +21,8 @@ class Inicio extends CI_Controller
         $this->load->model("/administracion/usuarios_model");
         $this->load->model("/administracion/locales_model");
         $this->load->model("/administracion/perfiles_model");
+        $this->load->model("/inicio_model");
+        $data["rutas"] = $this->inicio_model->obtener_rutas();
         $data["perfiles"] = $this->perfiles_model->obtener_perfiles();
         $id_usuario = $this->session->id_usuario;
         if ($id_usuario != null) {
@@ -54,6 +56,7 @@ class Inicio extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }
+
     public function editar_datos_usuario()
     {
         $mensaje = new stdClass();
@@ -74,6 +77,30 @@ class Inicio extends CI_Controller
         } else {
             $mensaje->respuesta = "N";
             $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
+    }
+
+    public function obtener_datos_grafico_tiempo()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        $this->load->model('/administracion/locales_model');
+        $id_local = $this->session->id_local;
+        $datos = $this->locales_model->obtener_historico_pedidos_local($id_local);
+        $datos_bar = $this->locales_model->obtener_cantidad_pedidos_zona_local($id_local);
+        if ($datos!= null){
+            if (count($datos) >= 4){
+                $mensaje->respuesta = "S";
+                $mensaje->data = $datos;
+                $mensaje->data_bar = $datos_bar;
+            }else{
+                $mensaje->respuesta = "N";
+                $mensaje->data = "No cuenta con suficientes pedidos para mostrar graficos";
+            }
+        }else{
+            $mensaje->respuesta = "N";
+            $mensaje->data = "No han realizado Ningun Pedido al Local";
         }
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }

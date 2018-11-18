@@ -24,11 +24,12 @@ class Base extends CI_Controller
             $this->load->model("/administracion/ciudades_model");
             $this->load->model("/administracion/perfiles_model");
             $this->load->model("/administracion/locales_model");
+            $this->load->model("/inicio_model");
+            $data["rutas"] = $this->inicio_model->obtener_rutas();
             $data["regiones"] = $this->regiones_model->obtener_regiones();
             $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
             $data["perfiles"] = $this->perfiles_model->obtener_perfiles_carga_inicial();
-            $id_local = $this->locales_model->obtener_local_configurar($id_usuario);
-            $this->session->id_local = $id_local;
+            $id_local = $this->session->id_local;
             $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
             for ($i = 0; $i < count($datos_cargos_local); $i++) {
                 $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
@@ -50,14 +51,19 @@ class Base extends CI_Controller
         $usuario = $this->input->post('usuario');
         $password = $this->input->post('password');
         $this->load->model("/administracion/Usuarios_model");
+        $this->load->model("/administracion/locales_model");
         $obj_user = new Usuarios_model();
         $user = $obj_user->obtener_datos_usuario($usuario, $password);
         if ($user != null) {
+            $id_local = $this->locales_model->obtener_local_configurar($user[0]['ID']);
+            //Asignar Variables de Session
             $this->session->id_usuario = $user[0]['ID'];
             $this->session->id_perfil = $user[0]["ID_PERFIL"];
+            $this->session->id_local = $id_local;
             $id_perfil = $this->session->id_perfil;
             switch ($id_perfil) {
                 case "1":
+
                     redirect("/administracion/permisos", 'refresh');
                     break;
                 case "4":
