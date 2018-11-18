@@ -59,7 +59,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 #$autoload['libraries'] = array('layout');
-$autoload['libraries'] = array('layout','database');
+$autoload['libraries'] = array('layout','database','geolocalizacion');
 
 /*
 | -------------------------------------------------------------------

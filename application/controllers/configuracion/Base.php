@@ -45,6 +45,7 @@ class Base extends CI_Controller
 
     public function login_sistema()
     {
+        $this->load->helper('url');
         $mensaje = new stdClass();
         $usuario = $this->input->post('usuario');
         $password = $this->input->post('password');
@@ -63,11 +64,11 @@ class Base extends CI_Controller
                     redirect("/administrativo/inicio", 'refresh');
                     break;
                 default:
-                    redirect('/inicio/', 'refresh');
+                    redirect('/login/', 'refresh');
                     break;
             }
         } else {
-            redirect("/inicio/");
+            redirect("/login/",'refresh');
         }
     }
 

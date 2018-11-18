@@ -21,7 +21,7 @@ class Inicio extends CI_Controller
         $this->load->model("/inicio_model");
         $usuarios = $this->inicio_model->obtener();
         //$data["rutas"] = $this->inicio_model->obtener_rutas();
-        $this->layout->setLayout("plantilla");
+        $this->layout->setLayout("plantilla_landing");
         $this->layout->view('vista');
     }
 }
