@@ -29,7 +29,14 @@ $(document).ready(function () {
             {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
+        destroy: true,
+        responsive: true,
+        columnDefs: [
+            {className: "text-right", "targets": [4]}
+        ]
+
     })
+    $("#select_permisos").select2();
     // Fin Carga Inicial Web
     // Eventos
     btn_agregar.on('click', function () {
@@ -116,6 +123,84 @@ $(document).ready(function () {
             }
         })
     })
+    // Asignar Permisos Perfil
+    tabla.on('click', '.btn_permisos_perfil', function () {
+        var dato_id = $.trim($(this).attr('data-id'));
+        var array = {
+            'id': $.trim($(this).attr('data-id'))
+        }
+        var request = envia_ajax('/administracion/perfiles/obtener_permisos_local', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                $("#tabla_permisos_perfil").DataTable({
+                    'language': {
+                        'url': '/public/Spanish.json',
+                    },
+                    data: data.data,
+                    'columns': [
+                        {'data': 'ID'},
+                        {'data': 'NOMBRE'},
+                        {'data': 'DESCRIPCION'},
+                        {'data': 'ACTIVO'},
+                        {'data': 'ACCIONES'},
+                    ],
+                    destroy: true,
+                    responsive: true,
+                    searching: false,
+                    columnDefs: [
+                        {className: "text-right", "targets": [4]}
+                    ]
+                });
+                $("#modal_agregar_editar_permisos_perfil").modal('show')
+                $("#id_perfil_edit").val(dato_id)
+            }
+            else {
+                $('#modal_generico_body').html(data.data)
+                $('#modal_generico').modal('show')
+            }
+        })
+    });
+    $("#btn_agregar_permiso").on('click',function () {
+        var array = {
+            'id_permiso': $("#select_permisos").val(),
+            'id_perfil': $("#id_perfil_edit").val()
+        }
+        var request = envia_ajax('/administracion/perfiles/vincular_permisos_perfil', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if(data.respuesta == "S"){
+                $("#tabla_permisos_perfil").DataTable({
+                    'language': {
+                        'url': '/public/Spanish.json',
+                    },
+                    data: data.data,
+                    'columns': [
+                        {'data': 'ID'},
+                        {'data': 'NOMBRE'},
+                        {'data': 'DESCRIPCION'},
+                        {'data': 'ACTIVO'},
+                        {'data': 'ACCIONES'},
+                    ],
+                    destroy: true,
+                    responsive: true,
+                    searching: false,
+                    columnDefs: [
+                        {className: "text-right", "targets": [4]}
+                    ]
+                });
+            }else{
+                $('#modal_generico_body').html(data.data)
+                $('#modal_generico').modal('show')
+            }
+        });
+    });
     // Fin Eventos
     // Funciones
     function envia_ajax(url, data) {

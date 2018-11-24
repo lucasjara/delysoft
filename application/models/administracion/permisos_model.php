@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Lucas
@@ -14,6 +15,7 @@ class Permisos_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
     public function obtener_listado_permisos()
     {
         $this->db->select('
@@ -27,7 +29,8 @@ class Permisos_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
-    public function ingresar_permisos($descripcion,$nombre,$url)
+
+    public function ingresar_permisos($descripcion, $nombre, $url)
     {
         $this->db->set('DESCRIPCION', $descripcion);
         $this->db->set('NOMBRE', $nombre);
@@ -36,18 +39,32 @@ class Permisos_model extends CI_Model
         $this->db->insert('tb_permisos');
         return $this->db->insert_id();
     }
-    public function cambia_estado_permisos($id,$estado)
+
+    public function cambia_estado_permisos($id, $estado)
     {
         $this->db->set('ACTIVO', $estado);
         $this->db->where('ID', $id);
         return $this->db->update('tb_permisos');
     }
-    public function editar_permisos($id, $descripcion,$nombre,$url)
+
+    public function editar_permisos($id, $descripcion, $nombre, $url)
     {
         $this->db->set('DESCRIPCION', $descripcion);
         $this->db->set('NOMBRE', $nombre);
         $this->db->set('URL', $url);
         $this->db->where('ID', $id);
         return $this->db->update('tb_permisos');
+    }
+
+    public function obtener_permisos_activos()
+    {
+        $this->db->select('
+                            permisos.ID,
+                            permisos.NOMBRE
+                ')
+            ->from('tb_permisos permisos')
+            ->where("permisos.ACTIVO", "S");
+        $query = $this->db->get();
+        return $query->result();
     }
 }

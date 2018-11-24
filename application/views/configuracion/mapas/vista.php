@@ -13,43 +13,30 @@
     }
 </style>
 <div class="row" style="margin-left: 1%;margin-right: 1%;margin-top: 1%;">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-title pull-left"><p>CONFIGURAR ZONAS DE TRABAJO</p></div>
-            <div class="panel-title pull-right">
-                <button class="btn btn-primary" id="btn_agregar_zonas"><p class="glyphicon glyphicon-plus"></p> AGREGAR
-                    ZONA
-                    MAPA
+    <div class="card" style="width: 100%;">
+        <div class="card-header">
+            <div class="float-left"><p>CONFIGURAR ZONAS DE TRABAJO</p></div>
+            <div class="float-right">
+                <button type="button" class="btn btn-primary" id="btn_agregar_zonas"><span
+                            class="fa fa-plus-circle"></span>
+                    AGREGAR ZONA MAPA
                 </button>
             </div>
-            <div class="clearfix"></div>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
-                <div class="col-md-8 col-lg-8">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="panel-title pull-left"><p>ZONAS DE TRABAJO</p></div>
-                            <div class="panel-title pull-right">
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="panel-body">
-                            <div id="demo" class="collapse">
-                                <div id="map"></div>
+                <div class="col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="float-left"><p>ZONAS DISPONIBLES</p></div>
+                            <div class="float-right">
+                                <button class="btn btn-primary" id="btn_colapsar_mapa" data-toggle="collapse"
+                                        data-target="#mapa_colapsado">
+                                    DESPLIEGUE
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <div class="panel-title pull-left"><p>ZONAS DISPONIBLES</p></div>
-                            <div class="panel-title pull-right">
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="panel-body">
+                        <div class="card-body collapse show" id="mapa_colapsado">
                             <table class="table table-responsive table-striped" id="tabla_zonas_local">
                                 <thead>
                                 <tr>
@@ -62,6 +49,49 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="contenedor_mapa" style="display: none;margin-left: 1%;">
+            <div class="col-md-9 col-lg-9">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="float-left"><p>ZONAS DE TRABAJO</p></div>
+                    </div>
+                    <div class="card-body">
+                        <div id="demo" class="collapse">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>ZONA</th>
+                                <th>COLOR</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>ZONA INACAP</td>
+                                <td>ROJO</td>
+                            </tr>
+                            <tr>
+                                <td>ZONA INACAP TEMUCO</td>
+                                <td>AZUL</td>
+                            </tr>
+                            <tr>
+                                <td>ZONA CENTRO</td>
+                                <td>VERDE</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>
@@ -200,3 +230,5 @@
 <!-- Fin Modal Zona-->
 <script src="<?php echo base_url('/public/js/configuracion/mapas/script.js') ?>"></script>
 <script src="<?php echo base_url('/public/js/configuracion/mapas/mapa.js') ?>"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDp6WOLcXkuyv40roB6ejAjS6PXpEETAWs&libraries=drawing"
+        async defer></script>

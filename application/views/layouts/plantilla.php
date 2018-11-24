@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="<?php echo base_url('/public/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?php echo base_url('/public/select2/dist/css/select2.min.css') ?>">
     <link rel="stylesheet" href="<?php echo base_url('/public/select_bootstrap/dist/select2-bootstrap.css') ?>">
-    <link rel="stylesheet" href="<?php echo base_url('/public/select_bootstrap/dist/select2-bootstrap.min.css') ?>">
-    <link rel="stylesheet" href="<?php echo base_url('/public/css/datatables.css') ?>">
+    <link rel="stylesheet" href="<?php echo base_url('/public/select_bootstrap/dist/select2-bootstrap.min.css') ?>"
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.css"/>
     <!-- Carga Inicial por carga de plantilla-->
     <script src="<?php echo base_url('/public/js/jquery.js') ?>"></script>
 </head>

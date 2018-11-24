@@ -81,7 +81,7 @@ if (!function_exists('form_perfiles')) {
     {
         $CI =& get_instance();
         $respuesta = new stdClass();
-        if ($tipo === 'editar' || $tipo === 'estado') {
+        if ($tipo === 'editar' || $tipo === 'estado' || $tipo === 'id') {
             $CI->form_validation->set_rules("id", "Id", "required");
             $CI->form_validation->set_message('id', 'Id', 'Error al enviar la peticion');
         }

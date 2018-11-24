@@ -25,6 +25,7 @@ class Base extends CI_Controller
             $this->load->model("/administracion/perfiles_model");
             $this->load->model("/administracion/locales_model");
             $this->load->model("/inicio_model");
+            $data["elemento_modulo"] = "Configuración Local";
             $data["rutas"] = $this->inicio_model->obtener_rutas();
             $data["regiones"] = $this->regiones_model->obtener_regiones();
             $data["ciudades"] = $this->ciudades_model->obtener_ciudades();
@@ -37,7 +38,7 @@ class Base extends CI_Controller
             }
             $data["local"] = $this->locales_model->obtener_datos_local($id_local);
             $data["perfiles_local"] = $datos_cargos_local;
-            $this->layout->setLayout('plantilla');
+            $this->layout->setLayout('plantilla_menu');
             $this->layout->view('vista', $data);
         } else {
             redirect('/inicio/');
@@ -63,7 +64,6 @@ class Base extends CI_Controller
             $id_perfil = $this->session->id_perfil;
             switch ($id_perfil) {
                 case "1":
-
                     redirect("/administracion/permisos", 'refresh');
                     break;
                 case "4":
@@ -74,7 +74,7 @@ class Base extends CI_Controller
                     break;
             }
         } else {
-            redirect("/login/",'refresh');
+            redirect("/login/", 'refresh');
         }
     }
 
@@ -102,9 +102,17 @@ class Base extends CI_Controller
 
     private function formato_acciones($data)
     {
-        $respuesta = "<button class='btn btn-info btn-xs btn_detalle' type='button' >" .
-            "<span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span>" .
-            "</button>";
+        if ($data->ACTIVO == 'S') {
+            $respuesta = " <button class='btn btn-success btn-xs btn_estado' type='button' " .
+                " data-id=" . $data->ID . " " .
+                " data-activo=" . $data->ACTIVO . ">" .
+                "<span class='fa fa-check-circle' aria-hidden='true'></span> DESACTIVAR</button>";
+        } else {
+            $respuesta = " <button class='btn btn-danger btn-xs btn_estado' type='button' " .
+                " data-id=" . $data->ID  . " " .
+                " data-activo=" . $data->ACTIVO  . ">" .
+                "<span class='fa fa-times-circle' aria-hidden='true'></span> ACTIVAR</button>";
+        }
         return $respuesta;
     }
 
@@ -116,17 +124,17 @@ class Base extends CI_Controller
             " data-nombre='" . $data['NOMBRE'] . "' " .
             " data-precio='" . $data['PRECIO'] . "' " .
             " data-activo='" . $data['ACTIVO'] . "' >" .
-            "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+            "<span class='fa fa-pen' aria-hidden='true'></span> EDITAR</button>";
         if ($data['ACTIVO'] == 'S') {
             $respuesta .= " <button class='btn btn-success btn-xs btn_estado' type='button' " .
                 " data-id=" . $data['ID'] . " " .
                 " data-activo=" . $data['ACTIVO'] . ">" .
-                "<span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span></button>";
+                "<span class='fa fa-check-circle' aria-hidden='true'></span> DESACTIVAR</button>";
         } else {
             $respuesta .= " <button class='btn btn-danger btn-xs btn_estado' type='button' " .
                 " data-id=" . $data['ID'] . " " .
                 " data-activo=" . $data['ACTIVO'] . ">" .
-                "<span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></button>";
+                "<span class='fa fa-times-circle' aria-hidden='true'></span> ACTIVAR</button>";
         }
         return $respuesta;
     }
@@ -247,14 +255,20 @@ class Base extends CI_Controller
                 $id_local = $this->session->id_local;
                 $usuario = $this->input->post('usuario');
                 $cargo = $this->input->post('cargo');
-                $this->locales_model->agregar_cargo_local($id_local, $usuario, $cargo);
-                $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
-                for ($i = 0; $i < count($datos_cargos_local); $i++) {
-                    $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
-                    $datos_cargos_local[$i]->ACTIVO = $this->formato_activo_cargos($datos_cargos_local[$i]->ACTIVO);
+                $comprobar = $this->locales_model->comprobar_cargo_local($id_local, $usuario, $cargo);
+                if ($comprobar == null){
+                    $this->locales_model->agregar_cargo_local($id_local, $usuario, $cargo);
+                    $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
+                    for ($i = 0; $i < count($datos_cargos_local); $i++) {
+                        $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
+                        $datos_cargos_local[$i]->ACTIVO = $this->formato_activo_cargos($datos_cargos_local[$i]->ACTIVO);
+                    }
+                    $mensaje->respuesta = 'S';
+                    $mensaje->data = $datos_cargos_local;
+                }else{
+                    $mensaje->respuesta = 'N';
+                    $mensaje->data = "El cargo ya se encuentra ocupado por esta persona.";
                 }
-                $mensaje->respuesta = 'S';
-                $mensaje->data = $datos_cargos_local;
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = $validator->mensaje;
@@ -284,9 +298,53 @@ class Base extends CI_Controller
                     $ciudad = $this->input->post('ciudad');
                     $this->locales_model->editar_locales($id_local, $descripcion, $nombre, $region, $ciudad);
                     $mensaje->respuesta = 'S';
+                    $mensaje->data = 'Informacion Modificada Correctamente';
                 } else {
                     $mensaje->respuesta = 'N';
                     $mensaje->data = "Debe contar con un producto disponible.";
+                }
+            } else {
+                $mensaje->respuesta = 'N';
+                $mensaje->data = $validator->mensaje;
+            }
+        } else {
+            $mensaje->respuesta = 'N';
+            $mensaje->data = 'No se pudo procesar la solicitud. Intente recargar la pagina.';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
+    }
+    public function cambiar_estado_cargo_local()
+    {
+        $mensaje = new stdClass();
+        $this->load->helper('array_utf8');
+        if (validarUsuario(true)) {
+            $validator = form_producto('estado');
+            if ($validator->respuesta == 'S') {
+                $this->load->model('/administracion/locales_model');
+                $id = $this->input->post('id');
+                $perfil = $this->input->post('estado');
+                $id_local = $this->session->id_local;
+                if ($perfil == 'S') {
+                    $this->locales_model->cambia_estado_cargo_local($id, 'N');
+                    $mensaje->respuesta = 'S';
+                    $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
+                    for ($i = 0; $i < count($datos_cargos_local); $i++) {
+                        $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
+                        $datos_cargos_local[$i]->ACTIVO = $this->formato_activo_cargos($datos_cargos_local[$i]->ACTIVO);
+                    }
+                    $mensaje->data = $datos_cargos_local;
+                } elseif ($perfil == 'N') {
+                    $this->locales_model->cambia_estado_cargo_local($id, 'S');
+                    $mensaje->respuesta = 'S';
+                    $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
+                    for ($i = 0; $i < count($datos_cargos_local); $i++) {
+                        $datos_cargos_local[$i]->ACCIONES = $this->formato_acciones($datos_cargos_local[$i]);
+                        $datos_cargos_local[$i]->ACTIVO = $this->formato_activo_cargos($datos_cargos_local[$i]->ACTIVO);
+                    }
+                    $mensaje->data = $datos_cargos_local;
+                } else {
+                    $mensaje->respuesta = 'N';
+                    $mensaje->data = 'Error al cambiar estado';
                 }
             } else {
                 $mensaje->respuesta = 'N';

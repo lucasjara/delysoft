@@ -31,10 +31,13 @@ class Inicio extends CI_Controller
             $flag = $this->locales_model->comprobar_local_configurado($id_usuario);
             if ($flag != null) {
                 $data["administracion_local"] = true;
+                $data["elemento_modulo"] = "Inicio Sistema";
             } else {
                 $data["configuracion_local"] = true;
+                $data["elemento_modulo"] = "Configuración Local Pendiente";
             }
-            $this->layout->setLayout('plantilla');
+
+            $this->layout->setLayout('plantilla_menu');
             $this->layout->view('vista', $data);
         } else {
             redirect('/inicio/');

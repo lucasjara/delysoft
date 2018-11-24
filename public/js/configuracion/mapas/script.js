@@ -66,6 +66,9 @@ $(document).ready(function () {
     })
 // Fin Carga Inicial Web
 // Eventos
+    $("#btn_colapsar_mapa").on('click',function () {
+        $("#contenedor_mapa").show();
+    });
     btn_agregar.on('click', function () {
         limpieza_modal()
         mdl_btn_agregar.show()
@@ -204,6 +207,8 @@ $(document).ready(function () {
         request.done(function (data) {
             if (data.respuesta == 'S') {
                 let valor = data.data.length;
+                $("#mapa_colapsado").collapse();
+                $("#contenedor_mapa").show();
                 if (valor < 0) {
                     AgregarDibujo()
                 } else {

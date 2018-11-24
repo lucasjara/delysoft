@@ -27,7 +27,7 @@ $(document).ready(function () {
             if (data.respuesta == 'S') {
                 limpieza_modal()
                 mdl_btn_editar.show()
-                mdl_titulo_agregar_editar.text('Editar Usuario')
+                mdl_titulo_agregar_editar.text('Modificar Información Usuario')
                 mdl_id_edit.val(data.data.ID)
                 mdl_correo.val(data.data.CORREO)
                 mdl_nombre.val(data.data.NOMBRE)
@@ -94,12 +94,15 @@ $(document).ready(function () {
             for (var x = 0; x < data.data_bar.length; x++) {
                 datos_bar.push({
                     label: data.data_bar[x]['ZONA'],
-                    value: data.data_bar[x]['CANTIDAD_PEDIDOS']
+                    value: data.data_bar[x]['CANTIDAD_PEDIDOS'],
+                    value: data.data_bar[x]['VALORIZADO']
                 });
             }
             Morris.Donut({
                 element: 'grafico_char_zonas',
-                data: datos_bar
+                data: datos_bar,
+                formatter: function (y) { return '$' + formatoNumero(y) },
+                colors : ['#FE2E2E','#FFFF00','#01DF01','#013ADF','#FE2EF7']
             });
         }
         else {
@@ -127,6 +130,22 @@ $(document).ready(function () {
         modal_alerta_agregar_editar.removeClass('alert alert-danger')
         mdl_btn_agregar.hide()
         mdl_btn_editar.hide()
+    }
+    function formatoNumero(num) {
+        if (!num || num == 'NaN') return '-';
+        if (num == 'Infinity') return '&#x221e;';
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + '.' + num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '-') + num);
     }
 
 // Fin Funciones

@@ -18,6 +18,12 @@ $(document).ready(function () {
     var mdl_nombre = $('#nombre')
     var mdl_precio = $('#precio')
     var mdl_id_edit = $('#id_modificar')
+    $("#panel_region").select2({
+        theme: "bootstrap4"
+    });
+    $("#panel_ciudad").select2({
+        theme: "bootstrap4"
+    });
     var table = tabla.DataTable({
         'language': {
             'url': '/public/Spanish.json',
@@ -31,12 +37,24 @@ $(document).ready(function () {
         'columns': [
             {'data': 'NOMBRE'},
             {'data': 'DESCRIPCION'},
-            {'data': 'PRECIO'},
+            {
+                'data': 'PRECIO',
+                render: function (data) {
+                    return formato_numero(data, '$', 0)
+                }
+            },
             {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
+        pageLength: 5,
+        pagination: false,
         responsive: true,
-        autoWidth: false
+        autoWidth: false,
+        lengthMenu: [[5, 6, 7], [5, 6, 7]],
+        destroy: true,
+        columnDefs: [
+            {className: "text-right", "targets": [2, 3, 4]}
+        ]
     })
     // Fin Crud Productos
 // Fin Variables Globales
@@ -48,7 +66,12 @@ $(document).ready(function () {
         'language': {
             'url': '/public/Spanish.json',
         },
-        destroy: true
+        destroy: true,
+        pageLength: 5,
+        pagination: false,
+        responsive: true,
+        autoWidth: false,
+        lengthMenu: [[5, 6, 7], [5, 6, 7]]
     });
 
     $("#example1").select2({
@@ -121,6 +144,7 @@ $(document).ready(function () {
 
 // Fin Carga Inicial Web
 // Eventos
+    // Cargos
     btn_agregar_cargo.on('click', function () {
         var select_automatico = $("#example1").val();
         var select_cargo = $("#panel_cargo").val();
@@ -152,12 +176,51 @@ $(document).ready(function () {
                     });
                 }
                 else {
-                    modal_alerta_agregar_editar.html(data.data)
-                    modal_alerta_agregar_editar.addClass('alert alert-danger')
+                    $('#modal_generico_body').html(data.data)
+                    $('#modal_generico').modal('show')
                 }
             })
         }
     });
+    $("#tabla_cargos").on('click', '.btn_estado', function () {
+        var array = {
+            'id': $.trim($(this).attr('data-id')),
+            'estado': $(this).attr('data-activo'),
+        }
+        var request = envia_ajax('/configuracion/base/cambiar_estado_cargo_local', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                tabla_cargos.DataTable({
+                    'language': {
+                        'url': '/public/Spanish.json',
+                    },
+                    data: data.data,
+                    columns: [
+                        {"data": "NOMBRE"},
+                        {"data": "USUARIO"},
+                        {"data": "PERFIL"},
+                        {"data": "ACTIVO"},
+                        {"data": "ACCIONES"},
+                    ],
+                    destroy: true,
+                    pageLength: 5,
+                    pagination: false,
+                    responsive: true,
+                    autoWidth: false,
+                    lengthMenu: [[5, 6, 7], [5, 6, 7]]
+                });
+            }
+            else {
+                $('#modal_generico_body').html(data.data)
+                $('#modal_generico').modal('show')
+            }
+        })
+    })
+    // Productos
     btn_agregar.on('click', function () {
         limpieza_modal()
         mdl_btn_agregar.show()
@@ -260,7 +323,7 @@ $(document).ready(function () {
         })
         request.done(function (data) {
             if (data.respuesta == 'S') {
-                $("#btn_formulario_web").submit();
+
             }
             else {
                 $('#modal_generico_body').html(data.data)
@@ -289,6 +352,23 @@ $(document).ready(function () {
         modal_alerta_agregar_editar.removeClass('alert alert-danger')
         mdl_btn_agregar.hide()
         mdl_btn_editar.hide()
+    }
+
+    function formato_numero(n, adicional, decimales) {
+        n += '' // por si pasan un numero en vez de un string
+        n = parseFloat(n.replace(/[^0-9\.]/g, '')) // elimino cualquier cosa que no sea numero o punto
+        // si no es un numero o es igual a cero retorno el mismo cero
+        if (isNaN(n) || n === 0)
+            return parseFloat(0).toFixed(decimales)
+        // si es mayor o menor que cero retorno el valor formateado como numero
+        n = '' + n.toFixed(decimales)
+        var n_separado = n.split('.'),
+            regexp = /(\d+)(\d{3})/
+        while (regexp.test(n_separado[0]))
+            n_separado[0] = n_separado[0].replace(regexp, '$1' + '.' + '$2')
+        n = n_separado.join(',')
+        n = [n.slice(0, 0), adicional, n.slice(0)].join('')
+        return n
     }
 
 // Fin Funciones

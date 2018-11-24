@@ -7,23 +7,22 @@
  */
 ?>
 <div style="margin:1%;">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <div class="panel-title pull-left"><p>CONFIGURACION</p></div>
-            <div class="panel-title pull-right"></div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body">
             <div style="margin-left: 1%;margin-right: 1%;">
                 <!-- Configurar Local-->
                 <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding: 5px;">
-                            <div class="panel-title pull-left"><p><b>CONFIGURAR LOCAL</b></p></div>
-                            <div class="panel-title pull-right"></div>
-                            <div class="clearfix"></div>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-header" style="padding: 5px;">
+                            <div class="float-left"><p><b>CONFIGURAR LOCAL</b></p></div>
+                            <div class="float-right">
+                                <button type="button" class="btn btn-primary" id="btn_confirmar_informacion">
+                                    <span class="fa fa-plus-circle"></span>
+                                    CONFIRMAR INFORMACION DELIVERY
+                                </button>
+                            </div>
                         </div>
-                        <div class="panel-body" id="contenido_local">
+                        <div class="card-body" id="contenido_local">
                             <div class="row">
                                 <form action=""></form>
                                 <div class="col-sm-12 col-xs-12 col-lg-3 col-md-3">
@@ -77,18 +76,14 @@
                         </div>
                     </div>
                 </div>
+                <!-- Fin Configuracion Local -->
                 <!-- Configurar Cargos-->
-                <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding: 5px;">
-                            <div class="panel-title pull-left"><p><b>CONFIGURAR CARGOS - LOCAL</b></p></div>
-                            <div class="panel-title pull-right">
+                <div class="row" style="margin-top: 1%;">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-header" style="padding: 5px;">
+                            <div class="float-left"><p><b>CONFIGURAR CARGOS - LOCAL</b></p></div>
+                            <div class="float-right">
                                 <form class="form-inline" method="post">
-                                    <div class="form-group">
-                                        <select id="example1" style="width: 100%;">
-                                            <option></option>
-                                        </select>
-                                    </div>
                                     <div class="form-group">
                                         <select name="cargo" id="panel_cargo">
                                             <?php if (is_array($perfiles)) {
@@ -100,16 +95,17 @@
                                         </select>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <button class="btn btn-success" type="button" id="btn_agregar_cargo">AGREGAR
+                                    &nbsp;
+                                    <button class="btn btn-success" type="button" id="btn_agregar_cargo">
+                                        <span class="fa fa-plus-circle"></span> AGREGAR
                                     </button>
                                 </form>
                             </div>
-                            <div class="clearfix"></div>
                         </div>
-                        <div class="panel-body" id="contenido_cargo">
-                            <div class="row" id="contenido_cargos_local" style="margin-left: 1%;margin-right: 1%;">
-
-                                <table class="table table-responsive table-striped" id="tabla_cargos">
+                        <div class="card-body" id="contenido_cargo" style="width: 100%;">
+                            <div id="contenido_cargos_local">
+                                <table class="table table-striped table-bordered dt-responsive nowrap"
+                                       id="tabla_cargos">
                                     <thead>
                                     <tr>
                                         <th>NOMBRE</th>
@@ -135,29 +131,29 @@
                                     ?>
                                     </tbody>
                                 </table>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Configuracion Productos -->
-                <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding: 5px;">
-                            <div class="panel-title pull-left"><p><b>CONFIGURAR PRODUCTOS</b></p></div>
-                            <div class="panel-title pull-right">
+                <div class="row" style="margin-top: 1%;">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-header" style="padding: 5px;">
+                            <div class="float-left"><p><b>CONFIGURAR PRODUCTOS</b></p></div>
+                            <div class="float-right">
                                 <button class="btn btn-success" type="button" id="btn_agregar_productos"><span
-                                            class="glyphicon glyphicon-plus"></span> AGREGAR PRODUCTOS
+                                            class="fa fa-plus-circle""></span> AGREGAR PRODUCTOS
                                 </button>
                             </div>
-                            <div class="clearfix"></div>
                         </div>
                         <div class="alert alert-info">
                             <strong>Importante!</strong> Debe contar con al menos un producto Disponible para que el
                             local se considere configurado.
                         </div>
-                        <div class="panel-body" id="contenido_producto">
-                            <div class="row" style="margin-left: 1%;margin-right: 1%;">
-                                <table class="table table-responsive table-striped" id="tabla_productos">
+                        <div class="card-body" id="contenido_producto">
+                            <div style="margin-left: 1%;margin-right: 1%;width: 100%;">
+                                <table class="table table-striped table-bordered dt-responsive nowrap" id="tabla_productos" >
                                     <thead>
                                     <tr>
                                         <th>NOMBRE</th>
@@ -170,20 +166,9 @@
                                     <tbody>
                                     </tbody>
                                 </table>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12">
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-primary" id="btn_confirmar_informacion">
-                                SIGUIENTE
-                                <span
-                                        class="glyphicon glyphicon-arrow-right"></span>
-                            </button>
-                        </div>
-                        <form action="/configuracion/mapas/" method="post" id="btn_formulario_web"></form>
                     </div>
                 </div>
             </div>

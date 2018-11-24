@@ -79,8 +79,14 @@ class Locales_model extends CI_Model
 
     public function obtener_cargos_locales($id)
     {
-        $this->db->select("locales.NOMBRE LOCAL, usuario.NOMBRE NOMBRE, perfil.NOMBRE PERFIL,usuario.USUARIO USUARIO
-        , perfil.ID ID_PERFIL,usr_local.ACTIVO, usuario.USUARIO")
+        $this->db->select(" usr_local.ID,
+                            locales.NOMBRE LOCAL,
+                            usuario.NOMBRE NOMBRE,
+                            perfil.NOMBRE PERFIL,
+                            usuario.USUARIO USUARIO,
+                            perfil.ID ID_PERFIL,
+                            usr_local.ACTIVO,
+                            usuario.USUARIO")
             ->from('tb_usuario_local usr_local')
             ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
             ->join("tb_usuario usuario", "usuario.ID=usr_local.TB_USUARIO_ID", 'INNER')
@@ -90,6 +96,7 @@ class Locales_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
+
     public function agregar_encargado_local($id_local, $usuario)
     {
         $this->db->set('TB_USUARIO_ID', $usuario);
@@ -99,15 +106,17 @@ class Locales_model extends CI_Model
         $this->db->insert('tb_usuario_local');
         return $this->db->insert_id();
     }
-    public function agregar_cargo_local($id_local, $usuario,$cargo)
+
+    public function agregar_cargo_local($id_local, $usuario, $cargo)
     {
         $this->db->set('TB_USUARIO_ID', $usuario);
         $this->db->set('TB_LOCAL_ID', $id_local);
         $this->db->set('TB_PERFIL_ID', $cargo);
-        $this->db->set('ACTIVO', 'P');
+        $this->db->set('ACTIVO', 'S');
         $this->db->insert('tb_usuario_local');
         return $this->db->insert_id();
     }
+
     public function obtener_datos_local($id)
     {
         $this->db->select('
@@ -133,7 +142,8 @@ class Locales_model extends CI_Model
      * @param $id_usuario
      * @return null
      */
-    public function comprobar_local_configurado($id_usuario){
+    public function comprobar_local_configurado($id_usuario)
+    {
         $this->db->select("usr_local.ID")
             ->from('tb_usuario_local usr_local')
             ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
@@ -152,7 +162,8 @@ class Locales_model extends CI_Model
      * @param $id_usuario
      * @return null
      */
-    public function obtener_local_configurar($id_usuario){
+    public function obtener_local_configurar($id_usuario)
+    {
         $this->db->select("locales.ID")
             ->from('tb_usuario_local usr_local')
             ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
@@ -163,12 +174,14 @@ class Locales_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result()[0]->ID : null;
     }
+
     /**
      * Comprueba si tiene un local
      * @param $id_usuario
      * @return null
      */
-    public function comprobar_primer_local($id_usuario){
+    public function comprobar_primer_local($id_usuario)
+    {
         $this->db->select("usr_local.ID")
             ->from('tb_usuario_local usr_local')
             ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
@@ -186,7 +199,8 @@ class Locales_model extends CI_Model
      * @param $id_local
      * @return null
      */
-    public function validar_producto_activo($id_local){
+    public function validar_producto_activo($id_local)
+    {
         $this->db->select("*")
             ->from('tb_local locales')
             ->join("tb_producto productos", "productos.TB_LOCAL_ID=locales.ID", 'INNER')
@@ -196,6 +210,7 @@ class Locales_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
+
     public function obtener_historico_pedidos_local($id_local)
     {
         $this->db->select('
@@ -209,11 +224,13 @@ class Locales_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
+
     public function obtener_cantidad_pedidos_zona_local($id_local)
     {
         $this->db->select('
                              zona.NOMBRE ZONA,
-                             COUNT(*) CANTIDAD_PEDIDOS 
+                             COUNT(*) CANTIDAD_PEDIDOS,
+                             SUM(det.PRECIO*det.CANTIDAD) VALORIZADO
                         ')
             ->from('tb_pedido_enc enc')
             ->join("tb_pedido_det det", "det.TB_PEDIDO_ENC_ID=enc.ID", 'INNER')
@@ -226,5 +243,25 @@ class Locales_model extends CI_Model
             ->group_by("zona.NOMBRE");
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
+    }
+
+    public function comprobar_cargo_local($id_local, $usuario, $cargo)
+    {
+        $this->db->select(" usr_local.ID")
+            ->from('tb_usuario_local usr_local')
+            ->join("tb_local locales", "locales.ID=usr_local.TB_LOCAL_ID", 'INNER')
+            ->join("tb_usuario usuario", "usuario.ID=usr_local.TB_USUARIO_ID", 'INNER')
+            ->join("tb_perfil perfil", "perfil.ID=usr_local.TB_PERFIL_ID", 'INNER')
+            ->where('usr_local.TB_LOCAL_ID', $id_local)
+            ->where('usr_local.TB_USUARIO_ID', $usuario)
+            ->where('usr_local.TB_PERFIL_ID', $cargo);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
+    public function cambia_estado_cargo_local($id, $estado)
+    {
+        $this->db->set('ACTIVO', $estado);
+        $this->db->where('ID', $id);
+        return $this->db->update('tb_usuario_local');
     }
 }
