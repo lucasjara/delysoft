@@ -264,4 +264,17 @@ class Locales_model extends CI_Model
         $this->db->where('ID', $id);
         return $this->db->update('tb_usuario_local');
     }
+    public function obtener_zonas_colores($id_local){
+        $this->db->select('
+                            zonas.ID,
+                            zonas.COLOR,
+                            zonas.NOMBRE ZONA
+                ')
+            ->from('tb_zona zonas')
+            ->join('tb_local locales', 'locales.ID=zonas.TB_LOCAL_ID', 'INNER')
+            ->where('zonas.ACTIVO','S')
+            ->where("locales.ID", $id_local);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
 }

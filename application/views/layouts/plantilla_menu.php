@@ -36,7 +36,10 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <!-- Datatable Bootstrap 4 -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+    <!-- JQUERY ALERT -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 </head>
 <style>
     .select2-container {
@@ -67,13 +70,20 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/administrativo/inicio">INICIO SISTEMA</a>
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/administrativo/inicio">INICIO
+                    SISTEMA</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/configuracion/base">CONFIGURAR LOCAL</a>
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/configuracion/base">CONFIGURAR
+                    LOCAL</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/configuracion/mapas">CONFIGURAR MAPA</a>
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/configuracion/mapas">CONFIGURAR
+                    MAPA</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/administrativo/pedidos">SEGUIMIENTO
+                    PEDIDOS</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#skills">CERRAR SESION</a>
@@ -115,4 +125,5 @@
 <script src="<?php echo base_url('/public/select2/dist/js/select2.full.js') ?>"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </html>

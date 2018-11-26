@@ -44,6 +44,7 @@ $(document).ready(function () {
         'columns': [
             {'data': 'CUADRO'},
             {'data': 'NOMBRE'},
+            {'data': 'COLOR'},
             {'data': 'ACCIONES'},
         ],
         'columnDefs': [
@@ -53,7 +54,7 @@ $(document).ready(function () {
                 "width": "10%"
             },
             {
-                "targets": 2,
+                "targets": 3,
                 "className": "text-right",
             }],
         "order": [[1, "asc"]],
@@ -63,10 +64,11 @@ $(document).ready(function () {
             });
             $("#demo").collapse();
         }
-    })
+    });
+    $("#select_productos_general").select2();
 // Fin Carga Inicial Web
 // Eventos
-    $("#btn_colapsar_mapa").on('click',function () {
+    $("#btn_colapsar_mapa").on('click', function () {
         $("#contenedor_mapa").show();
     });
     btn_agregar.on('click', function () {
@@ -85,28 +87,110 @@ $(document).ready(function () {
         mdl_nombre.val($(this).attr('data-nombre'))
         mdl_agregar_editar.modal('show')
     })
+    tabla.on('click', '.btn_color', function () {
+        var id_zona = $(this).attr('data-id');
+
+        $.confirm({
+            title: 'Seleccionar Color Zona',
+            content: '' +
+            '<form class="formName">' +
+            '<div class="form-group">' +
+            '<label class="control-label">Color:</label>' +
+            '<select id="color_zona">' +
+            '<option value="Azul">Azul</option>' +
+            '<option value="Amarillo">Amarillo</option>' +
+            '<option value="Celeste">Celeste</option>' +
+            '<option value="Rojo">Rojo</option>' +
+            '<option value="Verde">Verde</option>' +
+            '</select>' +
+            '</div>' +
+            '</form>' +
+            '<script>$("#color_zona").select2();</script>' +
+            '<style>.select2-dropdown { z-index: 2147483647;}</style>',
+            buttons: {
+                formSubmit: {
+                    text: 'Modificar',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var color = $("#color_zona").val();
+                        var array = {
+                            'id_zona': id_zona,
+                            'color': color
+                        }
+                        var request = envia_ajax('/configuracion/mapas/cambiar_color_zona ', array)
+                        request.fail(function () {
+                            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+                            $('#modal_generico').modal('show')
+                        })
+                        request.done(function (data) {
+                            if (data.respuesta == 'S') {
+                                table.ajax.reload()
+                                iniciarMapa();
+                            }
+                            else {
+                                modal_alerta_agregar_editar.html(data.data)
+                                modal_alerta_agregar_editar.addClass('alert alert-danger')
+                            }
+                        })
+                    }
+                },
+                cancel: function () {
+                    text: 'Cancelar'
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    })
     tabla.on('click', '.btn_limpieza', function () {
-        var array = {
-            'id_zona': $(this).attr('data-id')
-        }
-        var request = envia_ajax('/configuracion/mapas/limpieza_detalle_zona', array)
-        request.fail(function () {
-            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
-            $('#modal_generico').modal('show')
-        })
-        request.done(function (data) {
-            if (data.respuesta == 'S') {
-                mdl_agregar_editar.modal('hide')
-                //mapa.overlay.setMap(null);
-                table.ajax.reload()
+        var id_zona = $(this).attr('data-id');
+        $.confirm({
+            title: 'Seguro Desea Limpiar Zona?',
+            content: 'Se limpiara ' + $(this).attr('data-nombre'),
+            type: 'yellow',
+            buttons: {
+                ok: {
+                    text: "LIMPIAR",
+                    btnClass: 'btn-primary',
+                    keys: ['enter'],
+                    action: function () {
+                        var array = {
+                            'id_zona': id_zona
+                        }
+                        var request = envia_ajax('/configuracion/mapas/limpieza_detalle_zona', array)
+                        request.fail(function () {
+                            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+                            $('#modal_generico').modal('show')
+                        })
+                        request.done(function (data) {
+                            if (data.respuesta == 'S') {
+                                mdl_agregar_editar.modal('hide')
+                                table.ajax.reload()
+                                iniciarMapa();
+                                $("#contenedor_mapa").show();
+                            }
+                            else {
+                                modal_alerta_agregar_editar.html(data.data)
+                                modal_alerta_agregar_editar.addClass('alert alert-danger')
+                            }
+                        })
+                    }
+                },
+                cancel: {
+                    text: "CANCELAR"
+                }
             }
-            else {
-                modal_alerta_agregar_editar.html(data.data)
-                modal_alerta_agregar_editar.addClass('alert alert-danger')
-            }
-        })
+        });
     })
     tabla.on('click', '.btn_producto', function () {
+        $('#modal_alerta_productos_zona').html("");
         let zona = $(this).attr('data-id')
         var array = {
             'id_zona': zona
@@ -187,6 +271,7 @@ $(document).ready(function () {
         request.done(function (data) {
             if (data.respuesta == 'S') {
                 table.ajax.reload()
+                LimpiezaColores();
             }
             else {
                 $('#modal_generico_body').html(data.data)
@@ -195,33 +280,39 @@ $(document).ready(function () {
         })
     })
     tabla.on('click', '.check_zona', function () {
-        var array = {
-            'id': $(this).attr('data-id')
-        }
-        zona = $(this).attr('data-id')
-        var request = envia_ajax('/configuracion/mapas/buscar_zona_mapa', array)
-        request.fail(function () {
-            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
-            $('#modal_generico').modal('show')
-        })
-        request.done(function (data) {
-            if (data.respuesta == 'S') {
-                let valor = data.data.length;
-                $("#mapa_colapsado").collapse();
-                $("#contenedor_mapa").show();
-                if (valor < 0) {
-                    AgregarDibujo()
-                } else {
-                    AgregarDibujo()
-                }
+        var elemento = $(this);
+        if (elemento.prop('checked')) {
+            var array = {
+                'id': $(this).attr('data-id')
             }
-            else {
-                $('#modal_generico_body').html(data.data)
+            zona = $(this).attr('data-id')
+            var request = envia_ajax('/configuracion/mapas/buscar_zona_mapa', array)
+            request.fail(function () {
+                $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
                 $('#modal_generico').modal('show')
-            }
-        })
+            })
+            request.done(function (data) {
+                if (data.respuesta == 'S') {
+                    let valor = data.data.length;
+                    $("#mapa_colapsado").collapse();
+                    $("#contenedor_mapa").show();
+                    if (valor < 0) {
+                        AgregarDibujo()
+                    } else {
+                        AgregarDibujo()
+                    }
+                }
+                else {
+                    $('#modal_generico_body').html(data.data)
+                    $('#modal_generico').modal('show')
+                }
+            })
+        } else {
+            $(this).prop("checked", true);
+        }
     })
     btn_agregar_prod.on('click', function () {
+        $('#modal_alerta_productos_zona').html("");
         var array = {
             'id_zona': id_zona.val(),
             'nombre': mdl_nom.val(),
@@ -239,12 +330,79 @@ $(document).ready(function () {
                 $('#formulario_productos_modal').trigger("reset");
             }
             else {
-                $('#modal_generico_body').html(data.data)
-                $('#modal_generico').modal('show')
+                $('#modal_alerta_productos_zona').html("<div class='alert alert-danger'>" + data.data + "</div>");
             }
         })
     })
-    tabla_productos_zona.on('click','.btn_editar',function () {
+    $(".nav-link").on('click', function () {
+        $('#modal_alerta_productos_zona').html("");
+        var num = $(this).attr('data-num')
+        if (num != 3) {
+            $("#contenedor_editar_nav").hide();
+        }
+    });
+    // Eventos productos Zona
+    $("#tabla_productos_zona").on('click', '.btn_editar', function () {
+        let id_prod_zona = $(this).attr('data-id')
+        let nombre = $(this).attr('data-nombre')
+        let descripcion = $(this).attr('data-descripcion')
+        let precio = $(this).attr('data-precio')
+        $("#id_edit_zona_producto").val(id_prod_zona)
+        $("#mdl_nom_edit").val(nombre)
+        $("#mdl_desc_edit").val(descripcion)
+        $("#mdl_precio_edit").val(precio)
+        $("#contenedor_editar_nav").show();
+        $("#contenedor_editar_nav").tab('show');
+    });
+    $("#tabla_productos_zona").on('click', '.btn_estado', function () {
+        let id_prod = $(this).attr('data-id')
+        let estado = $(this).attr('data-activo')
+        var array = {
+            'id_prod': id_prod,
+            'id_zona': id_zona.val(),
+            'estado': estado
+        }
+        var request = envia_ajax('/configuracion/mapas/cambiar_estado_producto_zona', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                cargar_productos_zona(data.data)
+            }
+            else {
+                $('#modal_alerta_productos_zona').html("<div class='alert alert-danger'>" + data.data + "</div>");
+            }
+        })
+    });
+    $("#btn_editar_producto_zona").on('click', function () {
+        var array = {
+            'id_prod': $("#id_edit_zona_producto").val(),
+            'nombre': $("#mdl_nom_edit").val(),
+            'descripcion': $("#mdl_desc_edit").val(),
+            'precio': $("#mdl_precio_edit").val(),
+            'id_zona': id_zona.val(),
+        }
+        var request = envia_ajax('/configuracion/mapas/editar_producto_zona', array)
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                cargar_productos_zona(data.data)
+            }
+            else {
+                $('#modal_alerta_productos_zona').html("<div class='alert alert-danger'>" + data.data + "</div>");
+            }
+        })
+    });
+    $(".limpiar_modal").on('click',function () {
+        $('#modal_alerta_productos_zona').html("");
+    });
+    // Vincular Producto Zona
+    $("#btn_vincular_producto").on('click',function () {
 
     });
 // Fin Eventos
@@ -269,10 +427,11 @@ $(document).ready(function () {
         mdl_btn_agregar.hide()
         mdl_btn_editar.hide()
     }
+
     function cargar_productos_zona(data) {
-        if(data == null){
+        if (data == null) {
             tabla_productos_zona.dataTable().fnClearTable();
-        }else{
+        } else {
             tabla_productos_zona.DataTable({
                 'language': {
                     'url': '/public/Spanish.json',
@@ -291,27 +450,21 @@ $(document).ready(function () {
             });
         }
     }
+
 // Fin Funciones
 // Funciones Mapa
     var all_overlays = [];
     const iniciarMapa = (posicion) => {
-        // latitud = posicion.coords.latitude;
-        // longitud = posicion.coords.longitude;
+        LimpiezaColores();
         latitud = -38.7362442;
         longitud = -72.5905979;
         ubicacion_actual = {lat: latitud, lng: longitud};
         mapa = new google.maps.Map(document.getElementById('map'), {
             center: ubicacion_actual,
-            zoom: 13
+            zoom: 13,
+            disableDefaultUI: true,
         });
         CargarMapasActivos()
-        /*
-        let marker = new google.maps.Marker({
-            position: ubicacion_actual,
-            map: mapa,
-            title: 'Ubicacion Actual'
-        });
-        */
     };
     const CargarMapasActivos = () => {
         var MapasActivos = []
@@ -413,26 +566,51 @@ $(document).ready(function () {
         var contador = 0;
         var CoordenadasZona = []
         var zona;
+        var color;
         for (var i = 0; i < zonas.length; i++) {
             CoordenadasZona = []
+            // Obtener Centro
+            //var bounds = new google.maps.LatLngBounds();
             for (var y = 0; y < data[contador].length; y++) {
                 CoordenadasZona.push({
                     lat: parseFloat(data[contador][y].LATITUD),
                     lng: parseFloat(data[contador][y].LONGITUD)
                 })
+                color = data[contador][y].HEXADECIMAL;
             }
+            //var i;
+            //for (i = 0; i < CoordenadasZona.length; i++) {
+            //    bounds.extend(CoordenadasZona[i]);
+            //}
+            // El centro del triángulo de las Bermudas - (25.3939245, -72.473816)
+            //console.log(color+" "+bounds.getCenter());
             // Construir Poligono.
             zona = new google.maps.Polygon({
                 paths: CoordenadasZona,
-                strokeColor: '#FF0000',
+                strokeColor: color,
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
-                fillColor: '#FF0000',
+                fillColor: color,
                 fillOpacity: 0.35
             });
             zona.setMap(mapa);
             contador++;
         }
+    }
+    const LimpiezaColores = () => {
+        var request = envia_ajax('/configuracion/mapas/limpieza_mapa_colores')
+        request.fail(function () {
+            $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+            $('#modal_generico').modal('show')
+        })
+        request.done(function (data) {
+            if (data.respuesta == 'S') {
+                $("#contenedor_zonas_colores_detalle").html(data.data)
+            }
+            else {
+                $("#contenedor_zonas_colores_detalle").html("")
+            }
+        })
     }
 // Fin Funciones Mapa
 });

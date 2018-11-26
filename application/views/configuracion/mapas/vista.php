@@ -32,6 +32,7 @@
                             <div class="float-right">
                                 <button class="btn btn-primary" id="btn_colapsar_mapa" data-toggle="collapse"
                                         data-target="#mapa_colapsado">
+                                    <span class="fa fa-list-alt"></span>
                                     DESPLIEGUE
                                 </button>
                             </div>
@@ -42,6 +43,7 @@
                                 <tr>
                                     <th>SELECCIONAR</th>
                                     <th>NOMBRE ZONA</th>
+                                    <th>COLOR</th>
                                     <th>ACCIONES</th>
                                 </tr>
                                 </thead>
@@ -56,9 +58,6 @@
         <div class="row" id="contenedor_mapa" style="display: none;margin-left: 1%;">
             <div class="col-md-9 col-lg-9">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="float-left"><p>ZONAS DE TRABAJO</p></div>
-                    </div>
                     <div class="card-body">
                         <div id="demo" class="collapse">
                             <div id="map"></div>
@@ -69,26 +68,24 @@
             <div class="col-md-3 col-lg-3">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="tabla_colores_zona">
                             <thead>
                             <tr>
-                                <th>ZONA</th>
+                                <th>ZONAS</th>
                                 <th>COLOR</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>ZONA INACAP</td>
-                                <td>ROJO</td>
-                            </tr>
-                            <tr>
-                                <td>ZONA INACAP TEMUCO</td>
-                                <td>AZUL</td>
-                            </tr>
-                            <tr>
-                                <td>ZONA CENTRO</td>
-                                <td>VERDE</td>
-                            </tr>
+                            <tbody id="contenedor_zonas_colores_detalle">
+                            <?php
+                            if (isset($zonas_colores)) {
+                                foreach ($zonas_colores as $zon_col) {
+                                    echo "<tr data-id='$zon_col->ID'>";
+                                    echo "<td>$zon_col->ZONA</td>";
+                                    echo "<td>$zon_col->COLOR</td>";
+                                    echo "</tr>";
+                                }
+                            }
+                            ?>
                             </tbody>
                         </table>
 
@@ -103,24 +100,18 @@
     <div class='modal-dialog'>
         <div class='modal-content'>
             <div class='modal-header'>
-                <button type='button' class='close' data-dismiss='modal'>&times;</button>
                 <h4 class='modal-title' id='titulo_agregar_editar_zonas'></h4>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
             </div>
             <div class='modal-body'>
                 <div id='modal_alerta_agregar_editar'></div>
                 <div class='form-group'>
-                    <label class='control-label col-sm-2 col-sm-offset-2' for='nombre'>Nombre:</label>
-                    <div class='col-sm-6'>
-                        <input type='text' class='form-control' id='nombre' name='nombre' value=''>
-                    </div>
-                    <div class='clearfix'></div>
+                    <label class='control-label' for='nombre'>Nombre:</label>
+                    <input type='text' class='form-control' id='nombre' name='nombre' value=''>
                 </div>
                 <div class='form-group'>
-                    <label class='control-label col-sm-2 col-sm-offset-2' for='descripcion'>Descripcion:</label>
-                    <div class='col-sm-6'>
-                        <input type='text' class='form-control' id='descripcion' name='Descripcion' value=''>
-                    </div>
-                    <div class='clearfix'></div>
+                    <label class='control-label' for='descripcion'>Descripcion:</label>
+                    <input type='text' class='form-control' id='descripcion' name='Descripcion' value=''>
                 </div>
                 <input type='hidden' name='id_edit' id='id_modificar'>
             </div>
@@ -137,76 +128,126 @@
     <div class='modal-dialog modal-lg'>
         <div class='modal-content'>
             <div class='modal-header'>
-                <button type='button' class='close' data-dismiss='modal'>&times;</button>
                 <h4 class='modal-title' id='titulo_agregar_productos_zonas'></h4>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
             </div>
             <div class='modal-body'>
                 <div id='modal_alerta_productos_zona'></div>
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home">Agregar</a></li>
-                    <li><a data-toggle="tab" href="#menu1">Vincular</a></li>
-                    <li><a data-toggle="tab" href="#menu2">Editar</a></li>
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home"
+                                            data-num="1">Agregar</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu1" data-num="2">Vincular</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu2" data-num="3"
+                                            id="contenedor_editar_nav"
+                                            style="display: none;">Editar</a>
+                    </li>
                 </ul>
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="tab-content">
-                        <div id="home" class="tab-pane fade in active">
-                            <br>
-                            <div class="well well-sm">
-                                <h4 style="text-align: center;">Formulario Registro</h4>
-                                <form action="" id="formulario_productos_modal">
-                                    <div class='form-group'>
-                                        <label class='control-label col-sm-2 col-sm-offset-1' for='nom'>Nombre:</label>
-                                        <div class='col-sm-8'>
-                                            <input type='text' class='form-control' id='mdl_nom' name='nom' value=''
-                                                   placeholder="Nombre del Producto">
-                                        </div>
-                                        <div class='clearfix'></div>
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade show active">
+                        <div class="well well-sm" style="margin-top: 1%;">
+                            <form action="" id="formulario_productos_modal">
+                                <div class='form-group'>
+                                    <label class='control-label' for='nom'>Nombre:</label>
+                                    <input type='text' class='form-control' id='mdl_nom' name='nom' value=''
+                                           placeholder="Nombre del Producto">
+                                </div>
+                                <div class='form-group'>
+                                    <label class='control-label' for='desc'>Descripcion:</label>
+                                    <input type='text' class='form-control' id='mdl_desc' name='desc' value=''
+                                           placeholder="Descripción breve del producto">
+                                </div>
+                                <div class="form-group">
+                                    <label class='control-label' for='precio'>Precio:</label>
+
+                                    <input type='number' class='form-control' id='mdl_precio' name='precio'
+                                           value='' placeholder="Precio del Producto">
+                                </div>
+                                <div class="form-group">
+                                    <div class="float-right">
+                                        <button class="btn btn-primary" type="button" id="btn_agregar_producto"><span
+                                                    class="fa fa-plus-circle"></span>
+                                            AGREGAR PRODUCTO
+                                        </button>
+                                        <button type="reset" class="btn btn-info limpiar_modal"><span
+                                                    class="fa fa-trash"></span> LIMPIAR
+                                        </button>
                                     </div>
-                                    <div class='form-group'>
-                                        <label class='control-label col-sm-2 col-sm-offset-1'
-                                               for='desc'>Descripcion:</label>
-                                        <div class='col-sm-8'>
-                                            <input type='text' class='form-control' id='mdl_desc' name='desc' value=''
-                                                   placeholder="Descripción breve del producto">
-                                        </div>
-                                        <div class='clearfix'></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class='control-label col-sm-2 col-sm-offset-1'
-                                               for='precio'>Precio:</label>
-                                        <div class='col-sm-8'>
-                                            <input type='number' class='form-control' id='mdl_precio' name='precio'
-                                                   value='' placeholder="Precio del Producto">
-                                        </div>
-                                        <div class='clearfix'></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="pull-right">
-                                            <button class="btn btn-primary" type="button" id="btn_agregar_producto"><p
-                                                        class="glyphicon glyphicon-plus"></p>
-                                                AGREGAR PRODUCTO
-                                            </button>
-                                            <button type="reset" class="btn btn-info"><p
-                                                        class="glyphicon glyphicon-file"></p> LIMPIAR
-                                            </button>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </form>
-                            </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
                         </div>
-                        <div id="menu1" class="tab-pane fade">
-                            <h2 style="text-align: center;">Vincular Productos</h2>
-                            <p>Some content in menu 1.</p>
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+                        <div class="well well-sm" style="margin-top: 1%;">
+                            <form>
+                                <div class='form-group'>
+                                    <label class='control-label' for='nom'>Producto:</label>
+                                    <select id="select_productos_general">
+                                        <?php
+                                        if (isset($productos_general)) {
+                                            echo "<option value='0' selected >Seleccionar</option>";
+                                            for ($i = 0; $i < count($productos_general); $i++) {
+                                                echo "<option value='" . $productos_general[$i]['ID'] . "'>" . $productos_general[$i]['NOMBRE'] . "</option>";
+                                            }
+                                        } else {
+                                            echo "<option value='sin_prod'>Sin productos Generales.</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div></div>
+                                <div class="form-group">
+                                    <div class="float-right">
+                                        <button class="btn btn-primary" type="button" id="btn_vincular_producto"><span
+                                                    class="fa fa-plus-circle"></span>
+                                            VINCULAR PRODUCTO
+                                        </button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
                         </div>
-                        <div id="menu2" class="tab-pane fade">
-                            <h2 style="text-align: center;">Formulario Editar</h2>
-                            <p>Some content in menu 2.</p>
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                        <div class="well well-sm" style="margin-top: 1%;">
+                            <form action="" id="formulario_editar_productos_modal">
+                                <div class='form-group'>
+                                    <label class='control-label' for='nom'>Nombre:</label>
+                                    <input type='text' class='form-control' id='mdl_nom_edit' name='nom' value=''
+                                           placeholder="Nombre del Producto">
+                                </div>
+                                <div class='form-group'>
+                                    <label class='control-label' for='desc'>Descripcion:</label>
+                                    <input type='text' class='form-control' id='mdl_desc_edit' name='desc' value=''
+                                           placeholder="Descripción breve del producto">
+                                </div>
+                                <div class="form-group">
+                                    <label class='control-label' for='precio'>Precio:</label>
+
+                                    <input type='number' class='form-control' id='mdl_precio_edit' name='precio'
+                                           value='' placeholder="Precio del Producto">
+                                </div>
+                                <div class="form-group">
+                                    <div class="float-right">
+                                        <button class="btn btn-primary" type="button"
+                                                id="btn_editar_producto_zona"><span
+                                                    class="fa fa-plus-circle"></span>
+                                            EDITAR PRODUCTO
+                                        </button>
+                                        <button type="reset" class="btn btn-info limpiar_modal"><span
+                                                    class="fa fa-trash-o"></span> LIMPIAR
+                                        </button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <input type="hidden" id="id_edit_zona_producto">
+                            </form>
                         </div>
                     </div>
                 </div>
                 <input type='hidden' name='id_zona' id='id_zona'>
+                <hr style="margin-top: 1%;">
                 <table class="table table-responsive table-striped" id="tabla_productos_zona" style="width: 100%">
                     <thead>
                     <tr>

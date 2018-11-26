@@ -323,7 +323,11 @@ $(document).ready(function () {
         })
         request.done(function (data) {
             if (data.respuesta == 'S') {
-
+                $.alert({
+                    title: 'Informacion Local',
+                    content: 'La informacion del Local fue modificada!',
+                    type: 'green'
+                });
             }
             else {
                 $('#modal_generico_body').html(data.data)

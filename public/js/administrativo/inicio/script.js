@@ -64,10 +64,12 @@ $(document).ready(function () {
     // Grafico funcion del tiempo
     var request = envia_ajax('/administrativo/inicio/obtener_datos_grafico_tiempo')
     request.fail(function () {
-        $('#grafico_tiempo').html("<div class='alert alert-info'>No se pudo cargar el Grafico Correctamente porfavor recargue la pagina</div>");
+        $('#contenedor_graficos').html("<div class='alert alert-info'>No se pudo cargar el Grafico Correctamente porfavor recargue la pagina</div>");
+        $('#contenedor_graficos').show()
     })
     request.done(function (data) {
         if (data.respuesta == 'S') {
+            $('#contenedor_graficos').show()
             var datos = [];
             for (var x = 0; x < data.data.length; x++) {
                 datos.push({
@@ -81,12 +83,12 @@ $(document).ready(function () {
                 xkey: 'fecha',
                 ykeys: ['cantidad'],
                 labels: ['Cantidad Pedidos'],
-                xLabelFormat: function(d) {
-                    return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+                xLabelFormat: function (d) {
+                    return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
                 },
-                dateFormat: function(date) {
+                dateFormat: function (date) {
                     d = new Date(date);
-                    return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+                    return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
                 },
                 xLabelAngle: -80,
             });
@@ -101,12 +103,15 @@ $(document).ready(function () {
             Morris.Donut({
                 element: 'grafico_char_zonas',
                 data: datos_bar,
-                formatter: function (y) { return '$' + formatoNumero(y) },
-                colors : ['#FE2E2E','#FFFF00','#01DF01','#013ADF','#FE2EF7']
+                formatter: function (y) {
+                    return '$' + formatoNumero(y)
+                },
+                colors: ['#FE2E2E', '#FFFF00', '#01DF01', '#013ADF', '#FE2EF7']
             });
         }
         else {
-            $('#grafico_tiempo').html("<div class='alert alert-info' style='margin-left: 1%;margin-right: 1%;'><strong>Alerta </strong>" + data.data + "</div>")
+            $('#contenedor_graficos').html("<div class='alert alert-info' style='margin-left: 1%;margin-right: 1%;width: 100%;'><strong>Alerta </strong>" + data.data + "</div>")
+            $('#contenedor_graficos').show()
         }
     })
     //
@@ -131,6 +136,7 @@ $(document).ready(function () {
         mdl_btn_agregar.hide()
         mdl_btn_editar.hide()
     }
+
     function formatoNumero(num) {
         if (!num || num == 'NaN') return '-';
         if (num == 'Infinity') return '&#x221e;';
@@ -143,7 +149,7 @@ $(document).ready(function () {
         num = Math.floor(num / 100).toString();
         if (cents < 10)
             cents = "0" + cents;
-        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
             num = num.substring(0, num.length - (4 * i + 3)) + '.' + num.substring(num.length - (4 * i + 3));
         return (((sign) ? '' : '-') + num);
     }

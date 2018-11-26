@@ -53,7 +53,7 @@
 
     <div class="header-logo">
         <a class="site-logo" href="index.html">
-            <img src="<?php echo base_url('/public/standout/images/logo.svg') ?>" alt="Homepage">
+            <img src="<?php echo base_url('/public/standout/images/logo_juntos.svg') ?>" alt="Homepage">
         </a>
     </div>
 

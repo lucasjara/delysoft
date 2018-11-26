@@ -50,7 +50,7 @@
                 </div>
             <?php } ?>
             <?php if (isset($administracion_local)) { ?>
-                <div class="row">
+                <div class="row" id="contenedor_graficos" style="display: none;width: 100%;">
                     <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
                         <div class="card">
                             <div class="card-body">

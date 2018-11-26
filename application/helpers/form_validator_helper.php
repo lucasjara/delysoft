@@ -328,8 +328,8 @@ if (!function_exists('form_producto')) {
             $CI->form_validation->set_rules("estado", "Estado", "required|exact_length[1]");
         }
         if ($tipo === 'agregar' || $tipo === 'editar') {
-            $CI->form_validation->set_rules("descripcion", "Descripcion", "required|min_length[5]|max_length[255]");
             $CI->form_validation->set_rules("nombre", "Nombre", "required|min_length[5]|max_length[255]");
+            $CI->form_validation->set_rules("descripcion", "Descripcion", "required|min_length[5]|max_length[255]");
             $CI->form_validation->set_rules("precio", "Precio", "required|is_numeric");
         }
         if ($CI->form_validation->run() != false) {
@@ -356,6 +356,37 @@ if (!function_exists('form_detalle_zonas')) {
         if ($tipo === 'agregar'){
             $CI->form_validation->set_rules("longitud[]", "Longitud", "required|is_numeric");
             $CI->form_validation->set_rules("latitud[]", "Latitud", "required|is_numeric");
+        }
+
+        if ($CI->form_validation->run() != false) {
+            $respuesta->respuesta = 'S';
+        } else {
+            $respuesta->respuesta = 'N';
+            $respuesta->mensaje = validation_errors();;
+        }
+        return $respuesta;
+    }
+}
+if (!function_exists('form_productos_zonas')) {
+    /**
+     * @param $tipo =  campo para saber el tipo de validacion es para agregar o editar o cambiar estado
+     * @return stdClass = campos con resultado de validacion
+     */
+    function form_productos_zonas($tipo)
+    {
+        $CI =& get_instance();
+        $respuesta = new stdClass();
+        if ($tipo === 'cambio' || $tipo === 'editar'){
+            $CI->form_validation->set_rules("id_zona", "id_zona", "required|is_numeric");
+            $CI->form_validation->set_rules("id_prod", "id_zona", "required|is_numeric");
+        }
+        if ($tipo === 'editar'){
+            $CI->form_validation->set_rules("nombre", "nombre", "required");
+            $CI->form_validation->set_rules("descripcion", "descripcion", "required");
+            $CI->form_validation->set_rules("precio", "precio", "required|is_numeric");
+        }
+        if ($tipo === 'cambio'){
+            $CI->form_validation->set_rules("estado", "id_zona", "required");
         }
 
         if ($CI->form_validation->run() != false) {

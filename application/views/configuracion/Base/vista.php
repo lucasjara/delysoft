@@ -148,12 +148,12 @@
                             </div>
                         </div>
                         <div class="alert alert-info">
-                            <strong>Importante!</strong> Debe contar con al menos un producto Disponible para que el
-                            local se considere configurado.
+                            <strong>Importante!</strong> Se recomienda configurar al menos un producto general.
                         </div>
                         <div class="card-body" id="contenido_producto">
                             <div style="margin-left: 1%;margin-right: 1%;width: 100%;">
-                                <table class="table table-striped table-bordered dt-responsive nowrap" id="tabla_productos" >
+                                <table class="table table-striped table-bordered dt-responsive nowrap"
+                                       id="tabla_productos">
                                     <thead>
                                     <tr>
                                         <th>NOMBRE</th>
@@ -177,34 +177,25 @@
 </div>
 <!-- Modal Agregar / Editar  -->
 <div class='modal fade' id='modal_agregar_editar_productos' role='dialog'>
-    <div class='modal-dialog modal-lg'>
+    <div class='modal-dialog'>
         <div class='modal-content'>
             <div class='modal-header'>
-                <button type='button' class='close' data-dismiss='modal'>&times;</button>
                 <h4 class='modal-title' id='titulo_agregar_editar_productos'></h4>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
             </div>
-            <div class='modal-body'>
+            <div class='modal-body' style="margin-left: 1%;margin-right: 1%;">
                 <div id='modal_alerta_agregar_editar'></div>
                 <div class='form-group'>
-                    <label class='control-label col-sm-2 col-sm-offset-2' for='nombre'>Nombre:</label>
-                    <div class='col-sm-6'>
-                        <input type='text' class='form-control' id='nombre' name='nombre' value=''>
-                    </div>
-                    <div class='clearfix'></div>
+                    <label class='control-label' for='nombre'>Nombre:</label>
+                    <input type='text' class='form-control' id='nombre' name='nombre' value=''>
                 </div>
                 <div class='form-group'>
-                    <label class='control-label col-sm-2 col-sm-offset-2' for='descripcion'>Descripcion:</label>
-                    <div class='col-sm-6'>
-                        <input type='text' class='form-control' id='descripcion' name='Descripcion' value=''>
-                    </div>
-                    <div class='clearfix'></div>
+                    <label class='control-label' for='descripcion'>Descripcion:</label>
+                    <input type='text' class='form-control' id='descripcion' name='Descripcion' value=''>
                 </div>
                 <div class='form-group'>
-                    <label class='control-label col-sm-2 col-sm-offset-2' for='precio'>Precio:</label>
-                    <div class='col-sm-6'>
-                        <input type='number' class='form-control' id='precio' name='precio' value=''>
-                    </div>
-                    <div class='clearfix'></div>
+                    <label class='control-label' for='precio'>Precio:</label>
+                    <input type='number' class='form-control' id='precio' name='precio' value=''>
                 </div>
                 <input type='hidden' name='id_edit' id='id_modificar'>
             </div>

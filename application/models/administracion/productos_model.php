@@ -32,8 +32,20 @@ class Productos_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
-
+    // Producto General sin Zona
     public function ingresar_productos($descripcion, $nombre, $precio,$id_local)
+    {
+        $this->db->set('NOMBRE', $nombre);
+        $this->db->set('DESCRIPCION', $descripcion);
+        $this->db->set('PRECIO', $precio);
+        $this->db->set('ACTIVO', 'S');
+        $this->db->set('TIPO', 1);
+        $this->db->set('TB_LOCAL_ID', $id_local);
+        $this->db->insert('tb_producto');
+        return $this->db->insert_id();
+    }
+    // Producto Especifico Zona
+    public function ingresar_productos_zona($descripcion, $nombre, $precio,$id_local)
     {
         $this->db->set('NOMBRE', $nombre);
         $this->db->set('DESCRIPCION', $descripcion);
@@ -71,8 +83,10 @@ class Productos_model extends CI_Model
                             productos.ACTIVO
                 ')
             ->from('tb_producto productos')
-            ->where('productos.TB_LOCAL_ID', $id_local);
+            ->where('productos.TB_LOCAL_ID', $id_local)
+            ->where("TIPO",1);
         $query = $this->db->get();
         return $query->result_array();
     }
+
 }
