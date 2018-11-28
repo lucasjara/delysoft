@@ -40,7 +40,7 @@ class Inicio extends CI_Controller
             $this->layout->setLayout('plantilla_menu');
             $this->layout->view('vista', $data);
         } else {
-            redirect('/inicio/');
+            redirect('/login');
         }
     }
 

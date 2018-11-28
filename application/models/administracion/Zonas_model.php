@@ -140,7 +140,7 @@ class Zonas_model extends CI_Model
             ->join('tb_zona_producto zona_producto', 'zonas.ID=zona_producto.TB_ZONA_ID', 'INNER')
             ->join('tb_producto producto', 'producto.ID=zona_producto.TB_PRODUCTO_ID', 'INNER')
             ->where("zonas.ID", $id_zona)
-            ->where("producto.TIPO != 1");
+            ->where("producto.TIPO",2);
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
@@ -186,5 +186,21 @@ class Zonas_model extends CI_Model
             ->where("zona_producto.ID", $id_producto_zona);
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result()[0]->ID_PRODUCTO : null;
+    }
+    public function obtener_productos_zona_general($id_zona)
+    {
+        $this->db->select('
+                            zona_producto.ID,
+                            producto.NOMBRE PRODUCTO,
+                            producto.DESCRIPCION,
+                            producto.PRECIO,
+                            zona_producto.ACTIVO
+                ')
+            ->from('tb_zona zonas')
+            ->join('tb_zona_producto zona_producto', 'zonas.ID=zona_producto.TB_ZONA_ID', 'INNER')
+            ->join('tb_producto producto', 'producto.ID=zona_producto.TB_PRODUCTO_ID', 'INNER')
+            ->where("zonas.ID", $id_zona);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
     }
 }

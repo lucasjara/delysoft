@@ -63,7 +63,7 @@
             <li><a class="smoothscroll" href="#about" title="about">Nosotros</a></li>
             <li><a class="smoothscroll" href="#download" title="descargar">Descargar App</a></li>
             <li><a href="registro" title="registro">Registro</a></li>
-            <li><a href="login" title="login">Login</a></li>
+            <li><a href="https://www.infest.cl/login" title="login">Login</a></li>
         </ul>
 
         <ul class="header-social">

@@ -18,10 +18,24 @@ class Login extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/inicio_model");
-        $usuarios = $this->inicio_model->obtener();
-        //$data["rutas"] = $this->inicio_model->obtener_rutas();
-        $this->layout->setLayout("plantilla_integracion");
-        $this->layout->view('vista');
+        $id_usuario = $this->session->id_usuario;
+        $id_perfil = $this->session->id_perfil;
+        if ($id_usuario != null || $id_perfil != null) {
+            switch ($id_perfil) {
+                case "1":
+                    redirect("/administracion/permisos", 'refresh');
+                    break;
+                case "4":
+                    redirect("/administrativo/inicio", 'refresh');
+                    break;
+                default:
+                    $this->layout->setLayout("plantilla_integracion");
+                    $this->layout->view('vista');
+                    break;
+            }
+        }else{
+            $this->layout->setLayout("plantilla_integracion");
+            $this->layout->view('vista');
+        }
     }
 }

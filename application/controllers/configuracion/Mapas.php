@@ -29,7 +29,7 @@ class Mapas extends CI_Controller
             $this->layout->setLayout('plantilla_menu');
             $this->layout->view('vista', $data);
         } else {
-            redirect('/inicio/');
+            redirect('/login');
         }
     }
 
@@ -501,9 +501,23 @@ class Mapas extends CI_Controller
             $this->load->model('/administracion/zonas_model');
             $id_local = $this->session->id_local;
             $id_zona = $this->input->post('id_zona');
-            $id_producto = $this->input->post('id_prod');
+            $id_producto = $this->input->post('id_producto');
             if ($id_producto != null && $id_zona != null) {
-
+                $datos_producto = $this->productos_model->obtener_datos_producto($id_producto);
+                $id_producto_nuevo;
+                foreach ($datos_producto as $prod) {
+                    $id_producto_nuevo = $this->productos_model->ingresar_productos_zona($prod->DESCRIPCION,
+                        $prod->NOMBRE, $prod->PRECIO,
+                        $id_local);
+                }
+                $this->zonas_model->vincular_productos_zona($id_zona, $id_producto_nuevo);
+                $datos = $this->zonas_model->obtener_productos_zona($id_zona);
+                for ($i = 0; $i < count($datos); $i++) {
+                    $datos[$i]->ACCIONES = $this->formato_acciones_productos_zona($datos[$i]);
+                    $datos[$i]->ACTIVO = $this->formato_activo($datos[$i]->ACTIVO);
+                }
+                $mensaje->respuesta = 'S';
+                $mensaje->data = $datos;
             } else {
                 $mensaje->respuesta = 'N';
                 $mensaje->data = 'Error al Vincular Producto';
@@ -514,5 +528,4 @@ class Mapas extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode(array_utf8_encode($mensaje)));
     }
-
 }

@@ -248,7 +248,7 @@
                 </div>
                 <input type='hidden' name='id_zona' id='id_zona'>
                 <hr style="margin-top: 1%;">
-                <table class="table table-responsive table-striped" id="tabla_productos_zona" style="width: 100%">
+                <table class="table table-responsive w-100 d-block d-md-table" id="tabla_productos_zona">
                     <thead>
                     <tr>
                         <th>NOMBRE</th>
@@ -260,8 +260,8 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+                <div class='clearfix'></div>
             </div>
-            <div class='clearfix'></div>
             <div class='modal-footer'>
                 <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
             </div>

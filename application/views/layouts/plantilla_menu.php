@@ -85,8 +85,9 @@
                 <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/administrativo/pedidos">SEGUIMIENTO
                     PEDIDOS</a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#skills">CERRAR SESION</a>
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/configuracion/base/cerrar_session_sistema">CERRAR SESION</a>
             </li>
         </ul>
     </div>

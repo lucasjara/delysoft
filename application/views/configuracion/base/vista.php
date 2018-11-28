@@ -85,6 +85,11 @@
                             <div class="float-right">
                                 <form class="form-inline" method="post">
                                     <div class="form-group">
+                                        <select id="example1" style="width: 100%;">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <select name="cargo" id="panel_cargo">
                                             <?php if (is_array($perfiles)) {
                                                 foreach ($perfiles as $perfil) {

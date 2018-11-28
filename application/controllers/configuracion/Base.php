@@ -41,7 +41,7 @@ class Base extends CI_Controller
             $this->layout->setLayout('plantilla_menu');
             $this->layout->view('vista', $data);
         } else {
-            redirect('/inicio/');
+            redirect('/login');
         }
     }
 
@@ -78,6 +78,12 @@ class Base extends CI_Controller
         }
     }
 
+    public function cerrar_session_sistema()
+    {
+        $this->session->sess_destroy();
+        redirect("/login/", 'refresh');
+    }
+
     private function formato_activo($respuesta)
     {
         if ($respuesta === 'S') {
@@ -109,8 +115,8 @@ class Base extends CI_Controller
                 "<span class='fa fa-check-circle' aria-hidden='true'></span> DESACTIVAR</button>";
         } else {
             $respuesta = " <button class='btn btn-danger btn-xs btn_estado' type='button' " .
-                " data-id=" . $data->ID  . " " .
-                " data-activo=" . $data->ACTIVO  . ">" .
+                " data-id=" . $data->ID . " " .
+                " data-activo=" . $data->ACTIVO . ">" .
                 "<span class='fa fa-times-circle' aria-hidden='true'></span> ACTIVAR</button>";
         }
         return $respuesta;
@@ -256,7 +262,7 @@ class Base extends CI_Controller
                 $usuario = $this->input->post('usuario');
                 $cargo = $this->input->post('cargo');
                 $comprobar = $this->locales_model->comprobar_cargo_local($id_local, $usuario, $cargo);
-                if ($comprobar == null){
+                if ($comprobar == null) {
                     $this->locales_model->agregar_cargo_local($id_local, $usuario, $cargo);
                     $datos_cargos_local = $this->locales_model->obtener_cargos_locales($id_local);
                     for ($i = 0; $i < count($datos_cargos_local); $i++) {
@@ -265,7 +271,7 @@ class Base extends CI_Controller
                     }
                     $mensaje->respuesta = 'S';
                     $mensaje->data = $datos_cargos_local;
-                }else{
+                } else {
                     $mensaje->respuesta = 'N';
                     $mensaje->data = "El cargo ya se encuentra ocupado por esta persona.";
                 }
@@ -313,6 +319,7 @@ class Base extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
+
     public function cambiar_estado_cargo_local()
     {
         $mensaje = new stdClass();

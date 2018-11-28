@@ -398,12 +398,32 @@ $(document).ready(function () {
             }
         })
     });
-    $(".limpiar_modal").on('click',function () {
+    $(".limpiar_modal").on('click', function () {
         $('#modal_alerta_productos_zona').html("");
     });
     // Vincular Producto Zona
-    $("#btn_vincular_producto").on('click',function () {
-
+    $("#btn_vincular_producto").on('click', function () {
+        $('#modal_alerta_productos_zona').html("");
+        var producto_vincular = $("#select_productos_general").val()
+        if (producto_vincular != 0){
+            var array = {
+                'id_producto': producto_vincular,
+                'id_zona': id_zona.val()
+            }
+            var request = envia_ajax('/configuracion/mapas/vincular_producto_general_zona', array)
+            request.fail(function () {
+                $('#modal_generico_body').html('Error al enviar peticion porfavor recargue la pagina')
+                $('#modal_generico').modal('show')
+            })
+            request.done(function (data) {
+                if (data.respuesta == 'S') {
+                    cargar_productos_zona(data.data)
+                }
+                else {
+                    $('#modal_alerta_productos_zona').html("<div class='alert alert-danger'>" + data.data + "</div>");
+                }
+            })
+        }
     });
 // Fin Eventos
 // Funciones
@@ -430,7 +450,14 @@ $(document).ready(function () {
 
     function cargar_productos_zona(data) {
         if (data == null) {
-            tabla_productos_zona.dataTable().fnClearTable();
+            tabla_productos_zona.DataTable({
+                'language': {
+                    'url': '/public/Spanish.json',
+                },
+                destroy: true,
+                responsive: true
+            });
+            tabla_productos_zona.DataTable().clear().draw();
         } else {
             tabla_productos_zona.DataTable({
                 'language': {
