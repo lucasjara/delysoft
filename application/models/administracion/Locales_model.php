@@ -258,13 +258,16 @@ class Locales_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
+
     public function cambia_estado_cargo_local($id, $estado)
     {
         $this->db->set('ACTIVO', $estado);
         $this->db->where('ID', $id);
         return $this->db->update('tb_usuario_local');
     }
-    public function obtener_zonas_colores($id_local){
+
+    public function obtener_zonas_colores($id_local)
+    {
         $this->db->select('
                             zonas.ID,
                             zonas.COLOR,
@@ -272,8 +275,42 @@ class Locales_model extends CI_Model
                 ')
             ->from('tb_zona zonas')
             ->join('tb_local locales', 'locales.ID=zonas.TB_LOCAL_ID', 'INNER')
-            ->where('zonas.ACTIVO','S')
+            ->where('zonas.ACTIVO', 'S')
             ->where("locales.ID", $id_local);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : null;
+    }
+
+    public function obtener_ubicacion_pedidos_local($id_local)
+    {
+        $this->db->select('
+                            pedido_enc.ID,
+                            pedido_enc.TB_USUARIO_ENCARGADO_ID,
+                            pedido_enc.LONGITUD LONGITUD_DESTINO,
+                            pedido_enc.LATITUD LATITUD_DESTINO,
+                            track_det.ID ID_TRACKING,
+                            producto.NOMBRE PRODUCTO,
+                            pedido_det.CANTIDAD,
+                            pedido_det.PRECIO,
+                            track_det.LONGITUD,
+                            track_det.LATITUD,
+                            track_det.TB_ESTADO_PEDIDO_ID ESTADO_PEDIDO
+                ')
+            ->from('tb_pedido_enc pedido_enc')
+            ->join('tb_pedido_det pedido_det', 'pedido_enc.ID=pedido_det.TB_PEDIDO_ENC_ID', 'INNER')
+            ->join('tb_producto producto', 'producto.ID=pedido_det.TB_PRODUCTO_ID', 'INNER')
+            ->join('tb_tracking_enc track_enc', 'track_enc.ID=pedido_enc.TB_TRACKING_ENC_ID', 'INNER')
+            ->join('tb_tracking_det track_det', 'track_enc.ID=track_det.TB_TRACKING_ENC_ID', 'INNER')
+            ->where('pedido_enc.ACTIVO', 'S')
+            ->where("pedido_enc.TB_LOCAL_ID", $id_local)
+            ->where("pedido_enc.FECHA",date('Y-m-d'))
+            ->where("pedido_enc.TB_ESTADO_PEDIDO_ID IN (4,5,10)")
+            ->where("track_det.ID=(
+                                    SELECT tracking_det.ID FROM tb_tracking_det tracking_det 
+                                    WHERE tracking_det.ACTIVO='S' 
+                                    AND tracking_det.TB_TRACKING_ENC_ID=track_det.TB_TRACKING_ENC_ID
+                                    ORDER BY tracking_det.ID desc LIMIT 1 
+                                )");
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : null;
     }
