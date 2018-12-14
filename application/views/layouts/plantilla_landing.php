@@ -90,12 +90,11 @@
 
             <h1>
                 Delysoft <br>
-                Una App para todos.
+
             </h1>
 
             <h3>
-                Voluptatem ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                Nemo enim ipsam voluptatem quia.
+                Encuentra los locales y restaurantes que realicen entregas cerca de tu ubicación
             </h3>
 
 
@@ -118,12 +117,14 @@
     <div class="row section-header narrower align-center" data-aos="fade-up">
         <div class="col-full">
             <h1 class="display-1">
-                Una App creada para las Pymes.
+                Una App creada para el mundo moderno.
             </h1>
             <p class="lead">
-                Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est.
-                Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat
-                omnis ea.
+                Una solución de mercado que apunta a mejorar el sistema de Delivery de pequeños y medianos locales
+                de comida.
+                En estos tiempos de Hiperconectividad, donde las noticias se propagan a la velocidad de Internet
+                los escasos tiempos de colación, los ritmos acelerados de la vida, ya no representarán un problema.
+
             </p>
         </div>
     </div> <!-- end section-header -->
@@ -132,42 +133,48 @@
         <div class="col-full slick-slider about-desc__slider">
 
             <div class="about-desc__slide">
-                <h3 class="item-title">Crecimiento.</h3>
+
+                <h3 class="item-title">¿Cuándo usarlo?</h3>
 
                 <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est.
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat
-                    omnis ea aut cumque eos.
+                    Si estás ubicado en un sector desconocido,
+                    y con la necesidad de realizar un pedido,
+                    usando Delysoft podrás conocer los diferentes
+                    locales capaces de realizar un envío hasta tu ubicación.
+                    Contando al mismo tiempo con información relevante respecto al local.
+                </p>
+
+            </div>  <!-- end about-desc__slide -->
+
+            <div class="about-desc__slide">
+                <h3 class="item-title">¿Cómo lo uso?</h3>
+
+                <p>
+
+                    Instala nuestra <a href="#download" style="color: #FFFFFF; " class="smoothscroll">APP</a> , crea tu cuenta,
+                    selecciona alguno de los productos
+                    disponibles, configura tu pedido, envialo
+                    y recibe tu comida.
+
                 </p>
             </div>  <!-- end about-desc__slide -->
 
             <div class="about-desc__slide">
-                <h3 class="item-title">Adaptación.</h3>
+                <h3 class="item-title">Tipos de pagos</h3>
 
                 <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est.
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat
-                    omnis ea aut cumque eos.
+                    En Delysoft el unico medio de pago,
+                    es el efectivo, y en su defecto solo se tendrá que especificar
+                    el monto con el cual se cancelará, para efectos de vuelto. </br></br>
+                    El realizar los pedidos mediante DelySoft no tiene costo adicional.
                 </p>
             </div>  <!-- end about-desc__slide -->
 
             <div class="about-desc__slide">
-                <h3 class="item-title">Reinvención.</h3>
+                <h3 class="item-title"></h3>
 
                 <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est.
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat
-                    omnis ea aut cumque eos.
-                </p>
-            </div>  <!-- end about-desc__slide -->
 
-            <div class="about-desc__slide">
-                <h3 class="item-title">Seguridad.</h3>
-
-                <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est.
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat
-                    omnis ea aut cumque eos.
                 </p>
             </div>  <!-- end about-desc__slide -->
 
@@ -201,9 +208,9 @@
             <div class="item-process__text">
                 <h3>Registrarse</h3>
                 <p>
-                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo
-                    non quis magni recusandae.
-                    Numquam debitis pariatur omnis facere unde.
+                    Luego de crear tu cuenta de usuario ponte en contacto con nosotros,
+                    mediante nuestro correo <a href="mailto:#0" class="footer__mail-link">delysoft@infest.cl</a>
+                    y así evaluar tu incorporación a DelySoft.
                 </p>
             </div>
         </div>
@@ -211,9 +218,10 @@
             <div class="item-process__text">
                 <h3>Configurar</h3>
                 <p>
-                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo
-                    non quis magni recusandae.
-                    Numquam debitis pariatur omnis facere unde.
+                    Ingresa nombre, descripción, ubicación de tu local,
+                    y crea o vincula los perfiles de tus trabajadores.
+
+                    Agrega todo tipo de productos que ofrece tu local.
                 </p>
             </div>
         </div>
@@ -221,9 +229,8 @@
             <div class="item-process__text">
                 <h3>Personalizar</h3>
                 <p>
-                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo
-                    non quis magni recusandae.
-                    Numquam debitis pariatur omnis facere unde.
+                    Delimita zonas de reparto y agrega
+                    los productos y costos asociados a estas zonas.
                 </p>
             </div>
         </div>
@@ -231,9 +238,10 @@
             <div class="item-process__text">
                 <h3>Administrar</h3>
                 <p>
-                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo
-                    non quis magni recusandae.
-                    Numquam debitis pariatur omnis facere unde.
+                    Activa o desactiva productos o zonas en tiempo real,
+                    revisa los estados de los pedidos y visualiza en forma
+                    gráfica estadísticas con información relevante a tu local.
+
                 </p>
             </div>
         </div>
@@ -260,10 +268,8 @@
                 Descarga la App Ahora!
             </h1>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat.
+                La comida que necesitas, ahora está al alcance de tu mano.</br>
+                No te quedes fuera de esta revolución.
             </p>
             <ul class="download-content__badges">
                 <li><a href="#0" title="" class="badge-appstore">App Store</a></li>
@@ -290,15 +296,14 @@
             <div class="footer__logo">
                 <a href="index.html">
 
-                    <img src="<?php echo base_url('/public/standout/images/logo.svg') ?>" alt="Homepage">
+                    <img src="<?php echo base_url('/public/standout/images/logo_juntos.svg') ?>" alt="Homepage">
                 </a>
             </div>
 
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat.
+                Tesis presentada a la Universidad Tecnológica de Chile INACAP
+                para optar al título profesional de Ingeniero Informático
+                con grado académico de Licenciado (a) en Informática.
             </p>
 
             <ul class="footer__social">
