@@ -70,16 +70,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="/delysoft/usuarios/registro/">Inicio</a>
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/usuarios/registro/">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="/delysoft/usuarios/listarpedidos/">Pedidos</a>
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/usuarios/listarpedidos/">Pedidos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="/delysoft/usuarios/modificar/">Mis datos</a>
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/usuarios/modificar/">Mis datos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#skills">CERRAR SESION</a>
+                <a class="nav-link js-scroll-trigger" href="https://www.infest.cl/configuracion/base/cerrar_session_sistema">CERRAR SESION</a>
             </li>
         </ul>
     </div>

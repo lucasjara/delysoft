@@ -18,7 +18,7 @@ class Registro extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/repartidor/repartidor_model");
+        $this->load->model("/repartidor/Repartidor_Model");
         $data["elemento_modulo"] = "Registro Repartidores";
         //var_dump($data["usuarios"]);
         $this->layout->setLayout('plantilla_menu_repartidor');
@@ -26,7 +26,7 @@ class Registro extends CI_Controller
         //$this->output->enable_profiler();
 
     }
-
+/*
     public function registrarRepartidor()
     {
         $mensaje = new stdClass();
@@ -36,7 +36,7 @@ class Registro extends CI_Controller
             $validator = form_usuario('agregar');
             if ($validator->respuesta == 'S') {
 
-                $this->load->model('/repartidor/repartidor_model', 'repartidor_model');
+                $this->load->model('/repartidor/repartidor_model', 'repartidorModel');
                 $nombre= $this->input->post('nombre');
                 $usuario = $this->input->post('usuario');
                 $correo = $this->input->post('correo');
@@ -56,4 +56,5 @@ class Registro extends CI_Controller
 
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
+*/
 }

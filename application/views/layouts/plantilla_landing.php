@@ -74,7 +74,16 @@
     </nav>
 
     <a class="header-menu-toggle" href="#"><span>Menu</span></a>
-
+    <link rel="manifest" href="/manifest.json" />
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "90a9d020-87d2-4dd4-9884-72b404d341b2",
+            });
+        });
+    </script>
 </header> <!-- end header -->
 
 
@@ -86,7 +95,7 @@
 
     <div class="home-content">
 
-        <div class="row home-content__main wide">
+        <div class="row Zhome-content__main wide">
 
             <h1>
                 Delysoft <br>
@@ -246,15 +255,6 @@
             </div>
         </div>
     </div> <!-- end process -->
-
-    <div class="row process-bottom-image" data-aos="fade-up">
-        <img src="<?php echo base_url('/public/standout/images/phone-app-screens-1000.png') ?>"
-             srcset="<?php echo base_url('/public/standout/images/phone-app-screens-600.png') ?> 600w,
-                         <?php echo base_url('/public/standout/images/phone-app-screens-1000.png') ?> 1000w,
-                         <?php echo base_url('/public/standout/images/phone-app-screens-2000.png') ?> 2000w"
-             sizes="(max-width: 2000px) 100vw, 2000px"
-             alt="App Screenshots">
-    </div>
 
 </section> <!-- end s-process -->
 

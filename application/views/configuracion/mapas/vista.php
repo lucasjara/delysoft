@@ -11,87 +11,73 @@
         width: 100%;
         height: 800px;
     }
+    #demo {
+        width: 100%;
+    }
 </style>
-<div class="row" style="margin-left: 1%;margin-right: 1%;margin-top: 1%;">
-    <div class="card" style="width: 100%;">
-        <div class="card-header">
-            <div class="float-left"><p>CONFIGURAR ZONAS DE TRABAJO</p></div>
-            <div class="float-right">
-                <button type="button" class="btn btn-primary" id="btn_agregar_zonas"><span
-                            class="fa fa-plus-circle"></span>
-                    AGREGAR ZONA MAPA
-                </button>
+<!-- Zonas Disponibles -->
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <div class="float-left"><p>ZONAS DISPONIBLES</p></div>
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary btn-xs" id="btn_agregar_zonas"><span
+                                class="fa fa-plus-circle"></span>
+                        AGREGAR NUEVA ZONA MAPA
+                    </button>
+                    <button class="btn btn-primary btn-xs" id="btn_colapsar_mapa" data-toggle="collapse"
+                            data-target="#mapa_colapsado">
+                        <span class="fa fa-list-alt"></span>
+                        DESPLIEGUE
+                    </button>
+                </div>
+            </div>
+            <div class="card-body collapse show" id="mapa_colapsado">
+                <table class="table table-striped" id="tabla_zonas_local" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th>SELECCIONAR</th>
+                        <th>NOMBRE ZONA</th>
+                        <th>COLOR</th>
+                        <th>ESTADO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="float-left"><p>ZONAS DISPONIBLES</p></div>
-                            <div class="float-right">
-                                <button class="btn btn-primary" id="btn_colapsar_mapa" data-toggle="collapse"
-                                        data-target="#mapa_colapsado">
-                                    <span class="fa fa-list-alt"></span>
-                                    DESPLIEGUE
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body collapse show" id="mapa_colapsado">
-                            <table class="table table-responsive table-striped" id="tabla_zonas_local">
-                                <thead>
-                                <tr>
-                                    <th>SELECCIONAR</th>
-                                    <th>NOMBRE ZONA</th>
-                                    <th>COLOR</th>
-                                    <th>ACCIONES</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row" id="contenedor_mapa" style="display: none;margin-left: 1%;">
-            <div class="col-md-9 col-lg-9">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="demo" class="collapse">
-                            <div id="map"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-lg-3">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped" id="tabla_colores_zona">
-                            <thead>
-                            <tr>
-                                <th>ZONAS</th>
-                                <th>COLOR</th>
-                            </tr>
-                            </thead>
-                            <tbody id="contenedor_zonas_colores_detalle">
-                            <?php
-                            if (isset($zonas_colores)) {
-                                foreach ($zonas_colores as $zon_col) {
-                                    echo "<tr data-id='$zon_col->ID'>";
-                                    echo "<td>$zon_col->ZONA</td>";
-                                    echo "<td>$zon_col->COLOR</td>";
-                                    echo "</tr>";
-                                }
-                            }
-                            ?>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
+    </div>
+</div>
+<!-- Fin Zonas Disponibles -->
+<div class="d-flex bd-highlight" id="contenedor_mapa">
+    <div class="p-2 bd-highlight">
+        <table class="table table-bordered table-striped" id="tabla_colores_zona">
+            <thead>
+            <tr>
+                <th>ZONAS</th>
+                <th>COLOR</th>
+            </tr>
+            </thead>
+            <tbody id="contenedor_zonas_colores_detalle">
+            <?php
+            if (isset($zonas_colores)) {
+                foreach ($zonas_colores as $zon_col) {
+                    echo "<tr data-id='$zon_col->ID'>";
+                    echo "<td>$zon_col->ZONA</td>";
+                    echo "<td>$zon_col->COLOR</td>";
+                    echo "</tr>";
+                }
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="p-2 flex-grow-1 bd-highlight">
+        <div id="demo" class="collapse">
+            <div id="map"></div>
         </div>
     </div>
 </div>

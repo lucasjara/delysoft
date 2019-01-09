@@ -52,6 +52,7 @@ $(document).ready(function () {
         autoWidth: false,
         lengthMenu: [[5, 6, 7], [5, 6, 7]],
         destroy: true,
+        scrollX: true,
         columnDefs: [
             {className: "text-right", "targets": [2, 3, 4]}
         ]
@@ -70,6 +71,7 @@ $(document).ready(function () {
         pageLength: 5,
         pagination: false,
         responsive: true,
+        scrollX: true,
         autoWidth: false,
         lengthMenu: [[5, 6, 7], [5, 6, 7]]
     });

@@ -18,7 +18,7 @@ class ListarPedidos extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/usuarios/usuarios_model");
+        //$this->load->model("/usuarios/usuarios_model");
         $data["elemento_modulo"] = "Historial de pedidos";
         //var_dump($data["usuarios"]);
         $this->layout->setLayout('plantilla_menu_usuario');

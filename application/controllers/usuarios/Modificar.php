@@ -18,17 +18,17 @@ class Modificar extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/usuarios/usuarios_model");
-        $user_id = 13;
+        $this->load->model("/usuarios/Usuarios_Model");
+        $user_id = $this->session->id_usuario;
         $data["elemento_modulo"] = "Mis datos";
-        $data["usuarios"] = $this->usuarios_model->obtener_usuario($user_id)[0];
+        $data["usuarios"] = $this->Usuarios_Model->obtener_usuario($user_id)[0];
         //var_dump($data["usuarios"]);
         $this->layout->setLayout('plantilla_menu_usuario');
         $this->layout->view('vista', $data);
         //$this->output->enable_profiler();
 
     }
-
+/*
     public function editarUsuario()
     {
         $mensaje = new stdClass();
@@ -82,4 +82,5 @@ class Modificar extends CI_Controller
         }
         return $mensaje;
     }
+*/
 }

@@ -6,7 +6,7 @@
  * Time: 1:08
  */
 
-class repartidor_model extends CI_Model
+class Repartidor_Model extends CI_Model
 {
     public function obtener_repartidor($user_id)
     {

@@ -6,7 +6,7 @@
  * Time: 23:49
  */
 
-class usuarios_model extends CI_Model
+class Usuarios_Model extends CI_Model
 {
     public function obtener_usuario($user_id)
     {

@@ -55,7 +55,7 @@ class Usuarios extends CI_Controller
         if (validarUsuario(true)) {
             $validator = form_usuario('agregar');
             if ($validator->respuesta == 'S') {
-                $this->load->model('/administracion/usuarios_model', 'usuarios_model');
+                $this->load->model('/administracion/usuarios_model', 'usuariosModel');
                 $usuario = $this->input->post('usuario');
                 $password = $this->input->post('password');
                 $nombres = $this->input->post('nombre');

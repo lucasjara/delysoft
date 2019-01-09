@@ -18,7 +18,7 @@ class ListarPedidos extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/repartidor/repartidor_model");
+        //$this->load->model("/repartidor/repartidor_model");
         $data["elemento_modulo"] = "Listado de pedidos";
         //var_dump($data["usuarios"]);
         $this->layout->setLayout('plantilla_menu_repartidor');

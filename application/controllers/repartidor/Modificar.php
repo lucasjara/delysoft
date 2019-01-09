@@ -18,18 +18,17 @@ class Modificar extends CI_Controller
 
     public function index()
     {
-        $this->load->model("/repartidor/repartidor_model");
+        $this->load->model("/repartidor/Repartidor_Model");
         //modificar el id por uno de repartidor
-        $user_id = 14;
+        $user_id = $this->session->id_usuario;
         $data["elemento_modulo"] = "Mis datos de Repartidor";
-        $data["usuarios"] = $this->repartidor_model->obtener_repartidor($user_id)[0];
-        //var_dump($data["usuarios"]);
+        $data["usuarios"] = $this->Repartidor_Model->obtener_repartidor($user_id)[0];
         $this->layout->setLayout('plantilla_menu_repartidor');
         $this->layout->view('vista', $data);
         //$this->output->enable_profiler();
 
     }
-
+/*
     public function editarRepartidor()
     {
         $mensaje = new stdClass();
@@ -42,7 +41,7 @@ class Modificar extends CI_Controller
                 if($this->validarRepartidor()=='S')
                 {
                     //cambios por repartidor
-                    $this->load->model('/repartidor/repartidor_model');
+                    // $this->load->model('/repartidor/repartidor_model');
                     $id = $this->input->post('id');
                     $usuario = $this->input->post('usuario');
                     $nombre = $this->input->post('nombre');
@@ -71,7 +70,7 @@ class Modificar extends CI_Controller
     {
         $mensaje;
         $this->load->helper('array_utf8');
-        $this->load->model('/repartidor/repartidor_model');
+        //$this->load->model('/repartidor/repartidor_model');
         $id = $this->input->post('id');
         $password = $this->input->post('password');
         $bd_pass = $this->repartidor_model->valida_password($id)[0];
@@ -84,4 +83,5 @@ class Modificar extends CI_Controller
         }
         return $mensaje;
     }
+*/
 }

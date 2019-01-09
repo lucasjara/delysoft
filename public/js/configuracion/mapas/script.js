@@ -45,6 +45,7 @@ $(document).ready(function () {
             {'data': 'CUADRO'},
             {'data': 'NOMBRE'},
             {'data': 'COLOR'},
+            {'data': 'ACTIVO'},
             {'data': 'ACCIONES'},
         ],
         'columnDefs': [
@@ -54,10 +55,12 @@ $(document).ready(function () {
                 "width": "10%"
             },
             {
-                "targets": 3,
+                "targets": 4,
                 "className": "text-right",
             }],
         "order": [[1, "asc"]],
+        "scrollX": true,
+        "destroy": true,
         "initComplete": function (settings, json) {
             navigator.geolocation.getCurrentPosition(function (posicion) {
                 iniciarMapa(posicion);
@@ -202,7 +205,7 @@ $(document).ready(function () {
         })
         request.done(function (data) {
             if (data.respuesta == 'S') {
-                titulo_mdl_productos.text('Listado de Productos en Zona')
+                titulo_mdl_productos.text('Listado de Pedidos en Zona')
                 mdl_agregar_productos.modal('show')
                 id_zona.val(zona)
                 cargar_productos_zona(data.data)
@@ -405,7 +408,7 @@ $(document).ready(function () {
     $("#btn_vincular_producto").on('click', function () {
         $('#modal_alerta_productos_zona').html("");
         var producto_vincular = $("#select_productos_general").val()
-        if (producto_vincular != 0){
+        if (producto_vincular != 0) {
             var array = {
                 'id_producto': producto_vincular,
                 'id_zona': id_zona.val()

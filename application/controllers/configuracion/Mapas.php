@@ -247,7 +247,8 @@ class Mapas extends CI_Controller
             for ($i = 0; $i < count($datos); $i++) {
                 $datos[$i]['CUADRO'] = $this->formato_cuadro($datos[$i]);
                 $datos[$i]['ACCIONES'] = $this->formato_acciones($datos[$i]);
-                $datos[$i]['ACTIVO'] = $this->formato_activo($datos[$i]['ACTIVO']);
+                $datos[$i]['ACTIVO'] = $this->formato_activo_zona_locales($datos[$i]);
+                //$datos[$i]['COLOR'] = $this->formato_activo_zona_locales($datos[$i]);
             }
             $mensaje->data = $datos;
             $mensaje->respuesta = 'S';
@@ -256,7 +257,17 @@ class Mapas extends CI_Controller
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($mensaje));
     }
-
+    private
+    function formato_activo_zona_locales(
+        $data
+    ) {
+        if ($data['ACTIVO'] == 'S') {
+            $respuesta = " <button class='btn btn-success btn-xs btn_estado btn-secondary' title='Cambiar Estado Zona' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='fa fa-check-circle' aria-hidden='true'></span> Activo</button>";
+        } else {
+            $respuesta = " <button class='btn btn-danger btn-xs btn_estado btn-secondary' title='Cambiar Estado Zona' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='fa fa-times-circle' aria-hidden='true'></span> Inactivo</button>";
+        }
+        return $respuesta;
+    }
     public function obtener_productos_zona()
     {
         $mensaje = new stdClass();
@@ -313,7 +324,7 @@ class Mapas extends CI_Controller
         $respuesta
     ) {
         if ($respuesta === 'S') {
-            $respuesta = "<button class='btn btn-success bt2n-xs' type='button'>ACTIVO</button>";
+            $respuesta = "<button class='btn btn-success btn-xs' type='button'>ACTIVO</button>";
         } else {
             $respuesta = "<button class='btn btn-danger btn-xs' type='button'>INACTIVO</button>";
         }
@@ -324,20 +335,17 @@ class Mapas extends CI_Controller
     function formato_acciones(
         $data
     ) {
-        $respuesta = "<button class='btn btn-default btn-xs btn_color' style='color:white;background-color: " . $data['HEXADECIMAL'] . ";' title='Cambiar Color' data-id=" . $data['ID'] . " data-color='" . $data['COLOR'] . "' type='button'><span
+        $respuesta = "<div class='btn-group' role='group'>
+        <button class='btn btn-default btn-xs btn_color btn-secondary' style='color:white;background-color: " . $data['HEXADECIMAL'] . ";' title='Cambiar Color' data-id=" . $data['ID'] . " data-color='" . $data['COLOR'] . "' type='button'><span
                                 class='fa fa-book' aria-hidden='true'> CAMBIAR COLOR</span></button>";
-        $respuesta .= " <button class='btn btn-primary btn-xs btn_editar' type='button' title='Editar Zona' data-id=" . $data['ID'] . " " .
-            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-local='" . $data['ID_LOCAL'] . "' data-activo='" . $data['ACTIVO'] . "' ><span class='fa fa-pen' aria-hidden='true'></span> EDITAR</button>";
-        if ($data['ACTIVO'] == 'S') {
-            $respuesta .= " <button class='btn btn-success btn-xs btn_estado' title='Cambiar Estado Zona' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='fa fa-check-circle' aria-hidden='true'></span> DESACTIVAR</button>";
-        } else {
-            $respuesta .= " <button class='btn btn-danger btn-xs btn_estado' title='Cambiar Estado Zona' type='button' data-id=" . $data['ID'] . " data-activo=" . $data['ACTIVO'] . "><span class='fa fa-times-circle' aria-hidden='true'></span> ACTIVAR</button>";
-        }
-        $respuesta .= " <button class='btn btn-info btn-xs btn_limpieza' title='Limpieza Mapa' type='button' data-id=" . $data['ID'] . " data-nombre='" . $data['NOMBRE'] . "'><span
-                            class='fa fa-eraser' aria-hidden='true'></span> LIMPIAR MAPA</button>
-                    <button class='btn btn-success btn-xs btn_producto' title='Asignar Productos' data-id=" . $data['ID'] . " type='button'><span
-                                class='fa fa-plus-circle' aria-hidden='true'> AGREGAR PRODUCTOS</span>
-                    </button>";
+        $respuesta .= " <button class='btn btn-primary btn-xs btn_editar btn-secondary' type='button' title='Editar Información Zona' data-id=" . $data['ID'] . " " .
+            " data-descripcion='" . $data['DESCRIPCION'] . "' data-nombre='" . $data['NOMBRE'] . "' data-local='" . $data['ID_LOCAL'] . "' data-activo='" . $data['ACTIVO'] . "' ><span class='fa fa-pen' aria-hidden='true'></span> Editar</button>";
+        $respuesta .= " <button class='btn btn-info btn-xs btn_limpieza btn-secondary' title='Limpieza Mapa' type='button' data-id=" . $data['ID'] . " data-nombre='" . $data['NOMBRE'] . "'><span
+                            class='fa fa-eraser' aria-hidden='true'></span> Limpiar</button>
+                    <button class='btn-warning btn-xs btn_producto btn-secondary' title='Asignar Productos' data-id=" . $data['ID'] . " type='button'><span
+                                class='fa fa-plus-circle' aria-hidden='true'> Listado Pedidos</span>
+                    </button>              
+</div>";
         return $respuesta;
     }
 

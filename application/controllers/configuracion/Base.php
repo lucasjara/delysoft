@@ -53,7 +53,7 @@ class Base extends CI_Controller
         $password = $this->input->post('password');
         $this->load->model("/administracion/Usuarios_model");
         $this->load->model("/administracion/locales_model");
-        $obj_user = new Usuarios_model();
+        $obj_user = new usuariosModel();
         $user = $obj_user->obtener_datos_usuario($usuario, $password);
         if ($user != null) {
             $id_local = $this->locales_model->obtener_local_configurar($user[0]['ID']);

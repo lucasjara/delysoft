@@ -54,8 +54,8 @@ $(document).ready(function () {
                 }
             }
             else {
-                $('#modal_generico_body').html(data.data)
-                $('#modal_generico').modal('show')
+                //$('#modal_generico_body').html(data.data)
+                //$('#modal_generico').modal('show')
             }
         })
     }

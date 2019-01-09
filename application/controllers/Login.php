@@ -25,8 +25,14 @@ class Login extends CI_Controller
                 case "1":
                     redirect("/administracion/permisos", 'refresh');
                     break;
+                case "3":
+                    redirect("/usuarios/ListarPedidos", 'refresh');
+                    break;
                 case "4":
                     redirect("/administrativo/inicio", 'refresh');
+                    break;
+                case "5":
+                    redirect("/repartidor/ListarPedidos", 'refresh');
                     break;
                 default:
                     $this->layout->setLayout("plantilla_integracion");
